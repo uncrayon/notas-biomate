@@ -2,6 +2,7 @@
 % FUENTES: draft p.3--7.
 % ============================================================
 \section{Un brevísimo resumen histórico de los sistemas dinámicos no lineales}
+\label{sec:historia}
 
 La historia de los sistemas dinámicos es, en gran medida, la historia del enfrentamiento entre la búsqueda de fórmulas analíticas exactas y la inevitable complejidad del mundo natural.
 
@@ -21,12 +22,10 @@ A finales del siglo XIX, con motivo del concurso en honor al sexagésimo cumplea
 \paragraph{El nacimiento del espacio de fases y el caos.}
 En lugar de buscar fórmulas algebraicas exactas que no existen, Poincaré propuso un cambio de paradigma radical: el \textbf{análisis cualitativo y geométrico}. Introdujo la noción de \emph{espacio de fases} (o plano de fase en 2D), transformando el estudio de una ecuación diferencial en el estudio de las trayectorias de un flujo continuo y de sus intersecciones con superficies transversales (secciones de Poincaré).
 
-En su análisis de las órbitas homoclínicas y heteroclínicas, Poincaré descubrió la existencia de trayectorias con un entrelazamiento infinitamente complejo (el hoy llamado entramado homoclínico). Había descubierto el \textbf{caos determinista}:
+En su análisis de las órbitas homoclínicas y heteroclínicas, Poincaré descubrió la existencia de trayectorias con un entrelazamiento infinitamente complejo (el hoy llamado entramado homoclínico). Había descubierto el \textbf{caos determinista}\aside{Una anécdota imperdible: Henri Poincaré era pésimo dibujando; se cuenta que en los exámenes de admisión a la École Polytechnique obtuvo un rotundo cero en la prueba de dibujo mecánico. Paradójicamente, su intuición era profundamente geométrica y visual. Como en sus memorias publicadas casi no incluía figuras sino extensas descripciones geométricas abstractas, y como la atención de la física a principios del siglo XX se volcó hacia la mecánica cuántica y la teoría de la relatividad, sus revolucionarias ideas sobre dinámica permanecieron en relativa sombra durante varias décadas.}:
 \begin{definition}[Caos determinista]
     Comportamiento aperiódico a largo plazo que ocurre dentro de un sistema dinámico determinista no lineal, el cual exhibe una sensibilidad extrema a las condiciones iniciales (pequeñas variaciones iniciales divergen exponencialmente en el tiempo).
 \end{definition}
-
-\aside{Una anécdota imperdible: Henri Poincaré era pésimo dibujando; se cuenta que en los exámenes de admisión a la École Polytechnique obtuvo un rotundo cero en la prueba de dibujo mecánico. Paradójicamente, su intuición era profundamente geométrica y visual. Como en sus memorias publicadas casi no incluía figuras sino extensas descripciones geométricas abstractas, y como la atención de la física a principios del siglo XX se volcó hacia la mecánica cuántica y la teoría de la relatividad, sus revolucionarias ideas sobre dinámica permanecieron en relativa sombra durante varias décadas.}
 
 \subsection{Osciladores no lineales, ingeniería y el clima (1920s--1963)}
 
@@ -79,10 +78,8 @@ A partir de los años sesenta y setenta, la revolución de los sistemas dinámic
         \delta = \lim_{k \to \infty} \frac{r_k - r_{k-1}}{r_{k+1} - r_k} \approx 4.6692016\dots
     \end{equation}
     aplicando técnicas de grupo de renormalización tomadas de las transiciones de fase de la física estadística.
-    \item \textbf{Difusión cultural y aplicaciones de ingeniería:} En 1987, James Gleick publicó el superventas \emph{Chaos: Making a New Science} \cite{gleick1987}, llevando estos conceptos al público general (popularizados luego en la cultura masiva con la novela y película \emph{Jurassic Park} en 1993 y la famosa metáfora del ``efecto mariposa''). En la década de 1990, el caos se aplicó al cifrado de comunicaciones seguras, sincronización de láseres y control de arritmias cardíacas.
+    \item \textbf{Difusión cultural y aplicaciones de ingeniería:} En 1987, James Gleick publicó el superventas \emph{Chaos: Making a New Science} \cite{gleick1987}, llevando estos conceptos al público general (popularizados luego en la cultura masiva con la novela y película \emph{Jurassic Park} en 1993 y la famosa metáfora del ``efecto mariposa''). En la década de 1990, el caos se aplicó al cifrado de comunicaciones seguras, sincronización de láseres y control de arritmias cardíacas\aside{Un ejemplo fascinante de la mecánica celeste moderna: en 1985, los científicos de la NASA emplearon la dinámica no lineal de $N$ cuerpos y trayectorias caóticas alrededor de los puntos de Lagrange para redirigir la sonda espacial ISEE-3 (renombrada ICE, \emph{International Comet Explorer}) y realizar el primer sobrevuelo exitoso de un cometa (Giacobini--Zinner) consumiendo un mínimo de combustible.}.
 \end{itemize}
-
-\aside{Un ejemplo fascinante de la mecánica celeste moderna: en 1985, los científicos de la NASA emplearon la dinámica no lineal de $N$ cuerpos y trayectorias caóticas alrededor de los puntos de Lagrange para redirigir la sonda espacial ISEE-3 (renombrada ICE, \emph{International Comet Explorer}) y realizar el primer sobrevuelo exitoso de un cometa (Giacobini--Zinner) consumiendo un mínimo de combustible.}
 
 \subsection{Formulación matemática general}
 
@@ -113,4 +110,24 @@ En coordenadas escalares, el sistema \eqref{eq:sistema_general} toma la forma ex
 \end{definition}
 
 En los sistemas no lineales, el principio de superposición se quiebra: el todo no es simplemente la suma de las partes. Por ello, el análisis requiere estudiar la geometría del campo vectorial en el espacio de fases, como veremos en el siguiente capítulo.
+
+\subsection{Ejercicios}
+
+\paragraph{Ejercicio 1 (mecánico; clasificación).} Aplicando la \cref{eq:sistema_general} y su definición de linealidad, clasifica cada sistema como lineal o no lineal, señalando el término culpable en los no lineales:
+\begin{enumerate}
+    \item[(i)] $\dot{x} = -3x + 2y,\quad \dot{y} = x - y$;
+    \item[(ii)] $\dot{x} = rx(1-x)$;
+    \item[(iii)] $\dot{x} = y,\quad \dot{y} = -\sin x$ (péndulo);
+    \item[(iv)] $\dot{x} = a x + b y,\quad \dot{y} = c x + d y$.
+\end{enumerate}
+\aside{Pista: basta detectar potencias, productos cruzados o funciones trascendentes de las variables de estado.}
+% SOL: (i) lineal; (ii) no lineal (termino x^2); (iii) no lineal (sin x); (iv) lineal.
+
+\paragraph{Ejercicio 2 (análisis; superposición).} Demuestra que si $\vec{x}(t)$ y $\vec{y}(t)$ son dos soluciones del sistema lineal $\dot{\vec{x}}=A\vec{x}$, entonces cualquier combinación $\alpha\vec{x}(t)+\beta\vec{y}(t)$ también lo es. Explica en una frase por qué este argumento \emph{falla} para $\dot{x}=x^2$.
+\aside{Pista: usa la linealidad de la derivada y del producto matriz--vector. Para $x^2$, $(\alpha x)^2\neq\alpha x^2$.}
+% SOL: d/dt(a x+b y)=a A x + b A y = A(a x+b y). Falla en x^2 porque el cuadrado no respeta la superposicion.
+
+\paragraph{Ejercicio 3 (interpretación; universalidad de Feigenbaum).} En el mapa logístico las tres primeras duplicaciones de periodo ocurren aproximadamente en $r_1=3.000$, $r_2=3.449$, $r_3=3.544$. Estima la constante de Feigenbaum con $\delta\approx (r_2-r_1)/(r_3-r_2)$ y compárala con el valor universal $\delta\approx 4.669$. ¿Qué tiene de asombroso que este número aparezca también en sistemas físicos totalmente distintos?
+\aside{Pista: $(3.449-3.000)/(3.544-3.449)$. La universalidad significa independencia de los detalles del sistema.}
+% SOL: delta ~ 0.449/0.095 ~ 4.73, cercano a 4.669. Asombroso: mismo numero en fluidos, circuitos, etc., independiente de los detalles microscopicos (renormalizacion).
 

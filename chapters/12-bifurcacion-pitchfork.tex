@@ -212,3 +212,17 @@ La \cref{fig:pitchfork_subcritica_histeresis} ilustra el diagrama de bifurcació
 \label{fig:pitchfork_subcritica_histeresis}
 \end{figure}
 
+\subsection{Ejercicios}
+
+\paragraph{Ejercicio 1 (mecánico; pitchfork supercrítica).} Para $\dot{x}=rx-x^3$ con $r=4$, halla los tres puntos fijos y clasifícalos con $f'(x^*)$. Indica cuál es la barrera inestable y cuáles los estados estables de simetría rota.
+\aside{Pista: $x^*=0,\pm\sqrt r$; $f'(x)=r-3x^2$.}
+% SOL: r=4: x*=0 (f'=4>0 inestable), x*=±2 (f'=4-12=-8<0 estables). 0 es la barrera; ±2 los estados de simetria rota.
+
+\paragraph{Ejercicio 2 (análisis; detectar la pitchfork por Taylor).} Considera $\dot{x}=rx-\sinh x$. (i) Verifica que el campo es impar y que $x^*=0$ es equilibrio para todo $r$. (ii) Con $\sinh x=x+\tfrac16 x^3+\mathcal{O}(x^5)$, redúcelo a forma normal, halla el valor crítico $r_c$ y decide si la pitchfork es super o subcrítica. (iii) Da las ramas bifurcadas.
+\aside{Pista: $\dot x=(r-1)x-\tfrac16 x^3$; el signo del término cúbico decide super/sub.}
+% SOL: (i) sinh impar -> campo impar; f(0)=0. (ii) xdot=(r-1)x - x^3/6, rc=1, cubico negativo -> supercritica. (iii) x*=±sqrt(6(r-1)) para r>1.
+
+\paragraph{Ejercicio 3 (interpretación; ruptura de simetría y aviso temprano).} Interpreta $\dot{x}=rx-x^3$ como el pandeo de una viga: ¿qué representan $x^*=\pm\sqrt{r}$? Explica por qué una imperfección infinitesimal decide hacia qué lado pandea, y cómo el \emph{critical slowing down} cerca de $r=0$ podría servir de señal de alerta temprana antes del pandeo.
+\aside{Pista: la simetría $x\to-x$ hace equiprobables ambos lados; el ruido o el defecto rompen el empate. Recuerda $\tau=1/|f'(0)|\to\infty$ en $r\to 0$.}
+% SOL: ±sqrt(r) = pandeo a izquierda/derecha (estados de simetria rota). Una imperfeccion rompe el empate y selecciona el lado. Cerca de r=0, tau diverge: el sistema se recupera cada vez mas lento de perturbaciones -> senal medible de proximidad al umbral.
+

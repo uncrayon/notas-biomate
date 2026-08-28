@@ -87,3 +87,17 @@ Dado que una computadora opera con aritmética de precisión finita, el proceso 
 \end{itemize}
 
 Con este paréntesis numérico concluimos el estudio sistemático de los flujos y bifurcaciones en espacios de fases unidimensionales.
+
+\subsection{Ejercicios}
+
+\paragraph{Ejercicio 1 (mecánico; dos iteraciones).} Usa Newton--Raphson \eqref{eq:formula_newton_raphson} para aproximar $\sqrt{2}$ como raíz de $g(x)=x^2-2$, partiendo de $x_0=2$. Calcula $x_1$ y $x_2$ y compáralos con $\sqrt2=1.41421\dots$
+\aside{Pista: $g'(x)=2x$, de modo que $x_{n+1}=\tfrac12\!\left(x_n+2/x_n\right)$.}
+% SOL: x1=(2+1)/2=1.5; x2=(1.5+1.3333)/2=1.41667. Ya coincide en 3 cifras con 1.41421 (convergencia cuadratica).
+
+\paragraph{Ejercicio 2 (análisis; raíz de la neurona).} Para $g(x)=\beta\tanh x - x$ con $\beta=2$, realiza \emph{una} iteración de \eqref{eq:iteracion_neurona_nr} desde $x_0=2$. Explica además por qué arrancar en $x_0=0$ deja al método atrapado en la raíz \emph{inestable} del reposo.
+\aside{Pista: $\tanh 2\approx 0.9640$, $\operatorname{sech}^2 2=1-\tanh^2 2\approx 0.0707$. En $x_0=0$, $g(0)=0$.}
+% SOL: g(2)=2*0.9640-2=-0.0720; g'(2)=2*0.0707-1=-0.8586; x1=2-(-0.0720)/(-0.8586)=1.916. En x0=0, g(0)=0 -> el metodo ya esta en una raiz (la inestable), no la abandona.
+
+\paragraph{Ejercicio 3 (interpretación; cuencas y fallos numéricos).} Relaciona el signo de la semilla $x_0$ con el atractor $\pm x^*$ al que converge el método y explica geométricamente qué ocurre cuando $g'(x_0)=0$. ¿Qué precaución práctica se deduce para elegir la semilla?
+\aside{Pista: $x_0>0\to +x^*$, $x_0<0\to -x^*$. Si $g'(x_0)=0$ la tangente es horizontal y no corta el eje: división por cero.}
+% SOL: Newton hereda la simetria: x0>0 cae a +x*, x0<0 a -x*. Si g'(x0)=0 la tangente horizontal manda x1 a infinito (div/0). Precaucion: evitar semillas cerca de extremos de g (donde g'≈0); elegir x0 del lado del atractor deseado.

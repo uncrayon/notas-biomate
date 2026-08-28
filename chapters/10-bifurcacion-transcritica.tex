@@ -2,6 +2,7 @@
 % FUENTES: draft p.25--26.
 % ============================================================
 \section{Bifurcación transcrítica}
+\label{sec:transcritica}
 
 A diferencia de la bifurcación saddle-node, donde los puntos de equilibrio se crean o destruyen en pares, existen numerosos sistemas en la física, la química y la biología donde un punto de equilibrio específico persiste para todos los valores de los parámetros (por ejemplo, el estado de extinción $N=0$ en dinámica de poblaciones o el estado de reposo electromagnético en un láser). En tales casos, las ramas de equilibrio no desaparecen, sino que colisionan e intercambian su estabilidad. Este mecanismo se conoce como \textbf{bifurcación transcrítica}.
 
@@ -157,4 +158,18 @@ Excluyendo la solución trivial $x^* = 0$, obtenemos la rama bifurcada:
     \label{eq:rama_bifurcada_ab}
 \end{equation}
 Esta expresión es válida localmente para $|x^*| \ll 1$ y $|ab - 1| \ll 1$.
+
+\subsection{Ejercicios}
+
+\paragraph{Ejercicio 1 (mecánico; intercambio de estabilidad).} Para la forma normal \eqref{eq:transcritica_forma_normal} $\dot{x}=rx-x^2$, evalúa los dos equilibrios y su estabilidad en $r=+2$ y en $r=-2$. Verifica explícitamente que la estabilidad de la rama $x^*=0$ y la de $x^*=r$ se \emph{intercambian} al cambiar el signo de $r$.
+\aside{Pista: $f'(0)=r$ y $f'(r)=-r$.}
+% SOL: r=2: x=0 inestable (f'=2), x=2 estable (f'=-2). r=-2: x=0 estable (f'=-2), x=-2 inestable (f'=2). Intercambio confirmado.
+
+\paragraph{Ejercicio 2 (análisis; ejemplo no polinomial).} En \eqref{eq:ejemplo_transcritica_nopol} fija $a=2$. (i) Determina el valor crítico $b_c$ donde ocurre la bifurcación transcrítica del origen. (ii) Para $b=0.6$ (ligeramente por encima de $b_c$), estima el equilibrio bifurcado $x^*$ con la fórmula \eqref{eq:rama_bifurcada_ab} y comenta su estabilidad.
+\aside{Pista: la condición es $ab=1$; con $a=2$, $b_c=1/2$. Luego usa $x^*\approx 2(ab-1)/(ab^2)$.}
+% SOL: b_c=0.5. Con a=2,b=0.6: ab=1.2>1 -> origen inestable, nace rama estable x* ~ 2(0.2)/(2*0.36)=0.4/0.72 ~ 0.56.
+
+\paragraph{Ejercicio 3 (interpretación; extinción vs persistencia).} Reescribe el modelo logístico $\dot{N}=rN(1-N/K)$ y muestra que $N=0$ (extinción) es siempre un equilibrio que \emph{intercambia estabilidad} con la capacidad de carga $N=K$ al cruzar $r=0$. Interpreta biológicamente el paso de $r>0$ a $r<0$ como un cambio ambiental.
+\aside{Pista: es una transcrítica con las ramas $N=0$ y $N=K$; el rol del parámetro lo juega $r$ (aquí $K$ fijo). Compara con la \cref{fig:bifurcacion_transcritica}.}
+% SOL: N=0 estable si r<0, inestable si r>0; N=K al reves. r>0: poblacion persiste en K. r<0 (ambiente adverso): la extincion se vuelve estable y la especie decae a 0.
 

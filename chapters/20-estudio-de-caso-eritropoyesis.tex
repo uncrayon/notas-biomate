@@ -1,0 +1,338 @@
+% ============================================================
+% FUENTE: Dor & Alon (2026), PLoS Comput Biol 22(3):e1014111,
+%         papers_local/journal_pcbi_1014111.txt. Ecuaciones (1)-(8)
+%         y Tabla 10 (parametros). Cierre del curso: reduccion
+%         pedagogica 4D -> 1D -> 2D reutilizando todo el aparato.
+% ============================================================
+\section{Estudio de caso: homeostasis de glóbulos rojos y anemia}
+
+Cerramos el curso con un modelo reciente y honesto de fisiología: el modelo mínimo de eritropoyesis de Dor y Alon~\cite{dor2026}. No es un ejemplo de juguete; son cuatro ecuaciones diferenciales acopladas cuyos parámetros provienen, casi todos, de mediciones experimentales, y que reproducen la relación EPO--hemoglobina observada en $\sim 1830$ pacientes de $36$ estudios. Nuestro objetivo no es reproducir su ajuste estadístico, sino \emph{desmontarlo}: partir del sistema 4D completo y, mediante hipótesis de separación de escalas temporales enunciadas explícitamente, destilarlo primero a una única ecuación de línea de fase (Parte II) y luego a un plano de fases (Parte IV). Cada paso reutiliza una herramienta concreta de un capítulo previo; la \cref{tab:mapa_herramientas} al final es el mapa de esa reutilización.
+
+La biología es la de un termostato. Los glóbulos rojos (RBC) transportan oxígeno; si su número cae, los tejidos renales detectan hipoxia y secretan la hormona \textbf{eritropoyetina} (EPO), que rescata a los progenitores eritroides de la apoptosis y acelera su maduración hacia nuevos glóbulos rojos. Más glóbulos rojos $\Rightarrow$ más oxígeno $\Rightarrow$ menos EPO. Es un lazo de \textbf{retroalimentación negativa}, exactamente como el PLL del \cref{fig:pll_block_diagram} del \cref{sec:historia} pero implementado en médula ósea y riñón.
+
+\subsection{El modelo completo (4D)}
+\label{sec:eritro_4d}
+
+El sistema sigue cuatro poblaciones, cada una gobernada por la plantilla universal $\dot X = (\text{producción}) - (\text{remoción})$:
+\begin{align}
+    \dot{H} &= \underbrace{a(E)\,H\left(1 - \frac{H}{H_{\max}}\right)}_{\text{proliferación logística}} - \underbrace{d(E)\,H}_{\text{diferenciación}}, \label{eq:eritro_H}\\[4pt]
+    \dot{R} &= \underbrace{d(E)\,H}_{\text{entrada desde }H} - \underbrace{\gamma_R(C)\,R}_{\text{maduración a RBC}}, \label{eq:eritro_R}\\[4pt]
+    \dot{C} &= \underbrace{\gamma_R(C)\,R}_{\text{liberación de RBC}} - \underbrace{\gamma_C\,C}_{\text{muerte por senescencia}}, \label{eq:eritro_C}\\[4pt]
+    \dot{E} &= \underbrace{\sigma_E\,e^{-C/D}}_{\text{síntesis renal (hipoxia)}} - \underbrace{\gamma_E\,H\,E}_{\text{aclaramiento por endocitosis}}. \label{eq:eritro_E}
+\end{align}
+
+Las variables son: $H(t)$ = progenitores eritroides CFU-E en médula (células), $R(t)$ = reticulocitos medulares (células), $C(t)$ = glóbulos rojos circulantes (células, proporcional a la hemoglobina), $E(t)$ = EPO en plasma (U/L). Las funciones reguladoras son de tipo Michaelis--Menten (proliferación y diferenciación crecen con la EPO y saturan) y una tasa de maduración dependiente de la carga:
+\begin{equation}
+    a(E) = \frac{a_{\max}\,E}{K_a + E}, \qquad
+    d(E) = \frac{d_{\max}\,E}{K_d + E}, \qquad
+    \gamma_R(C) = \frac{1}{m_R\,C + n_R}.
+    \label{eq:eritro_MM}
+\end{equation}
+
+\paragraph{Interpretación mecanística término a término.} La EPO no crea progenitores de la nada: modula la \emph{fracción} de progenitores que prolifera ($a(E)$) frente a la que se diferencia y abandona el compartimento ($d(E)$). El factor logístico $(1-H/H_{\max})$ impone una capacidad de carga medular $H_{\max}$: la médula no es infinita. La ecuación \eqref{eq:eritro_E} contiene la sutileza clave del paper: la EPO no se degrada a tasa constante, sino que se \emph{consume} al unirse a sus receptores sobre los progenitores $H$; por eso su aclaramiento es $\gamma_E H E$ y no $\gamma_E E$. Esto tendrá una consecuencia clínica sorprendente (Ejercicio~5). La síntesis $\sigma_E e^{-C/D}$ codifica el sensor de hipoxia: decae exponencialmente cuando hay muchos glóbulos rojos y se dispara cuando $C\to 0$.
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\caption{Símbolos, significado biológico, valor y unidad (Dor--Alon~\cite{dor2026}, Tabla 10). Todos salvo $d_{\max}$ y $K_d$ provienen de medición directa.}
+\label{tab:eritro_simbolos}
+\begin{tabular}{llll}
+\hline
+Símbolo & Significado & Valor & Unidad \\
+\hline
+$H_{\max}$   & Capacidad medular de progenitores       & $10^{13}$              & células \\
+$a_{\max}$   & Tasa máx. de proliferación CFU-E        & $5.28\times10^{-6}$   & s$^{-1}$ \\
+$d_{\max}$   & Tasa máx. de diferenciación             & $1.5\times10^{-6}$    & s$^{-1}$ \\
+$K_a$        & EPO a media proliferación               & $30$                  & mU/mL \\
+$K_d$        & EPO a media diferenciación              & $23$                  & mU/mL \\
+$\gamma_C$   & Tasa de muerte de RBC                   & $1.0\times10^{-7}$    & s$^{-1}$ \\
+$\sigma_E$   & Producción máx. de EPO                  & $0.035$               & U\,s$^{-1}$L$^{-1}$ \\
+$D$          & Escala de RBC del sensor de hipoxia     & $5.3\times10^{12}$    & células \\
+$\gamma_E$   & Aclaramiento de EPO por receptor        & $6.1\times10^{-18}$   & s$^{-1}$célula$^{-1}$ \\
+$\tau_R$     & Retardo de maduración CFU-E$\to$reticulocito & $2.16\times10^{5}$ & s \\
+$m_R,\,n_R$  & Pendiente e intercepto del tránsito medular & $10^{-8};\ 5.8\times10^{4}$ & (cél$\cdot$s)$^{-1}$; s \\
+\hline
+\end{tabular}
+\end{table}
+
+De $\gamma_C = 10^{-7}\,\mathrm{s}^{-1}$ leemos la escala de tiempo característica del \cref{sec:estabilidad_lineal}: la vida media del glóbulo rojo es $\tau_C = 1/\gamma_C = 10^{7}\,\mathrm{s}\approx 116$ días, cercana al valor canónico de $120$ días. Este número es el protagonista de la reducción.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=Stealth, auto, >=Latex, font=\small]
+    \tikzstyle{block} = [draw, rectangle, rounded corners=2pt, minimum height=1.0cm, minimum width=1.9cm, fill=black!5, align=center, font=\small]
+    \node[block] (H) {Progenitores\\$H$};
+    \node[block, right=1.9cm of H] (R) {Reticulocitos\\$R$};
+    \node[block, right=1.9cm of R] (C) {RBC circul.\\$C$};
+    \node[block, above=1.5cm of R, fill=black!10] (E) {Riñón / EPO\\$E$};
+    \draw[->, thick] (H) -- node[above,font=\tiny]{$d(E)H$} (R);
+    \draw[->, thick] (R) -- node[above,font=\tiny]{$\gamma_R(C)R$} (C);
+    \draw[->, thick] (E) -| node[near start,above,font=\tiny]{$a(E),d(E)$} (H.north);
+    % feedback: C reduce hipoxia -> reduce E
+    \draw[->, thick, dashed] (C.north) |- node[near end,above,font=\tiny]{$-\,e^{-C/D}$ (O$_2$)} (E.east);
+    % consumo de EPO por H
+    \draw[->, thick, dotted] (H.north) -- node[left,font=\tiny]{$-\gamma_E H E$} (E.west);
+    % salida y muerte
+    \draw[->, thick] (C.east) -- ++(1.1,0) node[right,font=\tiny]{$\gamma_C C$ (muerte)};
+\end{tikzpicture}
+\caption{Cascada eritropoyética como lazo de retroalimentación negativa (compárese con el diagrama de bloques del PLL, \cref{fig:pll_block_diagram}). Flechas continuas: flujos de maduración. Discontinua: sensor de hipoxia (más $C$ $\Rightarrow$ menos EPO). Punteada: la EPO se consume al ser captada por los progenitores $H$.}
+\label{fig:eritro_cascada}
+\end{figure}
+
+\subsection{Reducción a 1D: separación de escalas y línea de fase}
+\label{sec:eritro_1d}
+
+\paragraph{Hipótesis de reducción (explícitas).} Comparemos las escalas de tiempo de las cuatro variables:
+\begin{itemize}
+    \item EPO: vida media de \emph{unas horas} (aclaramiento rápido).
+    \item Reticulocitos y progenitores: tránsito medular $m_R C + n_R \approx 1.1\times10^{5}\,\mathrm{s}\approx 1.3$ días; retardo $\tau_R\approx 2.5$ días.
+    \item Glóbulos rojos: vida media $\tau_C\approx 116$ días.
+\end{itemize}
+Hay una jerarquía nítida: EPO $\ll$ (reticulocitos, progenitores) $\ll$ RBC, con más de un orden de magnitud de separación en cada salto. Por el principio de \textbf{eliminación adiabática} (una variable mucho más rápida se ``esclaviza'' instantáneamente al valor de equilibrio dictado por las lentas), fijamos $\dot H=\dot R=\dot E=0$ y dejamos a $C$ como \emph{la única} variable dinámica lenta.
+
+\paragraph{Un regalo de la saturación: $H^*$ casi constante.} De $\dot H=0$ con $H\neq 0$ se obtiene, tras dividir \eqref{eq:eritro_H} entre $H$,
+\begin{equation}
+    a(E)\left(1 - \frac{H}{H_{\max}}\right) = d(E)
+    \quad\Longrightarrow\quad
+    H^* = H_{\max}\left(1 - \frac{d(E)}{a(E)}\right).
+    \label{eq:eritro_Hstar}
+\end{equation}
+A niveles fisiológicos de EPO, tanto $a(E)$ como $d(E)$ están saturadas ($E\gg K_a,K_d$), de modo que el cociente $d(E)/a(E)\to d_{\max}/a_{\max}$ deja de depender de $E$. Con los valores de la \cref{tab:eritro_simbolos}, $\rho \equiv d_{\max}/a_{\max}=1.5/5.28\approx 0.284$, y por tanto
+\begin{equation}
+    H^*\approx H_{\max}(1-\rho)\approx 7.2\times10^{12}\ \text{células},
+\end{equation}
+una constante. Esto es lo que permite cerrar la reducción de forma limpia.
+
+\paragraph{La ecuación 1D.} Con $\dot R=0$, el flujo de reticulocitos que sale iguala al que entra: $\gamma_R(C)R = d(E)H^*$. Sustituyendo en \eqref{eq:eritro_C},
+\begin{equation}
+    \dot{C} = d(E)\,H^* - \gamma_C\,C.
+\end{equation}
+Falta esclavizar la EPO. De $\dot E=0$ en \eqref{eq:eritro_E} con $H\approx H^*$:
+\begin{equation}
+    E(C) = \frac{\sigma_E}{\gamma_E H^*}\,e^{-C/D} \equiv \hat E\,e^{-C/D},
+    \qquad \hat E = \frac{\sigma_E}{\gamma_E H^*}\approx 8\times10^{2}\ \mathrm{U/L}.
+    \label{eq:eritro_EC}
+\end{equation}
+$E(C)$ es \emph{monótona decreciente}: más glóbulos rojos, menos EPO. Insertándola queda una única ecuación de línea de fase,
+\begin{equation}
+    \boxed{\ \dot{C} = P(C) - \gamma_C\,C, \qquad P(C) = H^*\,d\bigl(E(C)\bigr) = \frac{H^* d_{\max}\,\hat E\,e^{-C/D}}{K_d + \hat E\,e^{-C/D}}.\ }
+    \label{eq:eritro_1d}
+\end{equation}
+La producción $P(C)$ es positiva, acotada y \emph{estrictamente decreciente} en $C$ (composición de $d(\cdot)$ creciente con $E(C)$ decreciente): es la firma de la retroalimentación negativa.
+
+\paragraph{Equilibrios y estabilidad.} Los equilibrios resuelven $P(C^*) = \gamma_C C^*$: intersección de una curva decreciente y acotada con una recta creciente que pasa por el origen. Existe \textbf{exactamente uno}, $C^*>0$. Aplicando el criterio del \cref{sec:estabilidad_lineal} a $g(C)=P(C)-\gamma_C C$,
+\begin{equation}
+    g'(C^*) = \underbrace{P'(C^*)}_{<0} - \gamma_C < 0,
+\end{equation}
+así que \emph{siempre} es estable, con tiempo de relajación $\tau = 1/|g'(C^*)|$. El sistema es \textbf{monoestable}: hay un único estado sano, globalmente atractor. Esto no es una simplificación excesiva nuestra, sino exactamente lo que reporta el paper: ``the model's steady state is highly robust to parameter changes\ldots\ and does not exhibit oscillatory behavior''~\cite{dor2026}.
+
+\paragraph{¿Dónde está entonces la anemia?} No es un segundo atractor, sino el \emph{mismo} equilibrio desplazado cuando un parámetro cambia. La \cref{fig:eritro_1d} lo muestra: reducir la capacidad productiva (menor $H^*$, anemia aplásica) o aumentar la destrucción ($\gamma_C\to 4.8\gamma_C$, anemia hemolítica) baja el punto de corte $C^*$. Este es el mecanismo unificador del paper (su Tabla~9): distintas anemias son distintos \emph{deslizamientos suaves} del único equilibrio, no catástrofes.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=Stealth, scale=1.0]
+    % ejes
+    \draw[->, thick, black!60] (-0.3,0) -- (6.3,0) node[right,font=\small] {$C$};
+    \draw[->, thick, black!60] (0,-1.6) -- (0,1.8) node[above,font=\small] {$\dot{C}=g(C)$};
+    % curva sana g(C): empieza positiva, cruza en C*=3.5, luego negativa
+    \draw[very thick, black!85, domain=0.05:6.0, samples=80]
+        plot (\x, {1.5*exp(-0.55*\x) - 0.30*\x});
+    % curva anemia (desplazada, cruza antes)
+    \draw[very thick, black!45, dashed, domain=0.05:6.0, samples=80]
+        plot (\x, {0.85*exp(-0.55*\x) - 0.30*\x});
+    % equilibrios aprox: sano ~ 3.05, anemia ~ 1.6
+    \filldraw[black] (3.05,0) circle (2pt) node[below=3pt,font=\tiny] {$C^*_{\text{sano}}$};
+    \filldraw[black!55] (1.55,0) circle (2pt) node[above=3pt,font=\tiny] {$C^*_{\text{anemia}}$};
+    % flechas de flujo sobre el eje
+    \draw[->, thick, black!80] (0.6,0.28) -- (1.4,0.28);
+    \draw[->, thick, black!80] (5.2,-0.28) -- (4.4,-0.28);
+    \node[font=\tiny, align=center] at (5.0,1.3) {sano};
+    \node[font=\tiny, align=center, black!55] at (2.6,-1.1) {menor $H^*$\\o mayor $\gamma_C$};
+\end{tikzpicture}
+\caption{Línea de fase de la ecuación reducida \eqref{eq:eritro_1d}. La curva de producción neta $g(C)=P(C)-\gamma_C C$ (negra) cruza el eje una sola vez, en el equilibrio sano estable $C^*_{\text{sano}}$ ($g'<0$). Una pérdida de capacidad medular o un aumento de destrucción (curva gris) desplaza el único equilibrio hacia la anemia sin crear nuevos puntos fijos.}
+\label{fig:eritro_1d}
+\end{figure}
+
+\paragraph{Una bifurcación real: el establecimiento del progenitor.} Hay un lugar donde sí aparece una bifurcación genuina, y es la ecuación del progenitor \eqref{eq:eritro_H} tomada aisladamente. Escribiéndola con $a,d$ congeladas en sus valores saturados,
+\begin{equation}
+    \dot{H} = (a-d)\,H - \frac{a}{H_{\max}}\,H^2,
+    \label{eq:eritro_transcritica}
+\end{equation}
+que es \emph{exactamente} la forma normal de la bifurcación transcrítica del \cref{sec:transcritica} con parámetro $r=a-d$. Los equilibrios son $H=0$ (médula vacía) y $H^*=H_{\max}(1-d/a)$. Linealizando: en $H=0$, $\,g'(0)=a-d$; en $H^*$, $\,g'(H^*)=-(a-d)$. Cuando el cociente $\rho=d/a$ cruza $1$ (la diferenciación supera a la proliferación) las dos ramas \emph{intercambian estabilidad}: por debajo de $\rho=1$ la médula sostiene un pool sano; por encima, colapsa a $H^*=0$, la aplasia total. La \cref{fig:eritro_bif} resume ambos fenómenos.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=Stealth, scale=0.95]
+  % Panel (a): transcritica de H
+  \begin{scope}
+    \draw[->, thick, black!60] (-0.2,0) -- (4.3,0) node[right,font=\tiny] {$\rho=d/a$};
+    \draw[->, thick, black!60] (0,-1.3) -- (0,1.9) node[above,font=\tiny] {$H^*$};
+    \draw[dashed, black!40] (2.0,-1.3) -- (2.0,1.9);
+    \node[font=\tiny] at (2.0,-1.55) {$\rho=1$};
+    % rama H*=Hmax(1-rho): estable para rho<1
+    \draw[very thick, black!85, domain=0.1:2.0, samples=40] plot (\x, {1.6*(1-\x/2.0)});
+    % rama H=0 inestable para rho<1 (dashed), estable rho>1 (solid)
+    \draw[very thick, black!85, dashed] (0.1,0) -- (2.0,0);
+    \draw[very thick, black!85] (2.0,0) -- (4.1,0);
+    % continuacion negativa (no fisica) discontinua
+    \draw[very thick, black!45, dashed, domain=2.0:4.1, samples=30] plot (\x, {1.6*(1-\x/2.0)});
+    \node[font=\tiny, align=center] at (2.2,1.5) {sano};
+    \node[font=\tiny, align=center] at (3.2,0.25) {aplasia};
+    \node[font=\footnotesize] at (2.0,-2.0) {\textbf{(a)} progenitor: transcrítica};
+  \end{scope}
+  % Panel (b): C* suave vs 1/gammaC
+  \begin{scope}[shift={(6.5,0)}]
+    \draw[->, thick, black!60] (-0.2,0) -- (4.3,0) node[right,font=\tiny] {$1/\gamma_C$ (vida media)};
+    \draw[->, thick, black!60] (0,-1.3) -- (0,1.9) node[above,font=\tiny] {$C^*$};
+    \draw[very thick, black!85, domain=0.1:4.1, samples=60] plot (\x, {1.7*(1-exp(-0.9*\x))});
+    \filldraw[black] (0.7,{1.7*(1-exp(-0.63))}) circle (1.6pt) node[below right,font=\tiny] {hemólisis};
+    \filldraw[black] (3.0,{1.7*(1-exp(-2.7))}) circle (1.6pt) node[below right,font=\tiny] {sano};
+    \node[font=\footnotesize] at (2.0,-2.0) {\textbf{(b)} RBC: deslizamiento suave};
+  \end{scope}
+\end{tikzpicture}
+\caption{(a) La subred del progenitor sufre una bifurcación \emph{transcrítica} genuina (\cref{sec:transcritica}) al cruzar $\rho=d_{\max}/a_{\max}=1$: por debajo hay médula sana ($H^*>0$ estable), por encima colapsa a aplasia ($H^*=0$). (b) En cambio, el pool de glóbulos rojos $C^*$ depende \emph{de forma suave y monótona} del parámetro de destrucción $\gamma_C$: no hay bifurcación, sólo desplazamiento del único equilibrio. La honestidad exige distinguir ambos casos.}
+\label{fig:eritro_bif}
+\end{figure}
+
+\subsection{Reducción a 2D: reintroducir la dinámica de la EPO}
+\label{sec:eritro_2d}
+
+La reducción 1D descansaba en esclavizar la EPO ($\dot E=0$). Relajemos \emph{esa} hipótesis --- es la de mayor valor pedagógico, porque la EPO es la variable reguladora y su acoplamiento con $C$ genera un plano de fases con la estructura activador--inhibidor que estudiamos en la Parte IV. Mantenemos $H\approx H^*$ y $\dot R=0$, pero conservamos $C$ y $E$ como dinámicas:
+\begin{equation}
+    \dot{C} = H^* d(E) - \gamma_C C, \qquad
+    \dot{E} = \sigma_E e^{-C/D} - \gamma_E H^* E.
+    \label{eq:eritro_2d}
+\end{equation}
+
+\paragraph{Nullclines (\cref{sec:nullclines}).} Las isoclinas nulas son:
+\begin{align}
+    \dot C = 0:\quad & C = \frac{H^* d(E)}{\gamma_C} = \frac{H^* d_{\max}}{\gamma_C}\cdot\frac{E}{K_d+E} && \text{(creciente y saturante en } E),\\
+    \dot E = 0:\quad & E = \frac{\sigma_E}{\gamma_E H^*}\,e^{-C/D} = \hat E\,e^{-C/D} && \text{(decreciente en } C).
+\end{align}
+La primera dice ``más EPO $\Rightarrow$ más glóbulos rojos en equilibrio''; la segunda, ``más glóbulos rojos $\Rightarrow$ menos EPO''. Una curva creciente y una decreciente se cortan \textbf{una sola vez}: un único equilibrio $(C^*,E^*)$, coherente con el análisis 1D.
+
+\paragraph{Jacobiano y clasificación (\cref{sec:lineales2d}).} Evaluando en el equilibrio, y usando en $\partial\dot E/\partial C$ la relación de equilibrio $\sigma_E e^{-C^*/D}=\gamma_E H^* E^*$:
+\begin{equation}
+    J = \begin{pmatrix}
+        -\gamma_C & H^* d'(E^*) \\[3pt]
+        -\dfrac{\gamma_E H^* E^*}{D} & -\gamma_E H^*
+    \end{pmatrix},
+    \qquad d'(E^*) = \frac{d_{\max}K_d}{(K_d+E^*)^2}>0.
+\end{equation}
+Leemos traza y determinante:
+\begin{align}
+    \operatorname{tr}J &= -\gamma_C - \gamma_E H^* < 0 \quad\text{(siempre)},\\
+    \det J &= \gamma_C\gamma_E H^* + \underbrace{H^* d'(E^*)}_{>0}\cdot\underbrace{\frac{\gamma_E H^* E^*}{D}}_{>0} > 0 \quad\text{(siempre)}.
+\end{align}
+Con $\operatorname{tr}J<0$ y $\det J>0$, el equilibrio es \textbf{incondicionalmente estable}: nodo si $(\operatorname{tr}J)^2>4\det J$ (recuperación monótona), foco espiral si $(\operatorname{tr}J)^2<4\det J$ (recuperación con sobreimpulso amortiguado). Ambos regímenes se ilustran en la \cref{fig:eritro_2d}.
+
+\paragraph{Honestidad sobre las oscilaciones.} Un lector que venga del \cref{sec:hopf} preguntará: ¿puede este sistema sufrir una bifurcación de Hopf y oscilar? \textbf{No}, y la razón es estructural: la traza es una suma de términos negativos que \emph{nunca} puede cruzar cero. Sin cruce de traza no hay Hopf. Esto concuerda con lo que afirma el paper: su modelo (sin retardo) es robustamente monoestable~\cite{dor2026}. Las oscilaciones periódicas de la hematopoyesis --- leucemia mieloide crónica (CML) periódica, neutropenia cíclica, anemia hemolítica autoinmune cíclica --- \emph{sí existen} clínicamente, pero \emph{no} son una predicción de este modelo minimal. Son el comportamiento clásico de modelos de eritropoyesis con \textbf{retardo}: la maduración $\tau_R$ del \cref{tab:eritro_simbolos} convierte \eqref{eq:eritro_2d} en una ecuación con retardo,
+\begin{equation}
+    \dot{C}(t) = H^* d\bigl(E(t-\tau_R)\bigr) - \gamma_C C(t),
+    \label{eq:eritro_retardo}
+\end{equation}
+y un lazo de retroalimentación negativa con retardo se desestabiliza vía Hopf cuando $\tau_R$ supera un umbral crítico $\tau_c$ (mayor retardo $\Rightarrow$ el sistema ``corrige tarde'' y se pasa de rosca). Este es el resultado clásico de Mackey y Glass~\cite{mackeyglass1977} y de Bélair, Mackey y Mahaffy~\cite{belair1995} --- este último es la referencia [16] que el propio Dor--Alon cita. En resumen: la monoestabilidad es un resultado del modelo; las oscilaciones son una \emph{analogía} rigurosa con modelos de retardo bien establecidos, no una afirmación del paper. Distinguir ambas cosas es el hábito honesto que este curso quiere dejar.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=Stealth, scale=1.0]
+    \draw[->, thick, black!60] (-0.2,0) -- (5.2,0) node[right,font=\small] {$C$};
+    \draw[->, thick, black!60] (0,-0.2) -- (0,4.2) node[above,font=\small] {$E$};
+    % E-nullcline decreciente
+    \draw[very thick, black!85, domain=0.15:5.0, samples=80] plot (\x, {3.6*exp(-0.5*\x)});
+    \node[black!85, font=\tiny] at (4.4,0.55) {$\dot E=0$};
+    % C-nullcline creciente saturante (C funcion de E) -> dibujamos como E funcion de C invertida
+    \draw[very thick, black!55, domain=0.15:5.0, samples=80] plot (\x, {0.75*\x/(3.0-0.5*\x + 0.001)});
+    \node[black!55, font=\tiny] at (3.6,3.7) {$\dot C=0$};
+    % equilibrio interseccion aprox (1.7, 1.55)
+    \filldraw[black] (1.7,1.55) circle (2pt) node[above right,font=\tiny] {$(C^*,E^*)$};
+    % trayectoria espiral hacia el equilibrio
+    \draw[->, thick, black!70, domain=0:5.5, samples=90, variable=\t]
+        plot ({1.7 + 1.4*exp(-0.28*\t)*cos(150*\t)}, {1.55 + 1.4*exp(-0.28*\t)*sin(150*\t)});
+    \node[font=\tiny, align=center] at (3.9,2.6) {foco estable\\(sobreimpulso)};
+\end{tikzpicture}
+\caption{Plano de fases de la reducción 2D \eqref{eq:eritro_2d}. La nullcline $\dot E=0$ (negra, decreciente) y la $\dot C=0$ (gris, creciente y saturante) se cortan en un único equilibrio. Como $\operatorname{tr}J<0$ y $\det J>0$ siempre, toda trayectoria converge; cuando $(\operatorname{tr}J)^2<4\det J$ lo hace en espiral (recuperación con sobreimpulso amortiguado tras una hemorragia). No hay ciclo límite: la traza no puede cambiar de signo.}
+\label{fig:eritro_2d}
+\end{figure}
+
+\subsection{Conexión hacia atrás: mapa de herramientas}
+\label{sec:eritro_mapa}
+
+Todo lo anterior fue reciclaje. La \cref{tab:mapa_herramientas} explicita qué herramienta de qué capítulo hizo cada paso: es el cierre del curso.
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\caption{Mapa de reutilización: cada paso de la reducción invoca una herramienta previa.}
+\label{tab:mapa_herramientas}
+\begin{tabular}{lll}
+\hline
+Herramienta & Capítulo & Uso en el estudio de caso \\
+\hline
+Plantilla producción$-$remoción & \cref{sec:flujos1d} & Estructura de las 4 ODEs \eqref{eq:eritro_H}--\eqref{eq:eritro_E} \\
+Línea de fase, punto fijo estable & \cref{sec:puntos_fijos} & Equilibrio sano de \eqref{eq:eritro_1d} \\
+Criterio $g'(x^*)$, tiempo $\tau=1/|g'|$ & \cref{sec:estabilidad_lineal} & Estabilidad y relajación de $C^*$; vida media $1/\gamma_C$ \\
+Eliminación adiabática / escalas & \cref{sec:estabilidad_lineal} & Esclavizar $E,R,H$ frente a $C$ \\
+Forma normal transcrítica $rx-x^2$ & \cref{sec:transcritica} & Establecimiento vs.\ aplasia del progenitor \eqref{eq:eritro_transcritica} \\
+Diagrama de bifurcación & \cref{sec:saddlenode} & $H^*(\rho)$ y deslizamiento suave $C^*(\gamma_C)$ \\
+Nullclines & \cref{sec:nullclines} & Isoclinas del sistema 2D \eqref{eq:eritro_2d} \\
+Jacobiano, traza--determinante & \cref{sec:lineales2d} & Clasificación nodo/foco de $(C^*,E^*)$ \\
+Poincaré--Bendixson & \cref{sec:conservativos} & Descartar caos; sólo equilibrio o ciclo en 2D \\
+Bifurcación de Hopf y retardo & \cref{sec:hopf} & Origen de las oscilaciones hematológicas \eqref{eq:eritro_retardo} \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Ejercicios}
+
+\paragraph{Ejercicio 1 (mecánico).} En condiciones de EPO saturada, la diferenciación satura, $d(E)\approx d_{\max}$, y la producción de \eqref{eq:eritro_1d} se vuelve una constante $P_0 = H^* d_{\max}$. Resuelve el equilibrio de $\dot C = P_0 - \gamma_C C$, clasifícalo por linealización y calcula el tiempo de relajación. Con $\gamma_C = 10^{-7}\,\mathrm{s}^{-1}$, exprésalo en días.
+\aside{Pista: es una EDO lineal de primer orden; el equilibrio es $C^*=P_0/\gamma_C$ y $g'(C^*)=-\gamma_C$. Recuerda el \cref{sec:estabilidad_lineal}: $\tau=1/|g'|$.}
+% SOL: C* = P0/gamma_C, estable pues g'(C*)=-gamma_C<0; tau = 1/gamma_C = 1e7 s = 116 dias.
+
+\paragraph{Ejercicio 2 (análisis).} Anemia hemolítica: el paper la modela con $\gamma_C \to 4.8\,\gamma_C$ (vida media de RBC de $120$ a $25$ días). Con producción constante $P_0$ (Ejercicio 1), demuestra que el nuevo equilibrio es $C^*_{\text{nuevo}} = C^*_{\text{sano}}/4.8$ y que el tiempo de relajación se acorta en el mismo factor. Interpreta biológicamente: ¿por qué el paciente alcanza su (menor) equilibrio \emph{más rápido}?
+\aside{Pista: tanto $C^*=P_0/\gamma_C$ como $\tau=1/\gamma_C$ son inversamente proporcionales a $\gamma_C$. Un flujo de muerte más veloz reequilibra antes.}
+% SOL: C* y tau ambos escalan como 1/gamma_C -> se dividen por 4.8. La vida media corta acelera el recambio, luego el nuevo estado se alcanza en ~25 dias en vez de ~116.
+
+\paragraph{Ejercicio 3 (análisis; bifurcación).} Toma la ecuación del progenitor saturada \eqref{eq:eritro_transcritica}, $\dot H = (a-d)H - (a/H_{\max})H^2$. (i) Halla sus dos puntos fijos. (ii) Linealiza y determina la estabilidad de cada uno en función del signo de $a-d$. (iii) Identifica el valor del parámetro $\rho=d/a$ en que ocurre la bifurcación y su tipo, comparando con la forma normal del \cref{sec:transcritica}. (iv) Interpreta el caso $\rho>1$.
+\aside{Pista: es idéntica a la logística/transcrítica con $r=a-d$. En $H=0$, $g'=a-d$; en $H^*=H_{\max}(1-d/a)$, $g'=-(a-d)$.}
+% SOL: FP en H=0 y H*=Hmax(1-d/a). Para a>d (rho<1): H=0 inestable, H* estable. Bifurcacion transcritica en rho=1 (a=d): intercambio de estabilidad. rho>1: solo H=0 estable = aplasia total (medula no se autosostiene).
+
+\paragraph{Ejercicio 4 (análisis; 2D).} Para el sistema 2D \eqref{eq:eritro_2d}, ya calculamos $\operatorname{tr}J = -\gamma_C-\gamma_E H^*$ y $\det J>0$. (i) Argumenta con el diagrama traza--determinante del \cref{sec:lineales2d} por qué el equilibrio no puede ser nunca silla ni fuente. (ii) Escribe la condición $(\operatorname{tr}J)^2 = 4\det J$ que separa nodo de foco. (iii) ¿Qué observación clínica tras una donación de sangre distinguiría, en principio, un régimen de foco (sobreimpulso) de uno de nodo (recuperación monótona) en la trayectoria de hemoglobina?
+\aside{Pista: silla exige $\det J<0$; fuente exige $\operatorname{tr}J>0$. Ambos están excluidos. Un foco produce una hemoglobina que sobrepasa su valor basal antes de asentarse; un nodo se aproxima sin rebasar.}
+% SOL: (i) det>0 excluye silla; tr<0 excluye fuente -> siempre nodo o foco estable. (ii) frontera nodo/foco: (gamma_C+gamma_E H*)^2 = 4 det J. (iii) Foco: la Hb rebasa el basal (overshoot amortiguado) antes de estabilizar; nodo: monotona.
+
+\paragraph{Ejercicio 5 (interpretación / paciente).} La anemia aplásica se modela con $H_{\max}\to H_{\max}/7$, lo que baja $H^*$. Usando la relación de equilibrio de la EPO \eqref{eq:eritro_EC}, $E^* = (\sigma_E/\gamma_E H^*)\,e^{-C^*/D}$, argumenta cualitativamente por qué la EPO del paciente aplásico está \emph{paradójicamente elevada} pese a que su producción de glóbulos rojos es baja. ¿Qué papel juega el que la EPO se aclare por unión a $H$?
+\aside{Pista: $E^*\propto 1/H^*$. Si hay menos progenitores para captar EPO, la EPO se acumula. El aclaramiento dependiente de $H$ es la clave; con aclaramiento constante $\gamma_E E$ el efecto desaparecería.}
+% SOL: Menor H* -> menor consumo de EPO (aclaramiento gamma_E H* E) y ademas menor C* -> mayor e^{-C*/D}; ambos suben E*. La EPO elevada refleja masa eritroide reducida, no fallo renal. Coincide con Dor-Alon: EPO como indicador de actividad medular.
+
+\paragraph{Ejercicio 6 (numérico, Python).} Integra la reducción 2D \eqref{eq:eritro_2d} (parámetros adimensionalizados) con Euler explícito, partiendo del equilibrio, e introduce una hemorragia aguda que baje $C$ un $30\%$ en $t=t_0$. Grafica $C(t)$ y comprueba si la recuperación es monótona o con sobreimpulso.
+\begin{minted}[fontsize=\small, framesep=4pt, frame=lines]{python}
+import numpy as np
+
+# parametros adimensionales (Hstar absorbido; escalas tipicas)
+gC, gE, Hs, sE, D, dmax, Kd = 0.30, 0.45, 1.0, 3.6, 2.0, 1.0, 1.0
+
+def f(C, E):
+    dC = Hs*dmax*E/(Kd+E) - gC*C
+    dE = sE*np.exp(-C/D)   - gE*Hs*E
+    return dC, dE
+
+# equilibrio aproximado por relajacion libre
+C, E = 1.7, 1.6
+dt = 0.01
+for _ in range(20000):
+    dC, dE = f(C, E)
+    C, E = C + dt*dC, E + dt*dE
+Ceq = C
+C = 0.7*Ceq            # hemorragia: -30 % en t0
+traj = []
+for k in range(60000):
+    dC, dE = f(C, E)
+    C, E = C + dt*dC, E + dt*dE
+    traj.append(C)
+traj = np.array(traj)
+print(f"C_eq={Ceq:.3f}  min={traj.min():.3f}  "
+      f"max={traj.max():.3f}  overshoot={traj.max()>Ceq*1.001}")
+\end{minted}
+\aside{Pista: si \texttt{max} supera a \texttt{C\_eq} tras el mínimo, hubo sobreimpulso (foco); si $C(t)$ sube monótonamente hacia \texttt{C\_eq}, fue un nodo. Prueba a variar \texttt{gE} para cruzar la frontera $(\operatorname{tr}J)^2=4\det J$ del Ejercicio 4.}
+% SOL: Con estos valores tr=-(gC+gE*Hs)=-0.75, det>0; discriminante decide. Al bajar gE el sistema pasa de nodo a foco y aparece overshoot en C(t).

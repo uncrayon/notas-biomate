@@ -2,6 +2,7 @@
 % FUENTES: draft p.22--24.
 % ============================================================
 \section{Bifurcación saddle-node y formas normales}
+\label{sec:saddlenode}
 
 En los capítulos previos analizamos sistemas dinámicos con parámetros constantes fijos. Sin embargo, en los problemas reales de la física y la biología, los parámetros del entorno (temperatura, concentración de nutrientes, tasa de bombeo óptico, voltajes aplicados) varían continuamente. El estudio de cómo cambia cualitativamente la estructura del espacio de fases al alterar estos parámetros constituye la \textbf{teoría de bifurcaciones}.
 
@@ -124,9 +125,7 @@ donde $r \in \mathbb{R}$ es el parámetro de bifurcación.
 \end{figure}
 
 \paragraph{La bifurcación ``blue-sky''.}
-Ralph Abraham y Christopher Shaw (1988) \cite{abraham1988} bautizaron poéticamente a este fenómeno como \emph{``blue-sky bifurcation''}: al variar el parámetro $r$, de la nada absoluta (\emph{``out of the clear blue sky''}) aparece espontáneamente un par de puntos fijos (uno estable y otro inestable), o bien colisionan y se aniquilan en el aire.
-
-\aside{Una forma equivalente de la saddle-node es $\dot{x} = r - x^2$, donde los equilibrios existen para $r > 0$ en $x^* = \pm\sqrt{r}$ y desaparecen para $r < 0$.}
+Ralph Abraham y Christopher Shaw (1988) \cite{abraham1988} bautizaron poéticamente a este fenómeno como \emph{``blue-sky bifurcation''}: al variar el parámetro $r$, de la nada absoluta (\emph{``out of the clear blue sky''}) aparece espontáneamente un par de puntos fijos (uno estable y otro inestable), o bien colisionan y se aniquilan en el aire\aside{Una forma equivalente de la saddle-node es $\dot{x} = r - x^2$, donde los equilibrios existen para $r > 0$ en $x^* = \pm\sqrt{r}$ y desaparecen para $r < 0$.}.
 
 \subsection{Formas normales: Taylor local en $(x^{*}, r_{c})$}
 
@@ -202,4 +201,18 @@ Expandiendo $e^{-x}$ en serie de Maclaurin: $e^{-x} = 1 - x + \frac{x^2}{2} - \f
     &= (r - 1) - \frac{1}{2}x^2 + \mathcal{O}(x^3)
 \end{align}
 Identificando $R = r - 1$ y reescalando $X = x/\sqrt{2}$, recuperamos $\dot{X} \approx R - X^2$, demostrando que el sistema experimenta una bifurcación saddle-node estándar en $r_c = 1$.
+
+\subsection{Ejercicios}
+
+\paragraph{Ejercicio 1 (mecánico; saddle-node explícita).} Para $\dot{x} = r - x^2$, halla los puntos fijos en función de $r$, clasifícalos con $f'(x^*)$ e identifica el valor crítico $r_c$ donde nacen/mueren. Dibuja el diagrama de bifurcación en el plano $(r,x^*)$.
+\aside{Pista: hay equilibrios reales sólo si $r\ge 0$, en $x^*=\pm\sqrt{r}$; $f'(x)=-2x$.}
+% SOL: r>0: x*=+sqrt(r) estable (f'=-2sqrt r<0), x*=-sqrt(r) inestable. r=0: colision semiestable. r<0: sin equilibrios. rc=0; parabola r=(x*)^2.
+
+\paragraph{Ejercicio 2 (análisis; forma normal por Taylor).} Considera $\dot{x} = r - \cosh x$. Aplicando las condiciones definitorias $f=0$ y $\partial_x f=0$, localiza $(x^*,r_c)$ y, con la serie $\cosh x = 1 + x^2/2 + \mathcal{O}(x^4)$, redúcelo a la forma normal $\dot{X}\approx R - X^2$. Concluye el tipo de bifurcación.
+\aside{Pista: $\partial_x f=-\sinh x=0\Rightarrow x^*=0$; luego $f(0)=r-1=0$.}
+% SOL: x*=0, rc=1. xdot = (r-1) - x^2/2 -> R=r-1, X=x/sqrt2 -> R - X^2. Saddle-node en rc=1.
+
+\paragraph{Ejercicio 3 (interpretación; punto de no retorno ecológico).} Un lago tiene un equilibrio estable de agua clara y, al aumentar la carga de nutrientes $r$, ese equilibrio colisiona con uno inestable y desaparece por una saddle-node, saltando el sistema a un estado turbio. Explica por qué la recuperación exige bajar $r$ \emph{muy por debajo} del umbral de colapso (histéresis) y por qué la metáfora ``blue-sky'' captura lo abrupto del cambio.
+\aside{Pista: tras el colapso ya no hay equilibrio claro cercano; hay que recrear la rama estable, lo que ocurre a un $r$ distinto del de su destrucción si coexisten otras ramas.}
+% SOL: Al desaparecer el atractor claro, el sistema cae al turbio; restaurar el claro requiere reaparicion de la rama (a r mas bajo) -> histeresis. Blue-sky: el par de equilibrios aparece/desaparece 'de la nada' al cruzar rc.
 

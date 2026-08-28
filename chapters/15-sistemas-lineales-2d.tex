@@ -1,0 +1,233 @@
+% ============================================================
+% FUENTES: Notas Biomate 1; raw_plain_nonlinear_dynamics.txt.
+% Strogatz (2015), caps. 5 y 6; Edelstein-Keshet (2007).
+% ============================================================
+\section{Sistemas lineales en dos dimensiones}
+\label{sec:lineales2d}
+
+En los capítulos precedentes exploramos la dinámica de flujos sobre la recta real $\mathbb{R}$. Una de las conclusiones fundamentales fue la imposibilidad topológica de oscilaciones periódicas en una dimensión: sobre una línea, el flujo sólo puede avanzar o retroceder monótonamente hacia un punto fijo o hacia el infinito.
+
+Al dar el salto a dos dimensiones ($n = 2$), el espacio de estados adquiere suficiente libertad geométrica para que las trayectorias giren, roten y se entrelacen. En este capítulo desarrollaremos la teoría completa de los \textbf{sistemas lineales en el plano}, que constituye la piedra angular para clasificar y comprender el comportamiento local de cualquier sistema dinámico bidimensional mediante linealización~\cite{strogatz2015,edelstein2007}.
+
+\subsection{Formulación matricial y ecuación característica}
+
+Un sistema lineal bidimensional autónomo homogéneo se escribe en forma vectorial como:
+\begin{equation}
+    \dot{\vec{x}} = A \vec{x}, \quad \vec{x} = \begin{pmatrix} x \\ y \end{pmatrix} \in \mathbb{R}^2, \quad A = \begin{pmatrix} a & b \\ c & d \end{pmatrix} \in \mathbb{R}^{2\times 2}
+    \label{eq:sistema_lineal_2d}
+\end{equation}
+o en componentes escalares:
+\begin{equation}
+\begin{aligned}
+    \dot{x} &= ax + by, \\
+    \dot{y} &= cx + dy.
+\end{aligned}
+\end{equation}
+El origen $\vec{x}^* = (0,0)^\top$ es siempre un punto de equilibrio ($A\vec{0} = \vec{0}$). Si $\det A \neq 0$, el origen es el único punto fijo del sistema.
+
+Buscamos soluciones exponenciales de la forma $\vec{x}(t) = \vec{v} e^{\lambda t}$, donde $\vec{v} \neq \vec{0}$ es un vector propio constante y $\lambda \in \mathbb{C}$ es el valor propio asociado:
+\begin{equation}
+    \dot{\vec{x}} = \lambda \vec{v} e^{\lambda t} = A \vec{v} e^{\lambda t} \implies (A - \lambda I)\vec{v} = \vec{0}
+\end{equation}
+Para que existan soluciones no triviales ($\vec{v} \neq \vec{0}$), se requiere que la matriz $(A - \lambda I)$ sea singular:
+\begin{equation}
+    \det(A - \lambda I) = 0 \iff \det \begin{pmatrix} a - \lambda & b \\ c & d - \lambda \end{pmatrix} = (a - \lambda)(d - \lambda) - bc = 0
+\end{equation}
+Desarrollando este determinante, obtenemos la \textbf{ecuación característica}:
+\begin{equation}
+    \lambda^2 - \tau \lambda + \Delta = 0
+    \label{eq:ec_caracteristica_2d}
+\end{equation}
+donde hemos definido dos invariantes algebraicos fundamentales de la matriz $A$:
+\begin{align}
+    \tau &\equiv \operatorname{tr}(A) = a + d \quad \text{(\textbf{traza})}, \label{eq:def_traza} \\
+    \Delta &\equiv \det(A) = ad - bc \quad \text{(\textbf{determinante})}. \label{eq:def_det}
+\end{align}
+
+Las raíces de la \cref{eq:ec_caracteristica_2d} son los \textbf{autovalores} de la matriz $A$:
+\begin{equation}
+    \lambda_{1,2} = \frac{\tau \pm \sqrt{\tau^2 - 4\Delta}}{2}
+    \label{eq:autovalores_formula}
+\end{equation}
+Asimismo, por las relaciones de Cardano--Vieta:
+\begin{equation}
+    \lambda_1 + \lambda_2 = \tau, \qquad \lambda_1 \lambda_2 = \Delta.
+    \label{eq:vieta_autovalores}
+\end{equation}
+El comportamiento cualitativo del sistema lineal queda enteramente determinado por el signo y la naturaleza de $\lambda_1$ y $\lambda_2$, o de forma equivalente, por la posición del punto $(\tau, \Delta)$ en el plano traza--determinante.
+
+\subsection{Clasificación completa de los equilibrios}
+
+El discriminante de la ecuación cuadrática es:
+\begin{equation}
+    \mathcal{D} = \tau^2 - 4\Delta
+\end{equation}
+La parábola $\Delta = \frac{1}{4}\tau^2$ (o $\tau^2 - 4\Delta = 0$) divide el semiplano superior $\Delta > 0$ en dos regiones fundamentales: autovalores reales $(\mathcal{D} > 0)$ y autovalores complejos conjugados $(\mathcal{D} < 0)$.
+
+\begin{definition}[Tipos de puntos fijos en 2D]
+Clasificamos el punto fijo en el origen según los valores de $\tau$ y $\Delta$:
+\begin{enumerate}
+    \item \textbf{Punto de ensilladura o silla (\emph{Saddle point}) ($\Delta < 0$):}
+    Como $\Delta = \lambda_1 \lambda_2 < 0$, los autovalores son reales y de signos opuestos: $\lambda_1 < 0 < \lambda_2$. Las trayectorias a lo largo de la dirección del autovector $\vec{v}_1$ convergen exponencialmente hacia el origen (\emph{variedad estable}), mientras que a lo largo de $\vec{v}_2$ divergen exponencialmente (\emph{variedad inestable}). Una silla es siempre \textbf{inestable}.
+    
+    \item \textbf{Nodos (\emph{Nodes}) ($\Delta > 0$ y $\tau^2 - 4\Delta > 0$):}
+    Los autovalores son reales, distintos y del mismo signo:
+    \begin{itemize}
+        \item \textbf{Nodo estable ($\tau < 0$):} $\lambda_1 < \lambda_2 < 0$. Todas las trayectorias convergen asintóticamente al origen cuando $t \to +\infty$.
+        \item \textbf{Nodo inestable ($\tau > 0$):} $0 < \lambda_1 < \lambda_2$. Todas las trayectorias divergen alejándose del origen.
+    \end{itemize}
+
+    \item \textbf{Focos o espirales (\emph{Spirals / Foci}) ($\Delta > 0$ y $\tau^2 - 4\Delta < 0$):}
+    Los autovalores son complejos conjugados: $\lambda_{1,2} = \alpha \pm i\omega$, donde la parte real es $\alpha = \frac{\tau}{2}$ y la frecuencia angular es $\omega = \frac{\sqrt{4\Delta - \tau^2}}{2} > 0$. La solución tiene la forma $\vec{x}(t) \sim e^{\alpha t}(\vec{c}_1 \cos\omega t + \vec{c}_2 \sin\omega t)$:
+    \begin{itemize}
+        \item \textbf{Espiral estable ($\tau < 0 \implies \alpha < 0$):} Las trayectorias oscilan y giran en espiral convergiendo hacia el origen (atractor).
+        \item \textbf{Espiral inestable ($\tau > 0 \implies \alpha > 0$):} Las trayectorias oscilan en espiral con amplitud creciente alejándose del origen (repulsor).
+    \end{itemize}
+
+    \item \textbf{Centro (\emph{Center}) ($\tau = 0$ y $\Delta > 0$):}
+    Los autovalores son puramente imaginarios: $\lambda_{1,2} = \pm i\sqrt{\Delta}$ ($\alpha = 0$). El origen está rodeado por una familia continua de órbitas cerradas elípticas concéntricas de periodo $T = \frac{2\pi}{\sqrt{\Delta}}$. El centro es \textbf{neutramente estable} en el sentido de Lyapunov, pero no es asintóticamente estable.
+
+    \item \textbf{Casos degenerados y de frontera:}
+    \begin{itemize}
+        \item \textbf{Nodos estrella y nodos impropios ($\Delta = \frac{1}{4}\tau^2$):} Autovalores reales repetidos $\lambda_1 = \lambda_2 = \tau/2$. Si $A = \lambda I$, todas las direcciones son autovectores (\emph{star node}); si $A$ no es diagonalizable, existe un único autovector independiente y las trayectorias son tangentes a él (\emph{degenerate node}).
+        \item \textbf{Línea de equilibrios no aislados ($\Delta = 0$):} Al menos un autovalor es cero ($\lambda_1 = 0$), por lo que existe una recta continua de puntos fijos correspondiente al núcleo de $A$.
+    \end{itemize}
+\end{enumerate}
+\end{definition}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=Stealth, scale=1.05]
+    % Regiones sombreadas
+    % Semiplano inferior: Sillas (Delta < 0)
+    \fill[black!6] (-4.5,-2.2) rectangle (4.5,0);
+    
+    % Nodos estables: Delta > 0, tau < 0, Delta < tau^2/4
+    \fill[black!12, domain=-4.2:0, variable=\t]
+        (-4.2,0) -- plot (\t, {0.25*\t*\t}) -- (0,0) -- cycle;
+        
+    % Nodos inestables: Delta > 0, tau > 0, Delta < tau^2/4
+    \fill[black!12, domain=0:4.2, variable=\t]
+        (0,0) -- plot (\t, {0.25*\t*\t}) -- (4.2,0) -- cycle;
+
+    % Espirales estables: tau < 0, Delta > tau^2/4
+    \fill[black!20, domain=-3.5:0, variable=\t]
+        (-3.5, 3.2) -- plot (\t, {max(0.25*\t*\t, 0)}) -- (0, 3.2) -- cycle;
+
+    % Espirales inestables: tau > 0, Delta > tau^2/4
+    \fill[black!20, domain=0:3.5, variable=\t]
+        (0, 3.2) -- plot (\t, {max(0.25*\t*\t, 0)}) -- (3.5, 3.2) -- cycle;
+
+    % Ejes coordenados
+    \draw[->, thick, black!70] (-4.6,0) -- (4.6,0) node[right, font=\small] {$\tau = \operatorname{tr}(A)$};
+    \draw[->, thick, black!70] (0,-2.3) -- (0,3.5) node[above, font=\small] {$\Delta = \det(A)$};
+
+    % Parábola Delta = tau^2 / 4
+    \draw[very thick, black!90, domain=-3.55:3.55, samples=100] plot (\x, {0.25*\x*\x});
+    \node[above, font=\footnotesize] at (-2.8, 2.6) {$\Delta = \frac{1}{4}\tau^2$};
+
+    % Etiquetas de regiones
+    \node[font=\bfseries\small, align=center] at (0, -1.1) {SILLAS\\(\emph{Saddles})\\$\Delta < 0$};
+    
+    \node[font=\footnotesize, align=center] at (-2.8, 0.6) {\textbf{Nodos}\\estables\\$\tau < 0$};
+    \node[font=\footnotesize, align=center] at (2.8, 0.6) {\textbf{Nodos}\\inestables\\$\tau > 0$};
+    
+    \node[font=\footnotesize, align=center] at (-1.4, 2.2) {\textbf{Espirales}\\estables\\$\tau < 0$};
+    \node[font=\footnotesize, align=center] at (1.4, 2.2) {\textbf{Espirales}\\inestables\\$\tau > 0$};
+    
+    % Eje vertical positivo: Centros
+    \draw[very thick, black!90] (0,0) -- (0,3.3);
+    \filldraw[black] (0, 1.6) circle (2pt);
+    \node[left=3pt, font=\bfseries\footnotesize, align=right] at (0, 1.6) {Centros\\$\tau = 0, \Delta > 0$};
+
+    % Eje horizontal: Equilibrios degenerados
+    \node[below, font=\tiny, black!80] at (-3.2, -0.05) {$\Delta = 0$ (Línea de equilibrios)};
+    \node[below, font=\tiny, black!80] at (3.2, -0.05) {$\Delta = 0$};
+    
+    % Frontera parabólica: Nodos degenerados / estrella
+    \node[font=\tiny, rotate=38, align=center] at (2.1, 1.35) {Nodos estrella / impropios};
+    \node[font=\tiny, rotate=-38, align=center] at (-2.1, 1.35) {Nodos estrella / impropios};
+\end{tikzpicture}
+\caption{Diagrama maestro de clasificación en el plano traza--determinante $(\tau, \Delta)$. La parábola $\Delta = \frac{1}{4}\tau^2$ separa los nodos reales de las espirales oscilatorias; el eje $\tau = 0$ marca la frontera conservativa de centros; y el semiplano inferior $\Delta < 0$ corresponde a sillas inestables.}
+\label{fig:mapa_tr_det}
+\end{figure}
+
+\subsection{Linealización de sistemas no lineales en 2D: la matriz Jacobiana}
+
+Consideremos ahora un sistema dinámico bidimensional no lineal general:
+\begin{equation}
+\begin{aligned}
+    \dot{x} &= f(x, y), \\
+    \dot{y} &= g(x, y),
+\end{aligned}
+\label{eq:sistema_no_lineal_2d}
+\end{equation}
+con $f, g \in \mathcal{C}^1$. Sea $(x^*, y^*)$ un punto fijo de equilibrio, de modo que $f(x^*, y^*) = 0$ y $g(x^*, y^*) = 0$.
+
+Para estudiar el comportamiento en las inmediaciones del equilibrio, introducimos pequeñas perturbaciones $u(t) = x(t) - x^*$ y $v(t) = y(t) - y^*$. Desarrollando en serie de Taylor bidimensional en torno a $(x^*, y^*)$:
+\begin{equation}
+\begin{aligned}
+    \dot{u} &= \dot{x} = f(x^*+u, y^*+v) \\
+            &= f(x^*,y^*) + \frac{\partial f}{\partial x}(x^*,y^*) u + \frac{\partial f}{\partial y}(x^*,y^*) v + \mathcal{O}(u^2, v^2), \\
+    \dot{v} &= \dot{y} = g(x^*+u, y^*+v) \\
+            &= g(x^*,y^*) + \frac{\partial g}{\partial x}(x^*,y^*) u + \frac{\partial g}{\partial y}(x^*,y^*) v + \mathcal{O}(u^2, v^2).
+\end{aligned}
+\end{equation}
+Despreciando los términos de segundo orden y superiores, obtenemos el sistema linealizado:
+\begin{equation}
+    \begin{pmatrix} \dot{u} \\ \dot{v} \end{pmatrix} \approx J(x^*, y^*) \begin{pmatrix} u \\ v \end{pmatrix}
+    \label{eq:linealizacion_jacobiano}
+\end{equation}
+donde $J(x^*, y^*)$ es la \textbf{matriz jacobiana} evaluada en el equilibrio:
+\begin{equation}
+    J(x^*, y^*) = \begin{pmatrix}
+        \dfrac{\partial f}{\partial x} & \dfrac{\partial f}{\partial y} \\[8pt]
+        \dfrac{\partial g}{\partial x} & \dfrac{\partial g}{\partial y}
+    \end{pmatrix}_{(x^*, y^*)}
+    \label{eq:def_jacobiano}
+\end{equation}
+
+\begin{theorem}[Teorema de Hartman--Grobman (interpretación intuitiva)]
+Si el punto fijo $(x^*, y^*)$ es \textbf{hiperbólico} (es decir, ningún autovalor de la matriz jacobiana $J(x^*, y^*)$ tiene parte real nula: $\operatorname{Re}(\lambda_i) \neq 0$), entonces existe un homeomorfismo local que mapea las trayectorias del sistema no lineal \eqref{eq:sistema_no_lineal_2d} en las trayectorias del sistema linealizado \eqref{eq:linealizacion_jacobiano}.
+\end{theorem}
+
+En palabras sencillas: para sillas, nodos y espirales, la linealización predice exactamente la topología local del retrato de fases no lineal. La única advertencia ocurre cuando $\operatorname{Re}(\lambda) = 0$ (centros lineales con $\tau = 0, \Delta > 0$ o puntos degenerados con $\Delta = 0$): en tales casos no hiperbólicos, los términos no lineales de orden superior pueden romper la estructura lineal y convertir un centro aparente en una espiral débil atrayente o repelente\aside{Esta es precisamente la razón por la que un centro lineal requiere un análisis más sutil mediante integrales primeras conservativas o funciones de Lyapunov, como estudiaremos en el modelo de Lotka--Volterra y en los sistemas hamiltonianos.}.
+
+\subsection{Ejemplo: clasificación analítica de un sistema en el plano}
+
+\begin{example}[Clasificación de un equilibrio no hiperbólico vs hiperbólico]
+Consideremos el sistema lineal:
+\begin{equation}
+\begin{aligned}
+    \dot{x} &= x - y, \\
+    \dot{y} &= x + 3y.
+\end{aligned}
+\end{equation}
+La matriz del sistema es $A = \begin{pmatrix} 1 & -1 \\ 1 & 3 \end{pmatrix}$. Calculamos su traza y su determinante:
+\begin{equation}
+    \tau = \operatorname{tr}(A) = 1 + 3 = 4, \qquad \Delta = \det(A) = (1)(3) - (-1)(1) = 3 + 1 = 4.
+\end{equation}
+Evaluamos el discriminante:
+\begin{equation}
+    \tau^2 - 4\Delta = 4^2 - 4(4) = 16 - 16 = 0.
+\end{equation}
+Como $\Delta = \frac{1}{4}\tau^2 > 0$ y $\tau = 4 > 0$, los autovalores son reales repetidos: $\lambda_1 = \lambda_2 = \tau/2 = 2 > 0$. Para determinar si es un nodo estrella o un nodo impropio, calculamos los autovectores $(A - 2I)\vec{v} = \vec{0}$:
+\begin{equation}
+    \begin{pmatrix} -1 & -1 \\ 1 & 1 \end{pmatrix} \begin{pmatrix} v_1 \\ v_2 \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix} \implies v_1 + v_2 = 0 \implies \vec{v}_1 = \begin{pmatrix} 1 \\ -1 \end{pmatrix}.
+\end{equation}
+Al existir sólo una dirección propia independiente, el origen es un \textbf{nodo impropio inestable (\emph{degenerate unstable node})}.
+\end{example}
+
+\subsection{Ejercicios}
+
+\paragraph{Ejercicio 1 (mecánico; clasificar por $\tau$--$\Delta$).} Clasifica el origen de $\dot{\vec{x}}=A\vec{x}$ para (i) $A=\begin{pmatrix}1&2\\2&1\end{pmatrix}$ y (ii) $A=\begin{pmatrix}-3&1\\1&-3\end{pmatrix}$, calculando $\tau$, $\Delta$, el discriminante y los autovalores.
+\aside{Pista: usa \eqref{eq:autovalores_formula} y la \cref{fig:mapa_tr_det}.}
+% SOL: (i) tau=2, Delta=1-4=-3<0 -> silla (lambda=1±2 => 3,-1). (ii) tau=-6, Delta=8, D=36-32=4>0 -> nodo estable (lambda=-2,-4).
+
+\paragraph{Ejercicio 2 (análisis; linealizar un no lineal).} Para el oscilador de Duffing amortiguado $\dot{x}=y$, $\dot{y}=x-x^3-0.2\,y$, halla los tres puntos fijos, escribe la jacobiana \eqref{eq:def_jacobiano} y clasifica cada equilibrio.
+\aside{Pista: $y=0$ y $x-x^3=0\Rightarrow x=0,\pm1$; $J=\begin{pmatrix}0&1\\1-3x^2&-0.2\end{pmatrix}$.}
+% SOL: FP (0,0),(±1,0). En (0,0): Delta=-1<0 silla. En (±1,0): 1-3=-2 -> Delta=2, tau=-0.2, D=0.04-8<0 -> espirales estables. (Doble pozo amortiguado.)
+
+\paragraph{Ejercicio 3 (interpretación; nodo vs foco).} Un equilibrio estable puede relajarse de forma monótona (nodo) o con oscilaciones amortiguadas (foco). Explica, en términos de cruzar la parábola $\Delta=\tfrac14\tau^2$, qué cambio físico convierte una recuperación monótona en una con sobreimpulso, y da un ejemplo biológico donde importe la diferencia.
+\aside{Pista: por debajo de la parábola, autovalores reales (nodo); por encima, complejos (foco con $\omega=\tfrac12\sqrt{4\Delta-\tau^2}$).}
+% SOL: Aumentar Delta (o reducir |tau|) cruza la parabola: reales->complejos, nodo->foco. Ejemplo: recuperacion de hemoglobina tras hemorragia con o sin overshoot (cf. cap. 20); o glucosa-insulina.

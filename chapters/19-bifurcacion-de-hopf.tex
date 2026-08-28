@@ -1,0 +1,187 @@
+% ============================================================
+% FUENTES: Notas Biomate 1; raw_plain_nonlinear_dynamics.txt.
+% Strogatz (2015), cap. 8; Murray (2002); Edelstein-Keshet (2007).
+% ============================================================
+\section{Bifurcación de Hopf}
+\label{sec:hopf}
+
+En los capítulos de la Parte III estudiamos las bifurcaciones en flujos unidimensionales (saddle-node, transcrítica y pitchfork). En todas ellas, la pérdida de estabilidad de un equilibrio ocurría necesariamente a través de un autovalor real que cruzaba por cero ($\lambda = 0$).
+
+Al expandir nuestro análisis a dos dimensiones, emerge un mecanismo de inestabilidad cualitativamente superior: un par de autovalores complejos conjugados puede cruzar el eje imaginario con velocidad no nula. Este fenómeno, descubierto por Aleksandr Andronov en la década de 1930 y popularizado por Eberhard Hopf en 1942, se conoce como la \textbf{bifurcación de Hopf} (o de Andronov--Hopf)~\cite{strogatz2015,murray2002}. La bifurcación de Hopf es la vía canónica por la cual un estado estacionario pierde su estabilidad y engendra espontáneamente una oscilación periódica autosostenida (un ciclo límite).
+
+\subsection{El Teorema de Hopf en el plano}
+
+Consideremos un sistema bidimensional parametrizado por $\mu \in \mathbb{R}$:
+\begin{equation}
+    \dot{\vec{x}} = \vec{f}(\vec{x}; \mu), \quad \vec{x} \in \mathbb{R}^2.
+\end{equation}
+Supongamos que el sistema posee un punto fijo de equilibrio $\vec{x}^*(\mu)$ para todos los valores de $\mu$ cercanos a un valor crítico $\mu_c = 0$, de modo que $\vec{f}(\vec{x}^*(\mu); \mu) = \vec{0}$.
+
+\begin{theorem}[Teorema de la bifurcación de Hopf (Andronov--Hopf)]
+\label{thm:hopf_teorema}
+Sea $J(\mu) = D\vec{f}(\vec{x}^*(\mu); \mu)$ la matriz jacobiana evaluada en el equilibrio. Supongamos que:
+\begin{enumerate}
+    \item Los autovalores de $J(\mu)$ son un par de complejos conjugados:
+    \begin{equation}
+        \lambda_{1,2}(\mu) = \alpha(\mu) \pm i\omega(\mu).
+    \end{equation}
+    \item En el valor crítico $\mu = 0$, los autovalores cruzan el eje imaginario:
+    \begin{equation}
+        \alpha(0) = 0, \qquad \omega_0 \equiv \omega(0) > 0.
+    \end{equation}
+    \item \textbf{Condición de transversalidad:} La parte real de los autovalores cruza el eje imaginario con velocidad estrictamente no nula:
+    \begin{equation}
+        \left. \frac{d\alpha}{d\mu} \right|_{\mu = 0} \neq 0.
+    \end{equation}
+\end{enumerate}
+Entonces, al variar $\mu$ a través de $\mu = 0$, el punto fijo $\vec{x}^*(\mu)$ cambia de estabilidad (de foco estable a inestable o viceversa) y \textbf{nace o muere una familia de órbitas periódicas cerradas (ciclos límite)} en una vecindad del equilibrio, con frecuencia angular inicial $\omega_0$ y periodo $T_0 \approx 2\pi/\omega_0$.
+\end{theorem}
+
+Dependiendo del signo de los términos no lineales de orden superior en el punto crítico, la bifurcación de Hopf se clasifica en dos tipos fundamentales: \textbf{supercrítica} y \textbf{subcrítica}.
+
+\subsection{Bifurcación de Hopf supercrítica}
+
+En la bifurcación supercrítica, la transición hacia la oscilación es continua, suave y reversible (\emph{soft onset}).
+
+\paragraph{Forma normal en coordenadas polares.}
+La forma normal canónica en coordenadas polares $(r, \theta)$ se escribe:
+\begin{align}
+    \dot{r} &= \mu r - r^3, \label{eq:hopf_super_r} \\
+    \dot{\theta} &= \omega + b r^2, \label{eq:hopf_super_theta}
+\end{align}
+donde $\mu$ es el parámetro de bifurcación, $\omega > 0$ es la frecuencia básica y $b \in \mathbb{R}$ modula el cambio de frecuencia con la amplitud. Observemos que la ecuación radial $\dot{r} = \mu r - r^3$ tiene formalmente la estructura de una bifurcación pitchfork supercrítica en el radio $r \ge 0$:
+
+\begin{itemize}
+    \item \textbf{Régimen $\mu < 0$:} El único equilibrio radial es $r^* = 0$ (el origen). Dado que $\dot{r} = \mu r - r^3 < 0$ para todo $r > 0$, todas las trayectorias espiralan convergiendo exponencialmente al origen. El origen es un \textbf{foco estable atractor}.
+    
+    \item \textbf{Punto crítico $\mu = 0$:} La ecuación radial se reduce a $\dot{r} = -r^3$. El origen sigue siendo asintóticamente estable, pero la relajación es lenta y algebraica ($r(t) \sim t^{-1/2}$).
+    
+    \item \textbf{Régimen $\mu > 0$:} En el origen, $\left.\frac{d\dot{r}}{dr}\right|_{r=0} = \mu > 0$, por lo que el equilibrio $r^* = 0$ se vuelve un \textbf{foco inestable repulsor}. Simultáneamente, aparece un nuevo equilibrio radial no trivial dado por $\mu r - r^3 = 0 \implies r^*(\mu) = \sqrt{\mu}$.
+\end{itemize}
+
+Como $\dot{\theta} \approx \omega > 0$, la solución en $r = \sqrt{\mu}$ corresponde a una trayectoria periódica circular cerrada de radio constante: un \textbf{ciclo límite estable} (véase la \cref{fig:hopf_supercritica}).
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=Stealth, scale=0.9]
+    % Panel izquierdo: Espacio de fases para mu < 0
+    \begin{scope}[shift={(-4.5, 0)}]
+        \draw[->, thick, black!60] (-2,0) -- (2,0) node[right, font=\tiny] {$x$};
+        \draw[->, thick, black!60] (0,-2) -- (0,2) node[above, font=\tiny] {$y$};
+        \filldraw[black] (0,0) circle (2.2pt);
+        % Espiral hacia adentro
+        \draw[thick, black!85, domain=0:9.42, samples=120, variable=\t]
+            plot ({ 1.6*exp(-0.35*\t)*cos(\t r) }, { 1.6*exp(-0.35*\t)*sin(\t r) });
+        \node[font=\footnotesize, align=center] at (0,-2.4) {\textbf{(a)} $\mu < 0$\\Foco estable};
+    \end{scope}
+
+    % Panel central: Espacio de fases para mu > 0
+    \begin{scope}[shift={(0, 0)}]
+        \draw[->, thick, black!60] (-2,0) -- (2,0) node[right, font=\tiny] {$x$};
+        \draw[->, thick, black!60] (0,-2) -- (0,2) node[above, font=\tiny] {$y$};
+        \draw[black, fill=white, thick] (0,0) circle (2.2pt);
+        % Ciclo límite estable
+        \draw[very thick, black!95] (0,0) circle (1.25cm);
+        % Espiral interna
+        \draw[thick, black!65, domain=0:8.0, samples=100, variable=\t]
+            plot ({ (0.2 + 0.12*\t)*cos(\t r) }, { (0.2 + 0.12*\t)*sin(\t r) });
+        % Espiral externa
+        \draw[thick, black!65, domain=0:6.28, samples=100, variable=\t]
+            plot ({ (1.9 - 0.10*\t)*cos(\t r) }, { (1.9 - 0.10*\t)*sin(\t r) });
+        \node[font=\footnotesize, align=center] at (0,-2.4) {\textbf{(b)} $\mu > 0$\\Ciclo límite ($r=\sqrt{\mu}$)};
+    \end{scope}
+
+    % Panel derecho: Diagrama de bifurcación
+    \begin{scope}[shift={(4.5, 0)}]
+        \draw[->, thick, black!60] (-2,0) -- (2.2,0) node[right, font=\tiny] {$\mu$};
+        \draw[->, thick, black!60] (0,0) -- (0,2.2) node[above, font=\tiny] {$r$};
+        % Origen: estable para mu < 0, inestable para mu > 0
+        \draw[very thick, black!90] (-1.8,0) -- (0,0);
+        \draw[very thick, black!90, dashed] (0,0) -- (1.8,0);
+        % Rama de ciclo límite r = sqrt(mu)
+        \draw[very thick, black!95, domain=0:1.8, samples=60] plot (\x, {1.2*sqrt(\x)});
+        \filldraw[black] (0,0) circle (2.2pt);
+        \node[font=\footnotesize, align=center] at (1.1, 1.7) {Ciclo límite\\$r^* = \sqrt{\mu}$};
+        \node[font=\footnotesize, align=center] at (0,-2.4) {\textbf{(c)} Diagrama de\\bifurcación};
+    \end{scope}
+\end{tikzpicture}
+\caption{Bifurcación de Hopf supercrítica. (a) Para $\mu < 0$, el origen es un foco estable. (b) Para $\mu > 0$, el origen se vuelve inestable y nace un ciclo límite atractor. (c) Diagrama de bifurcación mostrando el crecimiento continuo de la amplitud como $r \sim \sqrt{\mu}$.}
+\label{fig:hopf_supercritica}
+\end{figure}
+
+\subsection{Bifurcación de Hopf subcrítica e histéresis}
+
+En la bifurcación de Hopf subcrítica, el término cúbico no lineal tiene signo opuesto ($+r^3$) y actúa como desestabilizador. Para modelar un sistema físicamente confinado se incluye un término estabilizador de orden superior (quíntico, $-r^5$):
+\begin{align}
+    \dot{r} &= \mu r + r^3 - r^5, \label{eq:hopf_sub_r} \\
+    \dot{\theta} &= \omega + b r^2. \label{eq:hopf_sub_theta}
+\end{align}
+
+\paragraph{Dinámica y catástrofe dinámica (\emph{Hard onset}).}
+El comportamiento cualitativo revela una rica estructura de biestabilidad:
+\begin{itemize}
+    \item Para $\mu < 0$: El origen $r = 0$ es un foco estable, pero está rodeado por un \textbf{ciclo límite inestable} de radio $r_1^* \approx \sqrt{-\mu}$. Este ciclo inestable define la frontera de la cuenca de atracción del origen: si una perturbación saca al sistema fuera de este ciclo, la trayectoria es expulsada hacia un \textbf{ciclo límite estable de gran amplitud} ($r_2^* \approx 1$).
+    \item En $\mu = 0$: El ciclo límite inestable colisiona con el origen y lo destruye.
+    \item Para $\mu > 0$: El origen es inestable y no existen oscilaciones pequeñas; el sistema experimenta un salto brusco e instantáneo (\emph{hard onset}) hacia la oscilación de gran amplitud.
+\end{itemize}
+
+Si una vez encendida la oscilación se reduce nuevamente $\mu$ por debajo de cero ($\mu < 0$), el sistema no se apaga en $\mu = 0$, sino que permanece en la rama de oscilación grande hasta alcanzar el punto de silla-nodo de ciclos límite en $\mu_c < 0$. Este fenómeno es la \textbf{histéresis oscilatoria}.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=Stealth, scale=0.95]
+    \draw[->, thick, black!60] (-2.5,0) -- (2.5,0) node[right, font=\small] {$\mu$};
+    \draw[->, thick, black!60] (0,0) -- (0,2.6) node[above, font=\small] {$r$};
+
+    % Eje r=0: Estable para mu < 0, inestable para mu > 0
+    \draw[very thick, black!90] (-2.2,0) -- (0,0);
+    \draw[very thick, black!90, dashed] (0,0) -- (2.2,0);
+    \filldraw[black] (0,0) circle (2.2pt);
+
+    % Ciclo límite inestable (línea discontinua) que nace subcríticamente hacia la izquierda
+    \draw[thick, black!85, dashed, domain=-1.2:0, samples=60] plot (\x, {1.1*sqrt(-\x)});
+
+    % Ciclo límite estable de gran amplitud (línea sólida superior)
+    \draw[very thick, black!95, domain=-1.2:2.2, samples=80] plot (\x, {1.7 + 0.15*\x});
+
+    % Pliegue en mu_c = -1.2
+    \draw[thick, black!85, dashed] (-1.2, 1.2) -- (-1.2, 1.52);
+
+    % Flechas de salto por histéresis
+    \draw[->, thick, black!80] (0.05, 0.1) -- (0.05, 1.6);
+    \node[right, font=\tiny] at (0.05, 0.85) {Salto brusco (\emph{hard onset})};
+
+    \draw[->, thick, black!80] (-1.25, 1.4) -- (-1.25, 0.1);
+    \node[left, font=\tiny] at (-1.25, 0.75) {Colapso};
+
+    \node[font=\footnotesize, align=center] at (-1.5, 0.8) {Ciclo inestable\\(frontera cuenca)};
+    \node[font=\footnotesize, align=center] at (1.2, 2.1) {Ciclo estable\\de gran amplitud};
+    \node[font=\footnotesize, align=center] at (-1.4, -0.4) {Biestabilidad};
+\end{tikzpicture}
+\caption{Diagrama de bifurcación de Hopf subcrítica. La rama inestable (línea discontinua) retrocede hacia $\mu < 0$ y se pliega conectando con un ciclo límite estable de gran amplitud, generando histéresis y biestabilidad entre el reposo y la oscilación.}
+\label{fig:hopf_subcritica}
+\end{figure}
+
+\subsection{Aplicaciones biológicas: excitabilidad neuronal y relojes bioquímicos}
+
+\paragraph{Excitabilidad neuronal Tipo II (Hodgkin--Huxley).}
+En el célebre modelo electrofisiológico del axón gigante de calamar formulado por Alan Hodgkin y Andrew Huxley (1952), el potencial de membrana $V(t)$ y las variables de compuerta iónica de sodio y potasio $(m, n, h)$ responden a una corriente externa inyectada $I_{\text{ext}}$.
+
+Para corrientes bajas ($I_{\text{ext}} < I_c$), la neurona permanece en un estado de reposo hiperpolarizado estable. Al superar la corriente crítica ($I_{\text{ext}} > I_c$), el equilibrio de reposo pierde estabilidad a través de una \textbf{bifurcación de Hopf subcrítica}. El potencial salta bruscamente a un tren de potenciales de acción periódicos (\emph{spiking}) con una frecuencia de disparo no nula y finita desde el encendido. Esta respuesta se conoce en neurociencia como \textbf{excitabilidad neuronal de Tipo II}~\cite{edelstein2007}.
+
+\paragraph{Oscilaciones glicolíticas y relojes genéticos.}
+En la bioquímica celular, las oscilaciones periódicas en la concentración de intermediarios metabólicos como el NADH en levaduras y las oscilaciones sintéticas en circuitos genéticos (como el \emph{Repressilator}) emergen cuando la tasa de sustrato o la inhibición por retroalimentación negativa supera el umbral crítico establecido por el teorema de Hopf\aside{Para detectar numéricamente bifurcaciones de Hopf en sistemas no lineales de alta dimensión, se emplean algoritmos de continuación numérica como AUTO o XPPAUT, que rastrean los ceros de $\operatorname{Re}(\lambda)$ a lo largo de ramas de equilibrios.}.
+
+\subsection{Ejercicios}
+
+\paragraph{Ejercicio 1 (mecánico; ciclo límite de la forma normal).} Para la forma normal supercrítica \eqref{eq:hopf_super_r}--\eqref{eq:hopf_super_theta} con $\mu=0.25$, $\omega=2$, $b=1$, halla el radio del ciclo límite $r^*$, la velocidad angular $\dot\theta$ sobre él y el periodo $T=2\pi/\dot\theta$.
+\aside{Pista: $r^*=\sqrt\mu$; sustituye en $\dot\theta=\omega+b r^2$.}
+% SOL: r*=0.5; thetadot=2+1*0.25=2.25; T=2pi/2.25≈2.79.
+
+\paragraph{Ejercicio 2 (análisis; localizar el Hopf).} Un sistema tiene, en su equilibrio, la jacobiana $J(\mu)=\begin{pmatrix}\mu & -1\\ 1 & \mu\end{pmatrix}$. Calcula $\tau$ y $\Delta$, halla el valor crítico $\mu_c$ donde ocurre la bifurcación de Hopf, la frecuencia $\omega_0$ y verifica la condición de transversalidad del \cref{thm:hopf_teorema}.
+\aside{Pista: los autovalores son $\mu\pm i$; $\alpha(\mu)=\mu$, $\omega(\mu)=1$.}
+% SOL: tau=2mu, Delta=mu^2+1>0. Autovalores mu±i. Hopf en mu_c=0 (alpha=0), omega0=1. dalpha/dmu=1≠0 -> transversalidad OK. mu<0 foco estable, mu>0 inestable.
+
+\paragraph{Ejercicio 3 (interpretación; soft vs hard onset).} Contrasta el encendido \emph{suave} (supercrítica) con el \emph{brusco} con histéresis (subcrítica) en términos de lo que un experimentalista observaría al aumentar y luego disminuir el parámetro $\mu$. Da un ejemplo biológico de cada uno y comenta por qué el retardo puede inducir un Hopf en sistemas de retroalimentación (cf. eritropoyesis, \cref{sec:eritro_2d}).
+\aside{Pista: supercrítica, amplitud $\sim\sqrt{\mu}$ desde cero; subcrítica, salto y ciclo de histéresis. Un retardo introduce fase que puede volver inestable la traza efectiva.}
+% SOL: Supercritica: la oscilacion crece continuamente desde amplitud 0 al cruzar mu_c, reversible (p.ej. reloj glicolitico). Subcritica: salto abrupto a gran amplitud y bucle de histeresis al bajar mu (p.ej. spiking Tipo II Hodgkin-Huxley). El retardo anade desfase que puede llevar Re(lambda) a cruzar 0 (Hopf con retardo), como en oscilaciones hematopoyeticas.

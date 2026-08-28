@@ -3,6 +3,7 @@
 % restricción a sistemas autónomos f(x,t)->f(x)).
 % ============================================================
 \section{Flujos en una dimensión}
+\label{sec:flujos1d}
 
 En esta sección exploramos la clase más sencilla de sistemas dinámicos continuos: los flujos en una línea (espacio de fases unidimensional, $n=1$). Veremos cómo la representación geométrica supera las limitaciones del cálculo analítico tradicional.
 
@@ -163,4 +164,18 @@ Formalicemos el marco teórico de los flujos unidimensionales:
     \item \textbf{El significado de ``sistema'':} Empleamos el término en el sentido moderno de la teoría de sistemas dinámicos (un estado determinista que evoluciona bajo una regla de velocidad en su espacio de estados), no en el sentido escolar de un conjunto acoplado de múltiples ecuaciones simultáneas. Una única ecuación diferencial $\dot{x} = f(x)$ es un sistema dinámico unidimensional.
     \item \textbf{Restricción a ecuaciones autónomas:} A lo largo de esta parte del curso asumiremos siempre que $f$ no depende explícitamente del tiempo ($f(x)$, no $f(x, t)$). Una ecuación no autónoma $\dot{x} = f(x, t)$ requiere especificar dos cantidades $(x, t)$ para determinar la velocidad instantánea, por lo que matemáticamente equivale a un sistema bidimensional en el espacio aumentado $(x, t)$.
 \end{enumerate}
+
+\subsection{Ejercicios}
+
+\paragraph{Ejercicio 1 (mecánico; línea de fase).} Para $\dot{x} = x^2 - 1$, halla los puntos fijos, determina el signo de $f(x)$ en cada intervalo que definen y dibuja la línea de fase con sus flechas. Clasifica cada equilibrio como estable o inestable a partir únicamente de la dirección del flujo.
+\aside{Pista: $f(x)=(x-1)(x+1)$; estudia el signo en $(-\infty,-1)$, $(-1,1)$, $(1,\infty)$.}
+% SOL: FP x=-1 (estable, f pasa de + a -) y x=1 (inestable, f pasa de - a +).
+
+\paragraph{Ejercicio 2 (análisis; destino sin integrar).} Sea $\dot{x} = \sin x$ con $x(0) = \pi/4$. Sin usar la solución implícita \eqref{eq:sol_implicita_sinx}, determina $\lim_{t\to\infty} x(t)$ y el valor de $x$ (dentro de la trayectoria) donde la velocidad $|\dot x|$ alcanza su máximo. Justifícalo con el signo de $\sin x$ y con la condición de inflexión $\ddot x=0$.
+\aside{Pista: en $(0,\pi)$, $\sin x>0$; el flujo sube hacia el atractor $\pi$. La velocidad es máxima donde $\ddot x=\cos x\,\dot x=0$, es decir en $x=\pi/2$.}
+% SOL: lim = pi (atractor estable). La trayectoria parte de pi/4, cruza x=pi/2 (velocidad maxima, sin=1) y se nivela en pi. Coincide con la Fig. de la trayectoria sigmoide.
+
+\paragraph{Ejercicio 3 (interpretación; autonomía).} Explica por qué $\dot{x} = x + \sin t$ \emph{no} es un flujo unidimensional genuino en el sentido de la \cref{eq:flujo_1d_def}, y describe el espacio de fases mínimo en el que sí puede representarse como sistema autónomo.
+\aside{Pista: la velocidad depende de $t$; añade la ecuación trivial $\dot\tau=1$ para absorber el tiempo como variable de estado.}
+% SOL: depende de t explicitamente -> no autonomo. Se autonomiza en el plano (x,tau) con xdot=x+sin(tau), taudot=1: es un sistema 2D.
 

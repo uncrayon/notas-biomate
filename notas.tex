@@ -14,15 +14,16 @@
 \usepackage{graphicx}
 \graphicspath{{figures/}}
 \usepackage{tikz}
-\usetikzlibrary{arrows.meta,decorations.markings,calc,shapes}
+\usetikzlibrary{arrows.meta,decorations.markings,calc,shapes,positioning}
 \usepackage{pgfplots}
 \pgfplotsset{compat=newest}
 
 \usepackage{minted}
-\usemintedstyle{grayscale}
+\usemintedstyle{friendly_grayscale}
 \usepackage[backend=biber, style=numeric, sorting=none]{biblatex}
 \addbibresource{refs.bib}
 \usepackage[hidelinks]{hyperref}
+\usepackage[hang,flushmargin]{footmisc}
 \usepackage{cleveref}
 
 \newtheorem{theorem}{Teorema}[section]
@@ -58,6 +59,18 @@
 \input{chapters/12-bifurcacion-pitchfork}
 \input{chapters/13-aplicacion-redes-neuronales}
 \input{chapters/14-parentesis-newton-raphson}
+
+% ---- Parte IV — Sistemas en dos dimensiones ----
+\part{Sistemas en dos dimensiones}
+\input{chapters/15-sistemas-lineales-2d}
+\input{chapters/16-planos-de-fases-y-nullclines}
+\input{chapters/17-sistemas-conservativos-y-hamiltonianos}
+\input{chapters/18-lotka-volterra-y-ciclos-limites}
+\input{chapters/19-bifurcacion-de-hopf}
+
+% ---- Parte V — Estudio de caso (cierre del curso) ----
+\part{Estudio de caso: del modelo completo a la reducción}
+\input{chapters/20-estudio-de-caso-eritropoyesis}
 
 % ---- Demostración de estilo (mantiene el contenido existente) ----
 % \input{body/body}   % Lotka--Volterra: mover a Parte IV (sistemas 2D) cuando redacte esa parte

@@ -134,3 +134,17 @@ Haciendo el cambio de parámetro $r = \beta - 1$, recuperamos de forma exacta la
 \end{figure}
 
 Esta bifurcación es el mecanismo fundamental mediante el cual las redes recurrentes implementan \textbf{memoria asociativa y toma de decisiones biestable}: para $\beta > 1$, el sistema puede conmutar entre los atractores $+x^*$ (estado binario $1$) y $-x^*$ (estado binario $0$).
+
+\subsection{Ejercicios}
+
+\paragraph{Ejercicio 1 (mecánico; estados de memoria).} Para $\dot{x}=-x+\beta\tanh x$ con $\beta=1.5$: (i) calcula $f'(0)$ y clasifica el origen; (ii) estima los equilibrios no nulos con la fórmula local \eqref{eq:ramas_analiticas_neurona} y di su estabilidad.
+\aside{Pista: $f'(0)=\beta-1$; $x_\pm^*\approx\pm\sqrt{3(\beta-1)}$.}
+% SOL: f'(0)=0.5>0 -> origen inestable. x*≈±sqrt(1.5)≈±1.22, estables (atractores de memoria).
+
+\paragraph{Ejercicio 2 (análisis; régimen sin memoria).} Para $\beta=0.6$, argumenta con la concavidad de $\tanh$ por qué $x^*=0$ es el único equilibrio y es globalmente estable, y calcula su tiempo de relajación $\tau=1/|f'(0)|$.
+\aside{Pista: si $\beta<1$, $\beta\tanh x<x$ para todo $x>0$; $f'(0)=\beta-1=-0.4$.}
+% SOL: beta<1 -> beta tanh x nunca cruza y=x salvo en 0 (unica interseccion). f'(0)=-0.4<0 estable global. tau=1/0.4=2.5.
+
+\paragraph{Ejercicio 3 (interpretación; conmutar un bit).} Con $\beta>1$ la red almacena un bit en $\pm x^*$. Explica cómo un estímulo externo suficientemente fuerte puede voltear el bit almacenado, en términos de la frontera de cuenca en $x=0$, y relaciona el cuadro con el potencial de doble pozo del capítulo de potenciales y la analogía mecánica.
+\aside{Pista: el origen inestable separa las dos cuencas; para conmutar hay que empujar el estado al otro lado de $x=0$.}
+% SOL: Para pasar de +x* a -x* hay que cruzar la barrera inestable x=0; un input que lleve x por debajo de 0 hace que el flujo caiga al pozo -x*. Es la conmutacion en un doble pozo (ruptura de simetria).

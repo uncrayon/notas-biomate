@@ -14,9 +14,7 @@ Bienvenidos al curso de Matemáticas Biológicas. Antes de adentrarnos formalmen
 \end{itemize}
 
 \paragraph{Política sobre citas, copiado y plagio.}
-Sé bien cómo funcionan estas dinámicas y sé que van a consultar y discutir material entre ustedes. Los problemas del curso han sido diseñados específicamente para estas notas, por lo que la gran mayoría no tiene soluciones directas flotando en internet. Si colaboran o toman una idea de un compañero o de un libro, no me molesta en absoluto, \emph{siempre y cuando incluyan la referencia explícita y den el crédito correspondiente}. Lo que no tolero es el plagio deshonesto (presentar ideas ajenas como propias sin citar).
-
-\aside{Una advertencia fundamental: lo que bajo ninguna circunstancia se aceptará es que entreguen fotos o capturas de pantalla del trabajo de otra persona. Al menos, usar las propias manos para transcribir, escribir en \LaTeX{} o teclear el código garantiza que procesen e incorporen los conceptos.}
+Sé bien cómo funcionan estas dinámicas y sé que van a consultar y discutir material entre ustedes. Los problemas del curso han sido diseñados específicamente para estas notas, por lo que la gran mayoría no tiene soluciones directas flotando en internet. Si colaboran o toman una idea de un compañero o de un libro, no me molesta en absoluto, \emph{siempre y cuando incluyan la referencia explícita y den el crédito correspondiente}. Lo que no tolero es el plagio deshonesto (presentar ideas ajenas como propias sin citar)\aside{Una advertencia fundamental: lo que bajo ninguna circunstancia se aceptará es que entreguen fotos o capturas de pantalla del trabajo de otra persona. Al menos, usar las propias manos para transcribir, escribir en \LaTeX{} o teclear el código garantiza que procesen e incorporen los conceptos.}.
 
 \subsection{Filosofía del curso y precedentes necesarios}
 
@@ -32,9 +30,23 @@ Los cursos de modelación biológica y sistemas dinámicos son demandantes porqu
 Si han cursado materias de otras disciplinas o tienen interés en la transdisciplina, este marco les resultará natural y divertido. La modelación matemática consiste en aprender a jugar con las herramientas analíticas para develar la estructura oculta de los fenómenos naturales.
 
 \paragraph{Un enfoque geométrico, no axiomático-formalista.}
-Este curso no seguirá la estructura clásica de \emph{Definición $\to$ Teorema $\to$ Demostración $\to$ Corolario}. En lugar de perdernos en tecnicismos analíticos que a menudo ocultan la física del problema, nos apoyaremos en intuición cualitativa, argumentos geométricos, retratos de fase y muchos diagramas.
-
-\aside{No se dejen engañar por la aparente sencillez visual de los primeros temas: si descuidan los detalles y las sutilezas geométricas, el curso puede deparar sorpresas mayúsculas al avanzar hacia bifurcaciones y caos.}
+Este curso no seguirá la estructura clásica de \emph{Definición $\to$ Teorema $\to$ Demostración $\to$ Corolario}. En lugar de perdernos en tecnicismos analíticos que a menudo ocultan la física del problema, nos apoyaremos en intuición cualitativa, argumentos geométricos, retratos de fase y muchos diagramas\aside{No se dejen engañar por la aparente sencillez visual de los primeros temas: si descuidan los detalles y las sutilezas geométricas, el curso puede deparar sorpresas mayúsculas al avanzar hacia bifurcaciones y caos.}.
 
 Para construir estos cimientos, comenzaremos repasando la evolución histórica que llevó a la creación de la dinámica no lineal moderna.
+
+\subsection{Ejercicios}
+
+Estos ejercicios diagnostican los cinco precedentes enumerados arriba y no requieren nada del curso todavía; sirven para calibrar el punto de partida.
+
+\paragraph{Ejercicio 1 (mecánico; cálculo gráfico).} Halla las tres raíces reales de $f(x) = x^3 - x$ y esboza su gráfica, indicando explícitamente los intervalos donde $f(x)>0$ y donde $f(x)<0$. Esta destreza --- leer signos de una función a partir de sus raíces --- es la que sostendrá todo el análisis de líneas de fase.
+\aside{Pista: factoriza $f(x)=x(x-1)(x+1)$; el signo alterna en cada raíz.}
+% SOL: raices x=-1,0,1. f>0 en (-1,0) y (1,inf); f<0 en (-inf,-1) y (0,1).
+
+\paragraph{Ejercicio 2 (análisis; álgebra lineal).} Calcula los valores propios de la matriz $A=\begin{pmatrix} 0 & 1 \\ -1 & 0\end{pmatrix}$. A partir del signo de su parte real y de que sean o no imaginarios puros, conjetura si el origen del sistema $\dot{\mathbf{x}}=A\mathbf{x}$ atrae, repele o hace orbitar a las trayectorias.
+\aside{Pista: resuelve $\det(A-\lambda I)=\lambda^2+1=0$. Parte real nula $\Rightarrow$ ni atrae ni repele.}
+% SOL: lambda = +-i (imaginarios puros). Re=0 -> las trayectorias orbitan (centro): ni atractor ni repulsor.
+
+\paragraph{Ejercicio 3 (interpretación / modelado).} En la ecuación de crecimiento $\dot{N} = rN$, con $N$ el tamaño de una población: identifica cuál es la variable de estado y cuál el parámetro, deduce las unidades de $r$ si $N$ se mide en individuos y $t$ en días, y explica qué significa biológicamente que $r>0$, $r=0$ o $r<0$.
+\aside{Pista: $r$ debe tener unidades que hagan homogénea la ecuación $[\dot N]=[r][N]$.}
+% SOL: variable N, parametro r; [r]=dia^{-1} (tasa per capita). r>0 crece, r=0 estacionaria, r<0 se extingue.
 

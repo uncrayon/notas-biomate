@@ -2,6 +2,7 @@
 % FUENTES: draft p.17--20.
 % ============================================================
 \section{Análisis de estabilidad lineal}
+\label{sec:estabilidad_lineal}
 
 Aunque el trazado gráfico del campo vectorial permite clasificar cualitativamente los puntos fijos, en muchas situaciones (especialmente en dimensiones superiores o con parámetros libres) se requiere un método algebraico cuantitativo. Este método es el \textbf{análisis de estabilidad lineal}.
 
@@ -197,7 +198,19 @@ Un resultado cualitativo de primer orden es el siguiente:
 \label{fig:imposibilidad_oscilaciones}
 \end{figure}
 
-La razón es geométrica: estamos confinados a una línea recta. Para que $x(t)$ oscile, la velocidad $\dot{x}$ tendría que cambiar de signo, pasando forzosamente por un punto donde $\dot{x} = 0$ (un punto fijo). Pero por el teorema de unicidad de Picard--Lindelöf, una trayectoria que llega a un punto fijo requiere tiempo infinito para alcanzarlo o queda atrapada en él; jamás puede cruzarlo ni invertir su sentido.
+La razón es geométrica: estamos confinados a una línea recta. Para que $x(t)$ oscile, la velocidad $\dot{x}$ tendría que cambiar de signo, pasando forzosamente por un punto donde $\dot{x} = 0$ (un punto fijo). Pero por el teorema de unicidad de Picard--Lindelöf, una trayectoria que llega a un punto fijo requiere tiempo infinito para alcanzarlo o queda atrapada en él; jamás puede cruzarlo ni invertir su sentido\aside{¿Podría haber oscilaciones periódicas si el espacio de fases fuera una circunferencia $S^1$ en vez de la recta $\mathbb{R}$? ¡Sí! En el círculo, una partícula puede moverse monótonamente en una sola dirección ($\dot{\theta} = \omega > 0$) y completar ciclos indefinidamente sin retroceder jamás. Pero en la recta $\mathbb{R}$, las soluciones solo pueden converger monótonamente hacia un atractor o escapar hacia $\pm\infty$.}.
 
-\aside{¿Podría haber oscilaciones periódicas si el espacio de fases fuera una circunferencia $S^1$ en vez de la recta $\mathbb{R}$? ¡Sí! En el círculo, una partícula puede moverse monótonamente en una sola dirección ($\dot{\theta} = \omega > 0$) y completar ciclos indefinidamente sin retroceder jamás. Pero en la recta $\mathbb{R}$, las soluciones solo pueden converger monótonamente hacia un atractor o escapar hacia $\pm\infty$.}
+\subsection{Ejercicios}
+
+\paragraph{Ejercicio 1 (mecánico; linealización).} Para $\dot{x} = x - x^3$, halla los tres puntos fijos, evalúa $f'(x^*)$ en cada uno, clasifícalos por el criterio del signo y reporta el tiempo característico $\tau=1/|f'(x^*)|$ de los hiperbólicos.
+\aside{Pista: $f'(x)=1-3x^2$; evalúa en $0$ y $\pm 1$.}
+% SOL: FP 0,+1,-1. f'(0)=1>0 inestable, tau=1. f'(±1)=-2<0 estables, tau=1/2.
+
+\paragraph{Ejercicio 2 (análisis; caso no hiperbólico).} Para $\dot{x} = x^2(1-x)$, muestra que en $x^*=0$ la linealización es inconclusa ($f'(0)=0$) y determina la estabilidad por el signo de $f$ a ambos lados. Clasifica también $x^*=1$ con el criterio lineal y da su $\tau$.
+\aside{Pista: cerca de $0$, $f(x)\approx x^2\ge 0$ a ambos lados: nodo semi-estable. En $x=1$, $f'(x)=2x-3x^2$.}
+% SOL: x=0: f'(0)=0, f>=0 a ambos lados -> semi-estable (atrae por izq, repele por der). x=1: f'(1)=2-3=-1<0 estable, tau=1.
+
+\paragraph{Ejercicio 3 (interpretación; ritmos imposibles en 1D).} Un estudiante propone modelar la concentración de una hormona con oscilación circadiana mediante una única ecuación autónoma $\dot{x}=f(x)$ sobre $\mathbb{R}$. Explica por qué esto es imposible y enuncia dos modificaciones estructurales mínimas que sí permitirían un ritmo periódico.
+\aside{Pista: recuerda el teorema de no oscilación en $\mathbb{R}$. Opciones: cambiar el espacio de fases a $S^1$, o añadir una segunda variable de estado.}
+% SOL: Un flujo autonomo en R es monotono -> no puede oscilar. Soluciones: (i) fase en S^1 con thetadot=omega; (ii) pasar a un sistema 2D (p.ej. anadir una variable lenta acoplada).
 
