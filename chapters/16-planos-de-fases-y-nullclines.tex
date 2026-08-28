@@ -1,0 +1,222 @@
+% ============================================================
+% FUENTES: Notas Biomate 1; raw_plain_nonlinear_dynamics.txt.
+% Strogatz (2015), caps. 5 y 6; Edelstein-Keshet (2007).
+% ============================================================
+\section{Planos de fases y nullclines}
+
+En el capítulo anterior establecimos las herramientas algebraicas para caracterizar el comportamiento local de un sistema en la vecindad inmediata de sus puntos de equilibrio mediante la linealización jacobiana. Sin embargo, para comprender la dinámica global de un sistema bidimensional ---cómo se conectan las cuencas de atracción, hacia dónde escapan las trayectorias y cómo se organizan los flujos a gran escala--- necesitamos métodos geométricos no lineales.
+
+El método más potente y visual para desentrañar la geometría global del espacio de estados en dos dimensiones es el análisis mediante \textbf{isoclinas nulas} o \textbf{nullclines}~\cite{strogatz2015,edelstein2007}.
+
+\subsection{El método de las isoclinas nulas (\emph{Nullclines})}
+
+Consideremos un sistema bidimensional autónomo acoplado:
+\begin{equation}
+\begin{aligned}
+    \dot{x} &= f(x, y), \\
+    \dot{y} &= g(x, y).
+\end{aligned}
+\label{eq:sistema_2d_general_nullclines}
+\end{equation}
+En cada punto $(x,y)$ del plano, el campo vectorial $\vec{v}(x,y) = (\dot{x}, \dot{y})^\top$ define una dirección y una velocidad instantánea. Las trayectorias del sistema son tangentes en todo instante a este campo.
+
+\begin{definition}[Isoclinas nulas o Nullclines]
+Las \textbf{nullclines} son las curvas geométricas en el plano de fases a lo largo de las cuales una de las componentes del campo vectorial se anula:
+\begin{itemize}
+    \item \textbf{$x$-nullcline:} Es el conjunto de puntos donde $\dot{x} = f(x,y) = 0$. Sobre esta curva, la velocidad horizontal es nula; por ende, el flujo del sistema es \textbf{estrictamente vertical} ($\uparrow$ o $\downarrow$).
+    \item \textbf{$y$-nullcline:} Es el conjunto de puntos donde $\dot{y} = g(x,y) = 0$. Sobre esta curva, la velocidad vertical es nula; por ende, el flujo del sistema es \textbf{estrictamente horizontal} ($\rightarrow$ o $\leftarrow$).
+\end{itemize}
+\end{definition}
+
+Las nullclines ofrecen dos ventajas fundamentales para el análisis cualitativo:
+\begin{enumerate}
+    \item \textbf{Localización inmediata de equilibrios:} Un punto fijo $(x^*, y^*)$ satisface simultáneamente $\dot{x} = 0$ y $\dot{y} = 0$. Por consiguiente, los puntos fijos del sistema son precisamente las \textbf{intersecciones} entre las $x$-nullclines y las $y$-nullclines.
+    \item \textbf{Partición del plano en regiones de signo constante:} Las nullclines dividen el plano de fases en sectores disjuntos donde los signos de $f(x,y)$ y $g(x,y)$ permanecen invariantes. En cada sector, el campo vectorial apunta consistentemente hacia uno de los cuatro cuadrantes direccionales:
+    \begin{align*}
+        (+,+) &\implies \text{noreste } (\nearrow), &
+        (-,+) &\implies \text{noroeste } (\nwarrow), \\
+        (-,-) &\implies \text{suroeste } (\swarrow), &
+        (+,-) &\implies \text{sureste } (\searrow).
+    \end{align*}
+\end{enumerate}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=Stealth, scale=0.9]
+    % Ejes coordenados
+    \draw[->, thick, black!60] (-4,0) -- (4,0) node[right, font=\small] {$x$};
+    \draw[->, thick, black!60] (0,-3.2) -- (0,3.2) node[above, font=\small] {$y$};
+
+    % x-nullcline (línea discontinua)
+    \draw[very thick, black!85, dashed, domain=-3.5:3.5, samples=60] 
+        plot (\x, {0.2*\x*\x - 1.2}) node[right, font=\footnotesize] {$f(x,y)=0$ ($x$-nullcline)};
+    
+    % y-nullcline (línea punteada)
+    \draw[very thick, black!85, dotted, domain=-3.5:3.5, samples=60] 
+        plot (\x, {-0.3*\x + 0.8}) node[above right, font=\footnotesize] {$g(x,y)=0$ ($y$-nullcline)};
+
+    % Puntos fijos de intersección
+    \filldraw[black] (2.5, 0.05) circle (2.5pt) node[below right=2pt, font=\footnotesize] {$(x_1^*, y_1^*)$};
+    \filldraw[black] (-3.8, 1.94) circle (2.5pt) node[above left=2pt, font=\footnotesize] {$(x_2^*, y_2^*)$};
+
+    % Vectores sobre x-nullcline (flujo puramente vertical)
+    \draw[->, very thick, black!80] (1.0, -1.0) -- (1.0, -0.4);
+    \draw[->, very thick, black!80] (3.2, 0.85) -- (3.2, 0.25);
+    \node[font=\tiny, black!70, right] at (1.0, -0.7) {$\dot{x}=0$ (flujo vertical)};
+
+    % Vectores sobre y-nullcline (flujo puramente horizontal)
+    \draw[->, very thick, black!80] (-1.5, 1.25) -- (-0.9, 1.25);
+    \draw[->, very thick, black!80] (1.0, 0.5) -- (1.6, 0.5);
+    \node[font=\tiny, black!70, above] at (-1.2, 1.35) {$\dot{y}=0$ (flujo horizontal)};
+
+    % Flechas direccionales en regiones
+    \node[font=\large] at (0, -2.0) {$\nearrow$};
+    \node[font=\large] at (0, 1.8) {$\nwarrow$};
+    \node[font=\large] at (3.0, -1.5) {$\searrow$};
+    \node[font=\large] at (-2.5, 0) {$\nearrow$};
+\end{tikzpicture}
+\caption{Esquema conceptual del método de las nullclines. Las curvas $f(x,y)=0$ (línea discontinua) y $g(x,y)=0$ (línea punteada) dividen el plano en regiones de flujo homogéneo; sus intersecciones corresponden a los equilibrios del sistema.}
+\label{fig:esquema_nullclines}
+\end{figure}
+
+\subsection{El péndulo no lineal: análisis global en el plano de fases}
+
+Retomemos el problema fundamental del péndulo simple sin amortiguamiento presentado en el capítulo 3. La ecuación diferencial de segundo orden que gobierna la dinámica del ángulo $\theta(t)$ respecto a la vertical es:
+\begin{equation}
+    \ddot{\theta} + \omega_0^2 \sin\theta = 0
+    \label{eq:pendulo_segundo_orden}
+\end{equation}
+donde $\omega_0 = \sqrt{g/L}$ es la frecuencia natural de oscilación para pequeñas amplitudes.
+
+Definiendo la velocidad angular $v \equiv \dot{\theta}$, convertimos la ecuación de segundo orden en un sistema de dos ecuaciones diferenciales de primer orden en el plano de fases $(\theta, v)$:
+\begin{equation}
+\begin{aligned}
+    \dot{\theta} &= v, \\
+    \dot{v} &= -\omega_0^2 \sin\theta.
+\end{aligned}
+\label{eq:sistema_pendulo_plano}
+\end{equation}
+
+\paragraph{Nullclines del péndulo.}
+Las isoclinas nulas son inmediatamente identificables:
+\begin{itemize}
+    \item \textbf{$\theta$-nullcline ($\dot{\theta} = 0$):} Ocurre cuando $v = 0$ (el eje horizontal $\theta$). Sobre este eje, las trayectorias cruzan en dirección puramente vertical: hacia abajo si $\sin\theta > 0$ y hacia arriba si $\sin\theta < 0$.
+    \item \textbf{$v$-nullcline ($\dot{v} = 0$):} Ocurre cuando $\sin\theta = 0$, lo que implica $\theta = k\pi$ para todo $k \in \mathbb{Z}$ (una familia infinita de rectas verticales equidistantes). Sobre estas rectas, el flujo es puramente horizontal: hacia la derecha si $v > 0$ y hacia la izquierda si $v < 0$.
+\end{itemize}
+
+\paragraph{Puntos fijos y linealización local.}
+Los equilibrios resultan de la intersección entre $v=0$ y $\sin\theta=0$:
+\begin{equation}
+    (\theta^*, v^*) = (k\pi, 0), \quad k \in \mathbb{Z}.
+\end{equation}
+La matriz jacobiana del sistema evaluada en un punto general $(\theta, v)$ es:
+\begin{equation}
+    J(\theta, v) = \begin{pmatrix}
+        \dfrac{\partial \dot{\theta}}{\partial \theta} & \dfrac{\partial \dot{\theta}}{\partial v} \\[6pt]
+        \dfrac{\partial \dot{v}}{\partial \theta} & \dfrac{\partial \dot{v}}{\partial v}
+    \end{pmatrix} = \begin{pmatrix} 0 & 1 \\ -\omega_0^2 \cos\theta & 0 \end{pmatrix}.
+\end{equation}
+Distingamos las dos clases de equilibrios:
+\begin{enumerate}
+    \item \textbf{Equilibrio inferior colgado ($\theta^* = 2k\pi$, $v^* = 0$):}
+    Aquí $\cos(2k\pi) = +1$, de modo que
+    \begin{equation}
+        J(2k\pi, 0) = \begin{pmatrix} 0 & 1 \\ -\omega_0^2 & 0 \end{pmatrix}, \quad \tau = 0, \quad \Delta = \omega_0^2 > 0.
+    \end{equation}
+    Los autovalores son puramente imaginarios: $\lambda_{1,2} = \pm i\omega_0$. La linealización predice un \textbf{centro}, correspondiente a pequeñas oscilaciones armónicas elípticas de periodo $T_0 = 2\pi/\omega_0$.
+    
+    \item \textbf{Equilibrio superior invertido ($\theta^* = (2k+1)\pi$, $v^* = 0$):}
+    Aquí $\cos((2k+1)\pi) = -1$, de modo que
+    \begin{equation}
+        J((2k+1)\pi, 0) = \begin{pmatrix} 0 & 1 \\ \omega_0^2 & 0 \end{pmatrix}, \quad \tau = 0, \quad \Delta = -\omega_0^2 < 0.
+    \end{equation}
+    Los autovalores son reales y opuestos: $\lambda_{1,2} = \pm \omega_0$. El equilibrio es una \textbf{silla (\emph{saddle point}) inestable}. Las direcciones propias asociadas a $\lambda = \pm \omega_0$ corresponden a los vectores $\vec{v}_{\pm} = (1, \pm\omega_0)^\top$.
+\end{enumerate}
+
+\subsection{Libraciones, rotaciones y la separatrix}
+
+Multiplicando la ecuación $\ddot{\theta} + \omega_0^2 \sin\theta = 0$ por $\dot{\theta}$ e integrando respecto al tiempo, obtenemos la ley de conservación de la energía mecánica total:
+\begin{equation}
+    \frac{d}{dt}\left[ \frac{1}{2}v^2 - \omega_0^2 \cos\theta \right] = v \dot{v} + \omega_0^2 \sin\theta \, v = v(-\omega_0^2 \sin\theta) + \omega_0^2 \sin\theta \, v = 0.
+\end{equation}
+Por tanto, la energía adimensionalizada por unidad de masa $E$ es una constante del movimiento:
+\begin{equation}
+    E(\theta, v) = \frac{1}{2}v^2 - \omega_0^2 \cos\theta = \text{constante}.
+    \label{eq:energia_pendulo}
+\end{equation}
+Las curvas de nivel $E(\theta, v) = \text{const}$ en el plano $(\theta, v)$ corresponden a las trayectorias exactas del sistema. El valor de la energía clasifica globalmente los movimientos posibles:
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=Stealth, scale=1.0]
+    \begin{axis}[
+        xmin=-4.2, xmax=4.2, ymin=-3.2, ymax=3.2,
+        axis lines=middle,
+        xlabel={$\theta$ (ángulo)}, ylabel={$v$ (velocidad angular)},
+        xlabel style={at={(ticklabel* cs:1)},anchor=west},
+        ylabel style={at={(ticklabel* cs:1)},anchor=south},
+        xtick={-3.1416, 0, 3.1416},
+        xticklabels={$-\pi$, $0$, $\pi$},
+        ytick={-2, 0, 2},
+        yticklabels={$-2\omega_0$, $0$, $2\omega_0$},
+        width=0.88\linewidth, height=6.5cm,
+        grid=both, grid style={gray!20}
+    ]
+        % Libraciones (órbitas cerradas para E < omega0^2)
+        \addplot[thick, black!85, domain=-1.04:1.04, samples=80] {sqrt(2*(cos(deg(x)) - 0.5))};
+        \addplot[thick, black!85, domain=-1.04:1.04, samples=80] {-sqrt(2*(cos(deg(x)) - 0.5))};
+
+        \addplot[thick, black!85, domain=-2.09:2.09, samples=100] {sqrt(2*(cos(deg(x)) + 0.5))};
+        \addplot[thick, black!85, domain=-2.09:2.09, samples=100] {-sqrt(2*(cos(deg(x)) + 0.5))};
+
+        % Separatriz (E = omega0^2 => v = \pm 2 cos(theta/2))
+        \addplot[very thick, black!95, domain=-3.1415:3.1415, samples=120] {2*cos(deg(x/2))};
+        \addplot[very thick, black!95, domain=-3.1415:3.1415, samples=120] {-2*cos(deg(x/2))};
+
+        % Rotaciones superiores (E = 2.0 omega0^2 => v = + \sqrt{2*(cos(theta) + 2)})
+        \addplot[thick, black!65, domain=-4.2:4.2, samples=120] {sqrt(2*(cos(deg(x)) + 2.0))};
+        \addplot[thick, black!65, domain=-4.2:4.2, samples=120] {sqrt(2*(cos(deg(x)) + 3.2))};
+
+        % Rotaciones inferiores (v < 0)
+        \addplot[thick, black!65, domain=-4.2:4.2, samples=120] {-sqrt(2*(cos(deg(x)) + 2.0))};
+        \addplot[thick, black!65, domain=-4.2:4.2, samples=120] {-sqrt(2*(cos(deg(x)) + 3.2))};
+
+        % Flechas de dirección sobre la separatriz
+        \draw[->, very thick] (axis cs:0, 2) -- (axis cs:0.3, 2);
+        \draw[->, very thick] (axis cs:0, -2) -- (axis cs:-0.3, -2);
+        \draw[->, thick] (axis cs:0, 1.22) -- (axis cs:0.3, 1.22);
+        \draw[->, thick] (axis cs:0, -1.22) -- (axis cs:-0.3, -1.22);
+        \draw[->, thick] (axis cs:0, 2.45) -- (axis cs:0.4, 2.45);
+        \draw[->, thick] (axis cs:0, -2.45) -- (axis cs:-0.4, -2.45);
+
+        % Puntos fijos
+        \filldraw[black] (axis cs:0,0) circle (2.2pt) node[above right=1pt, font=\tiny] {Centro $(0,0)$};
+        \draw[black, fill=white, thick] (axis cs:3.1416,0) circle (2.2pt) node[above right=1pt, font=\tiny] {Silla $(\pi,0)$};
+        \draw[black, fill=white, thick] (axis cs:-3.1416,0) circle (2.2pt) node[above left=1pt, font=\tiny] {Silla $(-\pi,0)$};
+
+        % Etiquetas de régimen
+        \node[font=\footnotesize, align=center] at (axis cs:0, 0.4) {Libraciones\\($E < \omega_0^2$)};
+        \node[font=\footnotesize, align=center] at (axis cs:0, 2.8) {Rotaciones hacia la derecha ($v > 0$)};
+        \node[font=\footnotesize, align=center] at (axis cs:0, -2.8) {Rotaciones hacia la izquierda ($v < 0$)};
+        \node[font=\footnotesize, fill=white, inner sep=1pt] at (axis cs:1.8, 1.5) {Separatriz ($E = \omega_0^2$)};
+    \end{axis}
+\end{tikzpicture}
+\caption{Retrato de fases global del péndulo no lineal en el plano $(\theta, v)$. Las curvas cerradas interiores representan libraciones periódicas; las curvas ondulantes exteriores representan rotaciones completas; y la curva gruesa es la \textbf{separatriz}, que conecta las sillas inestables en $\pm\pi$.}
+\label{fig:retrato_fases_pendulo_completo}
+\end{figure}
+
+\begin{enumerate}
+    \item \textbf{Libraciones ($-\omega_0^2 < E < \omega_0^2$):}
+    La energía cinética no es suficiente para que el péndulo alcance la cúspide vertical $\theta = \pm \pi$. El movimiento queda confinado a un intervalo de oscilación $[-\theta_{\max}, \theta_{\max}]$, donde $\cos\theta_{\max} = -E/\omega_0^2$. Las órbitas son curvas cerradas periódicas alrededor del centro $(0,0)$. Para oscilaciones grandes, el periodo $T(E)$ crece monótonamente debido a los efectos no lineales, divergiendo cuando $E \to \omega_0^2$.
+    
+    \item \textbf{Rotaciones ($E > \omega_0^2$):}
+    El péndulo posee energía cinética sobrante en el punto más alto ($v(\pm\pi) = \pm\sqrt{2(E - \omega_0^2)} \neq 0$). Por ende, el ángulo $\theta(t)$ crece o decrece indefinidamente, girando en vueltas continuas sobre su eje sin detenerse jamás.
+    
+    \item \textbf{La separatriz ($E = \omega_0^2$):}
+    Es la curva de nivel crítica que separa geométricamente las oscilaciones cerradas (libraciones) de las rotaciones abiertas. Despejando $v$ de la \cref{eq:energia_pendulo} con $E = \omega_0^2$:
+    \begin{equation}
+        \frac{1}{2}v^2 - \omega_0^2 \cos\theta = \omega_0^2 \implies v(\theta) = \pm 2\omega_0 \cos\left(\frac{\theta}{2}\right).
+        \label{eq:separatriz_formula}
+    \end{equation}
+    Esta trayectoria parte en $t \to -\infty$ desde el equilibrio inestable invertido en $-\pi$ y llega asintóticamente en $t \to +\infty$ al equilibrio inestable en $+\pi$. Como $\theta$ es una variable angular en el círculo $\mathbb{S}^1$, los puntos $\theta = -\pi$ y $\theta = +\pi$ representan el mismo estado físico; por tanto, la separatriz es una \textbf{órbita homoclínica} que tarda un tiempo infinito en recorrerse\aside{Si concebimos el espacio de estados no sobre el plano $\mathbb{R}^2$ sino sobre la variedad cilíndrica natural $\mathbb{S}^1 \times \mathbb{R}$, las rotaciones son curvas cerradas no contraíbles que envuelven el cilindro, mientras que las libraciones son lazos cerrados topológicamente contraíbles a un punto.}.
+\end{enumerate}

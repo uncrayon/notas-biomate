@@ -1,0 +1,146 @@
+% ============================================================
+% FUENTES: Notas Biomate 1; raw_plain_nonlinear_dynamics.txt.
+% Strogatz (2015), caps. 6 y 7; Murray (2002); Edelstein-Keshet (2007).
+% ============================================================
+\section{Sistemas conservativos y teorema de Poincaré--Bendixson}
+
+En el estudio de los sistemas dinámicos en dos dimensiones, surge una distinción física y matemática de primer orden: la frontera entre los sistemas \textbf{conservativos} (comunes en la mecánica clásica sin fricción) y los sistemas \textbf{disipativos} (universales en la biología, la química y la neurociencia)~\cite{strogatz2015,murray2002}.
+
+En este capítulo analizaremos el papel de las funciones de energía como integrales primeras para certificar la existencia de centros no lineales y presentaremos uno de los resultados más célebres y profundos de la topología dinámica: el \textbf{Teorema de Poincaré--Bendixson}.
+
+\subsection{Sistemas conservativos e integrales primeras}
+
+Consideremos un sistema bidimensional autónomo $\dot{\vec{x}} = \vec{f}(\vec{x})$, con $\vec{x} = (x,y)^\top \in \mathbb{R}^2$.
+
+\begin{definition}[Cantidad conservada / Integral primera]
+Una función continuamente diferenciable de valores reales $E(x,y)$ es una \textbf{cantidad conservada} (o integral primera) del sistema si no es constante en ningún conjunto abierto y su derivada temporal a lo largo de cualquier trayectoria solución es idénticamente nula:
+\begin{equation}
+    \dot{E} = \frac{d}{dt}E(x(t), y(t)) = \nabla E \cdot \dot{\vec{x}} = \frac{\partial E}{\partial x} \dot{x} + \frac{\partial E}{\partial y} \dot{y} = 0.
+    \label{eq:derivada_energia_cero}
+\end{equation}
+Un sistema que admite una cantidad conservada se denomina \textbf{sistema conservativo}.
+\end{definition}
+
+La existencia de una integral primera $E(x,y)$ reduce en una unidad los grados de libertad efectivos del sistema: cada trayectoria individual $\vec{x}(t)$ queda estrictamente confinada a una curva de nivel $E(x,y) = C$, donde la constante $C = E(x(0), y(0))$ está fijada por la condición inicial.
+
+\begin{theorem}[Criterio no lineal de centros conservativos]
+\label{thm:centros_conservativos}
+Sea $\dot{\vec{x}} = \vec{f}(\vec{x})$ un sistema conservativo con energía $E(x,y)$ y sea $\vec{x}^*$ un punto fijo aislado. Si $\vec{x}^*$ es un \textbf{mínimo o máximo local estricto} de $E(x,y)$, entonces $\vec{x}^*$ es un \textbf{centro no lineal}: está rodeado por una familia continua de órbitas periódicas cerradas cerrándose concéntricamente sobre él.
+\end{theorem}
+
+\begin{theorem}[Imposibilidad de atractores en sistemas conservativos]
+En un sistema conservativo continuo en $\mathbb{R}^2$, \textbf{no pueden existir atractores}: ningún punto fijo puede ser un nodo asintóticamente estable ni un foco atractor, y no pueden existir ciclos límite aislados.
+\end{theorem}
+
+La intuición geométrica es transparente: si un punto $\vec{x}^*$ fuese un atractor asintótico, todas las trayectorias de una vecindad $U$ convergerían hacia él cuando $t \to \infty$. Pero a lo largo de cada trayectoria $E(\vec{x}(t))$ es estrictamente constante ($E(x_0, y_0)$); por continuidad, si todas convergieran a $\vec{x}^*$, la energía $E$ tendría que ser idéntica en toda la vecindad $U$, contradiciendo la definición de que $E$ no es constante.
+
+\subsection{Centros vs Focos: el fallo de la linealización no hiperbólica}
+
+Recordemos del capítulo 15 que el Teorema de Hartman--Grobman garantiza la fidelidad topológica de la linealización jacobiana únicamente para equilibrios \textbf{hiperbólicos} ($\operatorname{Re}(\lambda_i) \neq 0$). Cuando la matriz jacobiana tiene autovalores puramente imaginarios $\lambda = \pm i\omega$ ($\tau = 0, \Delta > 0$), la linealización predice un centro lineal, pero el equilibrio no es hiperbólico.
+
+¿Qué ocurre en el sistema no lineal completo? Los términos no lineales de orden superior pueden alterar radicalmente el retrato de fases local:
+
+\begin{example}[Destrucción no lineal de un centro lineal]
+Consideremos el sistema en coordenadas polares $(r, \theta)$:
+\begin{equation}
+\begin{aligned}
+    \dot{r} &= a r^3, \\
+    \dot{\theta} &= 1,
+\end{aligned}
+\end{equation}
+con $a \in \mathbb{R}$. En coordenadas cartesianas $(x = r\cos\theta, y = r\sin\theta)$, el sistema linealizado en el origen es:
+\begin{equation}
+    \begin{pmatrix} \dot{x} \\ \dot{y} \end{pmatrix} = \begin{pmatrix} 0 & -1 \\ 1 & 0 \end{pmatrix} \begin{pmatrix} x \\ y \end{pmatrix},
+\end{equation}
+cuya matriz jacobiana tiene traza $\tau = 0$ y determinante $\Delta = 1 > 0$, prediciendo un centro lineal perfecto para cualquier valor de $a$.
+
+Sin embargo, la ecuación radial $\dot{r} = a r^3$ revela la dinámica real:
+\begin{itemize}
+    \item Si $a < 0$: $\dot{r} < 0$ para todo $r > 0$. El radio decae monótonamente a cero ($r(t) \sim t^{-1/2}$); el origen es en realidad un \textbf{foco o espiral asintóticamente estable} (atractor débil).
+    \item Si $a > 0$: $\dot{r} > 0$ para todo $r > 0$. Las trayectorias se alejan en espiral creciente; el origen es un \textbf{foco inestable} (repulsor).
+    \item Si $a = 0$: $\dot{r} = 0$, las órbitas son circunferencias cerradas concéntricas $r(t) = r_0$; el origen es un \textbf{centro verdadero}.
+\end{itemize}
+\end{example}
+
+Por tanto, un centro lineal predicho por la matriz jacobiana es una condición estructuralmente marginal. Se requiere una propiedad global ---como la existencia demostrada de una integral primera $E(x,y)$ mediante el \cref{thm:centros_conservativos} o una simetría temporal reversible--- para confirmar que el equilibrio no lineal es un centro genuino.
+
+\subsection{Sistemas disipativos y atractores biológicos}
+
+A diferencia de los planetas orbitando en el vacío o los péndulos ideales sin rozamiento, los sistemas biológicos son sistemas termodinámicamente abiertos que intercambian continuamente materia y energía con su entorno. En estos sistemas el volumen del espacio de fases no se conserva, sino que se contrae en promedio: son \textbf{sistemas disipativos}~\cite{edelstein2007}.
+
+En un sistema disipativo, los centros neutros son aberraciones que no sobreviven a perturbaciones realistas. En su lugar, emergen \textbf{atractores}: estructuras asintóticas robustas hacia las cuales el sistema converge sin importar pequeñas fluctuaciones en las condiciones iniciales.
+
+\subsection{El Teorema de Poincaré--Bendixson}
+
+El resultado culminante para la dinámica en el plano continuo $\mathbb{R}^2$ es el teorema demostrado por Henri Poincaré en 1892 y refinado por Ivar Bendixson en 1901:
+
+\begin{theorem}[Teorema de Poincaré--Bendixson (formulación intuitiva)]
+\label{thm:poincare_bendixson}
+Sea $\dot{\vec{x}} = \vec{f}(\vec{x})$ un sistema dinámico autónomo continuo con campo vectorial $\mathcal{C}^1$ en el plano $\mathbb{R}^2$. Sea $R \subset \mathbb{R}^2$ una región cerrada y acotada (\textbf{compacta}) que satisface dos condiciones:
+\begin{enumerate}
+    \item $R$ es una \textbf{región de atrapamiento} (\emph{trapping region}): en todos los puntos de la frontera $\partial R$, el campo vectorial apunta hacia el interior de $R$ (o es tangente), de modo que ninguna trayectoria que entre a $R$ puede salir de ella jamás.
+    \item $R$ \textbf{no contiene ningún punto fijo de equilibrio} ($\vec{f}(\vec{x}) \neq \vec{0}$ para todo $\vec{x} \in R$).
+\end{enumerate}
+Entonces, toda trayectoria que inicie dentro de $R$ permanece en $R$ para todo $t \ge 0$ y, cuando $t \to \infty$, \textbf{debe ser una órbita periódica cerrada o converger asintóticamente hacia un ciclo límite periódico contenido en $R$}.
+\end{theorem}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=Stealth, scale=0.95]
+    % Región anular sombreada
+    \fill[black!8] (0,0) circle (3.2cm);
+    \fill[white] (0,0) circle (1.1cm);
+
+    % Frontera exterior e interior
+    \draw[very thick, black!85, dashed] (0,0) circle (3.2cm);
+    \draw[very thick, black!85, dashed] (0,0) circle (1.1cm);
+
+    % Punto fijo inestable en el origen
+    \draw[black, fill=white, thick] (0,0) circle (2.5pt) node[below=4pt, font=\tiny] {$\vec{x}^*$ (repulsor inestable)};
+
+    % Vectores de flujo entrante en la frontera exterior
+    \foreach \ang in {0, 45, 90, 135, 180, 225, 270, 315} {
+        \draw[->, very thick, black!75] (\ang:3.2cm) -- (\ang:2.6cm);
+    }
+    \node[font=\footnotesize, black!85] at (0, 3.5) {Frontera exterior: flujo entra a $R$};
+
+    % Vectores de flujo saliente del núcleo inestable en la frontera interior
+    \foreach \ang in {20, 65, 110, 155, 200, 245, 290, 335} {
+        \draw[->, very thick, black!75] (\ang:1.1cm) -- (\ang:1.6cm);
+    }
+    \node[font=\tiny, black!85, align=center] at (0, -0.6) {Flujo expulsado\\hacia $R$};
+
+    % Ciclo límite periódico atractor dentro de R
+    \draw[very thick, black!95] (0,0) circle (2.1cm);
+    \node[font=\bfseries\footnotesize, black!90] at (0, 2.3) {Ciclo límite periódico $\Gamma$};
+
+    % Trayectoria espiral exterior convergiendo a Gamma
+    \draw[thick, black!70, domain=0:9.42, samples=150, variable=\t] 
+        plot ({ (2.1 + 0.9*exp(-0.35*\t))*cos(\t r) }, { (2.1 + 0.9*exp(-0.35*\t))*sin(\t r) });
+    \draw[->, thick, black!70] ({ (2.1 + 0.9*exp(-0.35*2.5))*cos(2.5 r) }, { (2.1 + 0.9*exp(-0.35*2.5))*sin(2.5 r) }) 
+        -- ({ (2.1 + 0.9*exp(-0.35*2.7))*cos(2.7 r) }, { (2.1 + 0.9*exp(-0.35*2.7))*sin(2.7 r) });
+
+    % Trayectoria espiral interior convergiendo a Gamma
+    \draw[thick, black!70, domain=0:9.42, samples=150, variable=\t] 
+        plot ({ (2.1 - 0.7*exp(-0.35*\t))*cos(\t r) }, { (2.1 - 0.7*exp(-0.35*\t))*sin(\t r) });
+
+    % Etiqueta de la región de atrapamiento
+    \node[font=\bfseries\small] at (-2.4, -1.8) {Región de atrapamiento $R$};
+\end{tikzpicture}
+\caption{Construcción clásica del Teorema de Poincaré--Bendixson mediante un anillo de atrapamiento (\emph{trapping annulus}). El campo vectorial apunta hacia el interior en ambas fronteras de $R$; al no existir equilibrios en $R$, las trayectorias quedan atrapadas y convergen forzosamente hacia el ciclo límite $\Gamma$.}
+\label{fig:poincare_bendixson_annulus}
+\end{figure}
+
+\paragraph{Imposibilidad topológica de caos en flujos 2D.}
+Una consecuencia trascendental del Teorema de Poincaré--Bendixson es la siguiente:
+\begin{theorem}[No existencia de caos en $\mathbb{R}^2$ continuo]
+Un sistema de ecuaciones diferenciales autónomas continuas $\dot{\vec{x}} = \vec{f}(\vec{x})$ con $f \in \mathcal{C}^1$ en dos dimensiones ($n = 2$) \textbf{jamás puede exhibir caos determinista ni atractores extraños}.
+\end{theorem}
+
+La demostración reside en la combinación de dos principios:
+\begin{enumerate}
+    \item Por el teorema de existencia y unicidad de Picard--Lindelöf, dos trayectorias en el plano de fases no pueden cruzarse jamás en un tiempo finito.
+    \item En dos dimensiones, una curva cerrada simple divide el plano en dos regiones desconectadas (Teorema de la curva de Jordan). Una trayectoria confinada en una región compacta sin puntos fijos no tiene espacio topológico para doblarse, entrelazarse y estirarse sin autointersecarse; está forzada a enrolarse asintóticamente sobre una curva cerrada periódica.
+\end{enumerate}
+
+Para que un flujo autónomo continuo produzca trayectorias caóticas con sensibilidad a condiciones iniciales (como el atractor de Lorenz o el atractor de Rössler), se requieren forzosamente \textbf{al menos tres dimensiones} ($n \ge 3$) en el espacio de fases\aside{Esta es la razón profunda por la que el sistema atmosférico de Lorenz simplificado requirió tres variables dinámicas acopladas $(X, Y, Z)$ para generar su célebre mariposa caótica.}.
