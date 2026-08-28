@@ -1,0 +1,33 @@
+% ============================================================
+% Variante A — "Tong minimal": article, Computer Modern, sin
+% ornamentos. El estilo de las notas de David Tong es,
+% esencialmente, LaTeX por defecto bien disciplinado.
+% ============================================================
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-noquoting]{babel}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+\usepackage{minted}
+\usemintedstyle{grayscale}          % sobrio: escala de grises, no arcoíris
+\usepackage[backend=biber, style=numeric, sorting=none]{biblatex}
+\addbibresource{refs.bib}
+\usepackage[hidelinks]{hyperref}    % enlaces funcionales sin cuadros rojos
+\usepackage{cleveref}
+
+\newtheorem{theorem}{Teorema}[section]
+\newtheorem{definition}{Definición}[section]
+
+\newcommand{\aside}[1]{\footnote{#1}}
+
+\title{Notas de Matemáticas Biológicas\\[4pt]
+       \large Variante A --- estilo minimalista (artículo)}
+\author{Ulises Rayón}
+\date{Agosto de 2026}
+
+\begin{document}
+\maketitle
+\input{body/body}
+\end{document}

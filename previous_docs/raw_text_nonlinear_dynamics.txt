@@ -1,0 +1,422 @@
+                                                          thas the
+  Strogate thinks                                                             systems     ,       in
+                                                                                                       general follows        ,
+                                                                                                                                              :
+
+
+
+
+                                                         Number of variables                      -
+
+
+
+
+                           M= 1                                           n= 2
+
+
+
+
+Growth
+                                   Day                                    Oscillations
+                         Exponential growth                                   hinew Ose
+                         RC        Circuit -                                   Name       & Spring
+                      Radiative decoy                                         RLC Circuit
+
+
+
+
+ !
+                                                                              2-body Problem
+                                                                                                       -
+
+
+
+
+&          ·
+                   Fixed points                                           Pendulum
+                   Bifurcations                                                                    oscillators
+
+·
+           -
+                                                                              Anhormonic
+               ·
+
+
+
+                   Merdump Systems,                                           Limitcycles
+                   Relaxational                         Dynam      .
+
+
+
+
+                                                                              Biological oscillators
+*                                                                               (nurosm-heart cells
+           ·
+
+
+                   Logistic eg for                 .
+
+
+
+                                                                              Predator-Prey modelly
+                                                                              Non-linear dectronics
+                               S
+
+
+
+                     popu
+                                                                                (von der           Pol     ,   Josephson)
+  do   ,
+                   at first                    he asks to start with                               the most
+                                                                                                                                      simple          possible
+system
+               :               1             then
+                                                               get      the                   X       f(x)      We                        call this        kind
+                      n                                  we
+                                                                               equ
+                           =            .
+                                                                                     .
+                                                                                                   =
+                                                                                                                          .
+
+
+
+
+ at    systems                                                                                          dimensional                      flows
+                                            first order        systems               or           one                                                 .
+
+
+To     alear ;
+       be
+      1
+      -            there
+                                   "system" is               used in the      sense           of dynamical system                                     instead    of
+                   the        one             in       classical       mechanics , here                             single                    could be          a
+                                                                                                                                        equ
+                                                                                                       one
+
+
+
+                    system          .
+
+
+
+
+       .
+       2           For   symplicitly three all this chapter unless explicit other very        ,
+                                                                                                                                                                we
+
+                     will always think in       autoromus systems   I       f(x f fixit) ·                      .     .
+                                                                                                                              e   .               :
+               2   .   1             A         Geometric                             way         of thinking
+
+     One       of the most                             powerful ideas                      in
+                                                                                                    dynamical systems              (introduced by
+     my        personal hero                   :       Poincare)            is       the        one     at thinking the  differential
+     equation                   as     a       vector              field         .   This             idea is that powerful because
+ help          us          to        understand             the
+                                                                            long-term                  behavior   of the
+                                                                                                               systems
+                                                                                                                             .
+
+     without               the need                    of      a    closed        solution/analytical solution                          .
+
+
+
+
+       Let's               consider the
+                                                        foland
+                                                            owing systemsolved              :          x   =
+                                                                                                                   nin(x)    ...    (2)
+                                                                                                                                   at
+     Such              equation                                             be
+                                                                                                         by          means
+
+     integration
+     = sinx                  = = It
+                                                                                                                      d
+ =>
+           It                                                  ,
+                                                                    in                                the
+
+
+
+
+ Id
+=>
+                                           =   t + de
+                                                                    .
+                                                                                     1f          F(x)          =
+
+
+                                                                                                                   ) stuxdx             then       we
+                                                                                                                                                        home
+
+                                           siux    =   (((X)
+
+
+
+
+= (x)
+           =
+
+                   Jiax Je)dx                  =
+                                                                                      if    we                  C
+                                                                                                      multiply by
+
+           x ax =
+           -        the
+                 atxn
+
+       ·
+
+
+
+
+           J-
+            x-exotX                                                ax                  if
+                                                                                      then au
+                                                                                                we       make
+                                                                                                           =
+                                                                                                                       u =    cofia
+                                                                                                               (-cX-cotxcsX) dy
+
+
+      =
+
+           f In-
+
+                                         =     -In (n)                  +   i          =        -
+                                                                                                    In   (cotx         +    (s(* ))            +
+                                                                                                                                                   clos
+            Now ,                                  could                               this              result        in     the last
+                                 we                                  use
+                                                                                                                                               equ.
+     We         have :
+
+
+     /                      =
+                                   t + to           ,   using
+                                                                             the        result    for Ex
+
+    In (cot(x) + cs(x))                             t + te                                by H unde a
+                                                                              multiplying
+                                               =
+-
+
+
+
+                                                                         ,
+
+                                                                             both
+
+                                           + + de
+     cof(x) + cs((x)                 =
+                                         i              =
+                                                                     Xo      et
+        :            20tx + X                  net                       the            solution            to        x
+                                                                                                                          siny
+                                                                                                                      =
+                                           =
+                                                                is
+
+
+     Well       the        big deal is that                         the       last   equation         is    non-usable    ,
+                                                                                                                               me
+
+      cannot               easily to         onswer                  :
+
+
+
+
+                                                                                                 >do ?
+            1
+                      if        Xo   :
+                                         Yyy   ,
+                                                    what
+                                                                    happens          when
+
+
+            2
+            .        for    any          arbitrary condition                   Xo
+                                                                                            ,
+                                                                                                what is the           behavior
+                      of    x(t)         as    >
+                                               -
+                                                    0       ?
+
+
+     Well ...          It's not          transparent            ,
+                                                                     for          not
+                                                                                         saying   ,
+                                                                                                      not    .
+                                                                                                             useful
+                       let's think                      the                                                                   vector
+       Now       ,
+                                               in
+                                                                             differential equation               as   a
+
+
+     field            and            a
+                                           geometric entity :
+                                                                              X
+
+
+
+
+                                                                                                                                &
+    Let's                   notice that                                f(x)       is           the            valution                  between          xX
+    Now                if   ,
+                                  for        example               ,
+                                                                           Xo50           but              wit     the   xso                                    .
+
+
+
+
+        On        the           other     hand ,
+                                                              xoo
+                                                             if
+                                                                                  but               Xo>   It
+                                                                                                          -
+                                                                                                              then   x'(0
+        What            means              this ? Well , if XO   for No   then   XCHI  will      .
+                                                                                            grow
+        On        the           other      hand    if x'so    far to then    xIt) will  contract                                                                    .
+
+
+                                                 ,
+
+         But          what            Xo=MN (for
+                                     if                                      neX)              ,
+                                                                                                    well        X
+                                                                                                                    1
+                                                                                                                        =   0           and then          XHI           will
+         be       a
+                       steady-state/stationary                               on           Xo   .
+
+
+
+
+                                                                                          X
+        fixed point
+                                           O                                              fixed                                                          fixedpoint
+
+                  i
+                                                                                                                    O
+                                                                                                                ↓                                           !
+
+
+
+
+                  ~
+                                      ·                                           i   -
+                                                                                                          -
+                                                                                                                                                          ~
+                                                                                                                                                           ·
+*
+
+                                                                                                                        ↑
+                                                                       I
+i
+    *0                                                  ·              x40
+                                                                                                                    i
+                                                                                                                fixed
+                                                                                                                point   ,
+                                                                                                                                             ↑
+                                                                                                                                             *O
+
+
+                                           hixed point
+
+
+    This                last        picture gift     a                      us
+                                                                                                    superpower the                  ,              one      of
+see                   the          future for example : ,
+
+
+
+
+    ·
+              xot 10 i)
+             if                                 ,
+                                                                  then                    xH >      -
+                                                                                                              it            as           6   >
+                                                                                                                                             -      0
+
+
+
+
+·
+             if             xot           (-it b)   ,
+                                                                  then            XI)---iT                                  as           t>  -
+
+
+
+
+·
+
+             if             Xo
+                                 =
+                                      Mi                    (n + 2)               then               XC+ ) =            10               At
+
+    this               power               is               absolute              &                100%         certainty                .    If   we               know ,
+        we            know .
+
+
+        So   ,
+                      now         we         can                  answer
+                                                                                  the               questions                   :
+
+
+
+
+                                                                                                               d> x
+         If                     T
+                                            then                       XHI - it
+                                                                                                                    -
+
+
+1
+                                  /
+                            =
+                      xo                                                                              as
+.
+2    If next                   then       if          xf   (Mit   ,       M + 1)   it)        and    never
+
+              * H-          /T                 as    -0.           m
+                                                                  If               is   odd     then
+               * (t)    >
+                        -
+                               mi         as          > 0
+                                                      -
+
+
+
+
+     On the            other ifmezvhol
+                                houd       then
+                                           ,
+
+
+
+         if    Xoe (l-cit ni)     his even
+                                      ,
+                                            then           an
+
+              XA) > -
+                           (M-1it              as          - 0
+                                                                           if      n     is    odd   then
+                                                                      ,
+
+                   >
+              x (t -           mi         as        + +0    .
+
+
+
+
+Everything                without                          the            exact(implicit)              solution
+                                               using
+    . 2
+    2                  Fixed          Points               & Stability
+So   ,        for      make         my              life
+

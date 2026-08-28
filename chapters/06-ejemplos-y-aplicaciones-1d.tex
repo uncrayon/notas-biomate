@@ -1,0 +1,196 @@
+% ============================================================
+% FUENTES: draft p.14--17.
+% ============================================================
+\section{Ejemplos y aplicaciones en una dimensión}
+
+A continuación desarrollamos tres aplicaciones clásicas que demuestran la versatilidad del análisis de flujos unidimensionales en física, matemáticas y dinámica de poblaciones.
+
+\subsection{Un circuito RC}
+
+Consideremos un circuito eléctrico elemental compuesto por una resistencia $R$ y un capacitor $C$ conectados en serie con una fuente de voltaje continuo constante $V_0$ mediante un interruptor que se cierra en $t=0$ (véase la \cref{fig:circuito_rc}). Supongamos que el capacitor se encuentra descargado inicialmente, $Q(0) = 0$.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=Stealth, scale=0.85]
+    % Esquema de circuito (panel izquierdo)
+    \begin{scope}[shift={(-6.2, 0)}]
+        % Fuente V0 (batería)
+        \draw[thick] (0,0) -- (0,1.0);
+        \draw[thick] (-0.3,1.0) -- (0.3,1.0); % placa corta (-)
+        \draw[very thick] (-0.5,1.3) -- (0.5,1.3) node[left=8pt, font=\tiny] {$V_0$}; % placa larga (+)
+        \draw[thick] (0,1.3) -- (0,2.5) -- (1.0,2.5);
+        % Interruptor
+        \draw[thick] (1.0,2.5) -- (1.5,2.9) node[above=1pt, font=\tiny] {$t=0$};
+        \filldraw[black] (1.0,2.5) circle (1.5pt);
+        \filldraw[black] (1.6,2.5) circle (1.5pt);
+        % Resistencia R
+        \draw[thick] (1.6,2.5) -- (2.0,2.5);
+        \draw[thick, fill=black!5] (2.0,2.3) rectangle (3.2,2.7) node[pos=0.5, font=\tiny] {$R$};
+        \draw[thick] (3.2,2.5) -- (4.4,2.5);
+        % Capacitor C
+        \draw[thick] (4.4,2.5) -- (4.4,1.4);
+        \draw[very thick] (3.9,1.4) -- (4.9,1.4) node[right=4pt, font=\tiny] {$C$};
+        \draw[very thick] (3.9,1.1) -- (4.9,1.1);
+        \draw[thick] (4.4,1.1) -- (4.4,0) -- (0,0);
+        % Flecha de corriente
+        \draw[->, thick, black!75] (2.2, 3.0) -- node[above, font=\tiny] {$I(t) = \dot{Q}$} (3.0, 3.0);
+        \node[font=\footnotesize, align=center] at (2.2, -0.6) {\textbf{(a)} Circuito RC en serie};
+    \end{scope}
+
+
+    % Línea de fase dot{Q} vs Q (panel central)
+    \begin{scope}[shift={(0.2, 0)}]
+        \draw[->, thick, black!60] (-0.3,0) -- (3.6,0) node[right, font=\tiny] {$Q$};
+        \draw[->, thick, black!60] (0,-1.5) -- (0,2.5) node[above, font=\tiny] {$\dot{Q}$};
+        \draw[thick, black!85] (-0.2, 2.2) -- (3.2, -1.2) node[below right, font=\tiny] {$\dot{Q} = \frac{V_0}{R} - \frac{Q}{RC}$};
+        \filldraw[black] (2.0, 0) circle (2pt) node[below left=2pt, font=\tiny] {$Q^* = CV_0$};
+        \draw[dotted, thick, black!50] (0, 2.0) node[left, font=\tiny] {$V_0/R$} -- (0,2.0);
+        \draw[->, very thick, black!90] (0.5, 0) -- (1.5, 0);
+        \draw[->, very thick, black!90] (3.2, 0) -- (2.5, 0);
+        \node[font=\footnotesize, align=center] at (1.8, -0.6) {\textbf{(b)} Campo $\dot{Q}(Q)$};
+    \end{scope}
+
+    % Trayectoria Q(t) vs t (panel derecho)
+    \begin{scope}[shift={(5.2, 0)}]
+        \draw[->, thick, black!60] (0,0) -- (3.6,0) node[right, font=\tiny] {$t$};
+        \draw[->, thick, black!60] (0,0) -- (0,2.5) node[above, font=\tiny] {$Q(t)$};
+        \draw[dashed, black!50, thick] (0, 1.8) -- (3.2, 1.8) node[right, font=\tiny] {$Q^* = CV_0$};
+        \draw[very thick, black!85, domain=0:3.2, samples=50] plot (\x, {1.8*(1 - exp(-\x))});
+        \draw[thick, dashed, black!70, domain=0:3.2, samples=50] plot (\x, {1.8 + 0.6*exp(-\x)});
+        \node[font=\footnotesize, align=center] at (1.8, -0.6) {\textbf{(c)} Solución $Q(t)$};
+    \end{scope}
+\end{tikzpicture}
+\caption{Dinámica del circuito RC. (a) Diagrama esquemático con fuente continua $V_0$. (b) Campo vectorial lineal con pendiente negativa $-1/(RC)$ y atractor estable en $Q^* = CV_0$. (c) Convergencia monótona de la carga $Q(t)$ hacia la asíntota de equilibrio.}
+\label{fig:circuito_rc}
+\end{figure}
+
+Por la ley de Kirchhoff de voltajes, la suma de caídas de potencial en la malla es:
+\begin{equation}
+    V_0 = V_R + V_C = R I + \frac{Q}{C} = R \dot{Q} + \frac{Q}{C}
+\end{equation}
+Despejando la derivada temporal de la carga:
+\begin{equation}
+    \dot{Q} = f(Q) = \frac{V_0}{R} - \frac{Q}{RC}
+    \label{eq:circuito_rc_ode}
+\end{equation}
+
+El punto de equilibrio $\dot{Q} = 0$ corresponde a $Q^* = C V_0$. Como $f'(Q) = -1/(RC) < 0$, la velocidad disminuye linealmente a medida que el capacitor se carga, garantizando que $Q^* = CV_0$ es un punto fijo global y asintóticamente estable al que el sistema converge como $Q(t) = C V_0 (1 - e^{-t/(RC)})$.
+
+\subsection{Raíces transcendentes: $\dot{x} = x - \cos x$}
+
+Consideremos el flujo no lineal:
+\begin{equation}
+    \dot{x} = x - \cos x
+    \label{eq:flujo_x_cosx}
+\end{equation}
+
+Determinar los puntos fijos analíticamente requiere resolver la ecuación trascendente $x^* = \cos x^*$, la cual no admite despeje explícito en términos de funciones algebraicas estándar. Sin embargo, el método geométrico resuelve el problema de inmediato: graficamos simultáneamente en el mismo plano las curvas elementales $y = x$ e $y = \cos x$ (véase la \cref{fig:raiz_transcendente_cos}).
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=Stealth, scale=0.9]
+    \draw[->, thick, black!60] (-3.2,0) -- (3.5,0) node[right, font=\small] {$x$};
+    \draw[->, thick, black!60] (0,-1.8) -- (0,2.5) node[above, font=\small] {$y$};
+    
+    % Curva cos(x)
+    \draw[very thick, black!85, domain=-3.0:3.2, samples=80] plot (\x, {cos(\x r)}) node[right, font=\footnotesize] {$y = \cos x$};
+    % Recta y = x
+    \draw[very thick, black!60, domain=-1.6:2.4] plot (\x, {\x}) node[above right, font=\footnotesize] {$y = x$};
+    
+    % Punto de intersección x* = 0.739
+    \draw[dotted, thick, black!50] (0.739, 0) node[below=3pt, font=\footnotesize] {$x^* \approx 0.739$} -- (0.739, 0.739) -- (0, 0.739);
+    \draw[black, fill=white, thick] (0.739, 0) circle (2.5pt);
+    \filldraw[black] (0.739, 0.739) circle (2pt);
+    
+    % Flechas en la línea de fase sobre el eje x
+    \draw[->, very thick, black!90] (0.3, 0) -- (-0.6, 0);
+    \draw[->, very thick, black!90] (-1.2, 0) -- (-2.0, 0);
+    \draw[->, very thick, black!90] (1.2, 0) -- (2.0, 0);
+    \draw[->, very thick, black!90] (2.2, 0) -- (3.0, 0);
+    
+    \node[font=\footnotesize, black!75] at (2.2, -1.0) {$x > \cos x \implies \dot{x} > 0$ ($\rightarrow$)};
+    \node[font=\footnotesize, black!75] at (-1.8, 1.2) {$x < \cos x \implies \dot{x} < 0$ ($\leftarrow$)};
+\end{tikzpicture}
+\caption{Determinación geométrica del punto fijo y estabilidad para $\dot{x} = x - \cos x$. La recta $y = x$ y la curva $y = \cos x$ se cortan en un único punto $x^* \approx 0.739085$. Como $x - \cos x > 0$ a la derecha y negativo a la izquierda, $x^*$ es un equilibrio inestable.}
+\label{fig:raiz_transcendente_cos}
+\end{figure}
+
+El análisis de signos se deduce por simple inspección visual:
+\begin{itemize}
+    \item Para $x > x^*$, la recta $y=x$ se encuentra por encima del coseno, luego $x - \cos x > 0 \implies \dot{x} > 0$ (flujo hacia la derecha).
+    \item Para $x < x^*$, la recta se encuentra por debajo del coseno, luego $x - \cos x < 0 \implies \dot{x} < 0$ (flujo hacia la izquierda).
+\end{itemize}
+Por lo tanto, concluimos rigurosamente que $x^*$ es un \textbf{punto fijo inestable}, habiendo obtenido la dinámica completa sin necesidad de aproximaciones numéricas previas.
+
+\subsection{Dinámica de poblaciones: Malthus vs. logístico}
+
+\paragraph{El modelo de Malthus (crecimiento exponencial).}
+El modelo poblacional más simple postula que la tasa de nacimientos y muertes es directamente proporcional al tamaño actual de la población $N(t)$:
+\begin{equation}
+    \dot{N} = r N, \quad (r > 0)
+    \label{eq:malthus}
+\end{equation}
+donde $r$ es la tasa intrínseca de crecimiento per cápita:
+\begin{equation}
+    \frac{\dot{N}}{N} = r = \text{constante}
+\end{equation}
+La solución analítica es la explosión exponencial $N(t) = N_0 e^{rt}$. En este modelo, el origen $N^* = 0$ es un punto fijo inestable: cualquier población inicial positiva $N_0 > 0$ crece sin límite, lo cual resulta biológicamente inviable a largo plazo debido al agotamiento de recursos.
+
+\paragraph{El modelo logístico (Verhulst).}
+En un entorno con recursos finitos (alimento, espacio, refugio), los individuos compiten entre sí (\emph{crowding}). Pierre-François Verhulst (1838) propuso que la tasa de crecimiento per cápita disminuye linealmente con la densidad de población:
+\begin{equation}
+    \frac{\dot{N}}{N} = r \left(1 - \frac{N}{K}\right)
+\end{equation}
+donde $K > 0$ es la \textbf{capacidad de carga} (\emph{carrying capacity}) impuesta por el ecosistema. Multiplicando por $N$, obtenemos la célebre ecuación logística:
+\begin{equation}
+    \dot{N} = f(N) = r N \left(1 - \frac{N}{K}\right)
+    \label{eq:logistico}
+\end{equation}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=Stealth, scale=0.85]
+    % Panel a: Tasa per cápita
+    \begin{scope}[shift={(-6.2, 0)}]
+        \draw[->, thick, black!60] (0,0) -- (3.5,0) node[right, font=\tiny] {$N$};
+        \draw[->, thick, black!60] (0,0) -- (0,2.5) node[above, font=\tiny] {$\dot{N}/N$};
+        \draw[dashed, black!50, thick] (0, 1.8) node[left, font=\tiny] {$r$} -- (3.2, 1.8) node[right, font=\tiny] {Malthus};
+        \draw[very thick, black!85] (0, 1.8) -- (2.5, 0) node[below=2pt, font=\tiny] {$K$};
+        \node[font=\footnotesize, align=center] at (1.6, -0.7) {\textbf{(a)} Tasa per cápita $\dot{N}/N$};
+    \end{scope}
+
+    % Panel b: Parábola dot{N} vs N
+    \begin{scope}[shift={(0.2, 0)}]
+        \draw[->, thick, black!60] (-0.5,0) -- (3.6,0) node[right, font=\tiny] {$N$};
+        \draw[->, thick, black!60] (0,-0.8) -- (0,2.5) node[above, font=\tiny] {$\dot{N}$};
+        \draw[very thick, black!85, domain=0:2.6, samples=50] plot (\x, {-2.5*\x*(\x - 2.2)/1.21});
+        \draw[black, fill=white, thick] (0,0) circle (2pt) node[below left=1pt, font=\tiny] {$0$};
+        \filldraw[black] (2.2,0) circle (2pt) node[below=2pt, font=\tiny] {$K$};
+        \draw[->, very thick, black!90] (0.5, 0) -- (1.4, 0);
+        \draw[->, very thick, black!90] (3.0, 0) -- (2.5, 0);
+        \node[font=\footnotesize, align=center] at (1.5, -0.7) {\textbf{(b)} Campo $\dot{N}(N)$};
+    \end{scope}
+
+    % Panel c: Trayectorias sigmoides
+    \begin{scope}[shift={(5.5, 0)}]
+        \draw[->, thick, black!60] (0,0) -- (3.5,0) node[right, font=\tiny] {$t$};
+        \draw[->, thick, black!60] (0,0) -- (0,2.5) node[above, font=\tiny] {$N(t)$};
+        \draw[dashed, black!50, thick] (0, 1.8) -- (3.2, 1.8) node[right, font=\tiny] {$K$};
+        \draw[very thick, black!85, domain=0:3.2, samples=50] plot (\x, {1.8/(1 + 5*exp(-2.0*\x))});
+        \draw[thick, dashed, black!70, domain=0:3.2, samples=50] plot (\x, {1.8/(1 - 0.4*exp(-2.0*\x))});
+        \node[font=\footnotesize, align=center] at (1.6, -0.7) {\textbf{(c)} Trayectorias $N(t)$};
+    \end{scope}
+\end{tikzpicture}
+\caption{Comparación entre el crecimiento malthusiano y el logístico. (a) La tasa per cápita decrece linealmente hasta anularse en $N=K$. (b) Parábola invertida con punto inestable en $N^*=0$ y atractor estable en la capacidad de carga $N^*=K$. (c) Curvas sigmoides que convergen asintóticamente a $K$.}
+\label{fig:malthus_vs_logistico}
+\end{figure}
+
+La gráfica de $f(N)$ es una parábola invertida con raíces en $N_1^* = 0$ y $N_2^* = K$. Para cualquier población inicial biológicamente realista $N_0 > 0$, el flujo conduce monótonamente a la población hacia el atractor $N^* = K$.
+
+\paragraph{Limitaciones biológicas del modelo logístico.}
+Es crucial comprender que el modelo logístico es una metáfora simplificada de la ecología de poblaciones. Como señala Charles J. Krebs en su tratado clásico de ecología \cite{krebs1972}, el crecimiento sigmoide logístico reproduce fielmente experimentos de laboratorio con organismos unicelulares (bacterias y levaduras en cajas Petri de medio controlado). Sin embargo, en poblaciones naturales de organismos multicelulares (como moscas de la fruta \emph{Drosophila} o escarabajos de la harina \emph{Tribolium}), el modelo suele fallar al predecir oscilaciones persistentes debidas a dos factores que la EDO \eqref{eq:logistico} ignora:
+\begin{enumerate}
+    \item \textbf{Estructura de edad:} Los organismos atraviesan fases fisiológicas diferenciadas ($\text{huevos} \to \text{larvas} \to \text{pupas} \to \text{adultos}$), donde solo ciertas clases de edad consumen recursos y se reproducen.
+    \item \textbf{Retardos temporales (\emph{time delays}):} El efecto del hacinamiento no es instantáneo. Una puesta masiva de huevos no satura inmediatamente los recursos el día de hoy, pero genera una catástrofe de hambruna semanas después cuando eclosionan larvas hambrientas.
+\end{enumerate}
+

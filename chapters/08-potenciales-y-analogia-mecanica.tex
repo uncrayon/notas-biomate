@@ -1,0 +1,145 @@
+% ============================================================
+% FUENTES: draft p.21; "Notas Biomate 1.pdf" (español).
+% ============================================================
+\section{Potenciales y la analogía mecánica}
+
+Una de las formas más intuitivas y poderosas de visualizar la dinámica de un flujo unidimensional es recurrir al concepto físico de \textbf{energía potencial}.
+
+\subsection{Sistemas sobreamortiguados: la bola en miel}
+
+Consideremos una partícula de masa $m$ acoplada a un resorte y sometida a una fuerza externa no lineal $F(x)$ dentro de un medio extremadamente viscoso con coeficiente de arrastre $b > 0$ (imaginemos una canica moviéndose dentro de un frasco de miel o glicerina espesa, como en la \cref{fig:masa_en_miel}).
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=Stealth, scale=0.9]
+    % Recipiente con miel
+    \draw[thick, fill=black!8] (-3.5,-1.2) rectangle (3.5,1.2);
+    \node[font=\bfseries\footnotesize, black!40] at (0, -0.8) {MEDIO ALTAMENTE VISCOSO (MIEL)};
+    
+    % Pared de soporte
+    \draw[very thick] (-3.5,-1.5) -- (-3.5,1.5);
+    \foreach \y in {-1.4, -1.0, -0.6, -0.2, 0.2, 0.6, 1.0, 1.4} {
+        \draw[thick] (-3.5, \y) -- (-3.9, \y-0.2);
+    }
+    
+    % Resorte
+    \draw[thick, decoration={aspect=0.4, segment length=3mm, amplitude=3mm, coil}, decorate] (-3.5,0) -- (-0.8,0);
+    
+    % Masa m
+    \draw[thick, fill=black!20] (-0.8,-0.5) rectangle (0.8,0.5) node[pos=0.5, font=\small\bfseries] {$m$};
+    
+    % Fuerzas
+    \draw[->, very thick, black!90] (0.8,0) -- (2.2,0) node[right, font=\footnotesize] {$F(x)$};
+    \draw[->, thick, black!70] (-0.8,-0.2) -- (-2.0,-0.2) node[below, font=\tiny] {Arrastre $-b\dot{x}$};
+    
+    % Coordenada x
+    \draw[->, thick, black!60] (-3.5,-1.6) -- (3.5,-1.6) node[right, font=\tiny] {$x$};
+    \draw[dotted, thick] (0, 0.5) -- (0, -1.6) node[below, font=\tiny] {$x=0$};
+\end{tikzpicture}
+\caption{Analogía mecánica del sistema sobreamortiguado (\emph{overdamped}): una masa $m$ inmersa en un fluido de altísima viscosidad donde la fuerza de amortiguamiento domina por completo sobre la inercia ($b\dot{x} \gg m\ddot{x}$).}
+\label{fig:masa_en_miel}
+\end{figure}
+
+La segunda ley de Newton establece:
+\begin{equation}
+    m \ddot{x} + b \dot{x} = F(x)
+\end{equation}
+En el régimen de \textbf{sobreamortiguamiento límite} (\emph{overdamped limit} o número de Reynolds extremadamente bajo), la inercia $m\ddot{x}$ es insignificante comparada con las fuerzas viscosas ($m\ddot{x} \ll b\dot{x}$). Despreciando el término acelerativo, obtenemos:
+\begin{equation}
+    b \dot{x} \approx F(x) \implies \dot{x} = \frac{1}{b}F(x) \equiv f(x)
+    \label{eq:sobreamortiguado_ode}
+\end{equation}
+En este régimen, la velocidad de la partícula es instantáneamente proporcional a la fuerza aplicada: la partícula carece de ``memoria cinética'' y se detiene en el momento exacto en que la fuerza total se anula.
+
+\subsection{El potencial $V(x)$, con $f(x) = -\,dV/dx$}
+
+Para cualquier flujo unidimensional $\dot{x} = f(x)$, siempre es posible introducir una función escalar diferenciable $V(x)$, denominada \textbf{potencial}, definida mediante la convención estándar de la física:
+\begin{equation}
+    f(x) = -\frac{dV}{dx} \iff V(x) = -\int f(x) \, dx
+    \label{eq:def_potencial}
+\end{equation}
+
+\paragraph{Monotonía del potencial a lo largo de trayectorias.}
+Calculemos la derivada temporal de $V(x(t))$ siguiendo la regla de la cadena:
+\begin{equation}
+    \dot{V} = \frac{dV}{dt} = \frac{dV}{dx} \frac{dx}{dt} = \left(-\,f(x)\right) \left(f(x)\right) = -\left(\frac{dV}{dx}\right)^2 = -\left(f(x)\right)^2 \le 0
+    \label{eq:derivada_potencial}
+\end{equation}
+
+\begin{theorem}[Disipación del potencial]
+    A lo largo de cualquier solución no trivial de $\dot{x} = f(x)$, la función potencial $V(x(t))$ es monótonamente decreciente ($\dot{V} < 0$ siempre que $\dot{x} \neq 0$). El estado del sistema fluye siempre hacia regiones de menor potencial, deteniéndose únicamente en los puntos críticos donde $\frac{dV}{dx} = 0$.
+\end{theorem}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=Stealth, scale=0.9]
+    \draw[->, thick, black!60] (-4.5,0) -- (4.5,0) node[right, font=\small] {$x$};
+    \draw[->, thick, black!60] (0,-1.0) -- (0,3.5) node[above, font=\small] {$V(x)$};
+    
+    % Paisaje de potencial V(x)
+    \draw[very thick, black!85, domain=-3.6:3.6, samples=80] 
+        plot (\x, {0.15*(\x+2.2)*(\x+2.2)*(\x-1.8)*(\x-1.8) + 0.3*(\x) + 0.8});
+    
+    % Puntos críticos
+    \filldraw[black] (-2.2, 0.4) circle (2.5pt) node[below=4pt, font=\footnotesize] {$x_1^*$ (mínimo estable)};
+    \draw[black, fill=white, thick] (-0.2, 2.3) circle (2.5pt) node[above=4pt, font=\footnotesize] {$x_2^*$ (máximo inestable)};
+    \filldraw[black] (1.8, 0.9) circle (2.5pt) node[below=4pt, font=\footnotesize] {$x_3^*$ (mínimo estable)};
+    
+    % Bola rodando
+    \shade[ball color=black!60] (-1.2, 1.6) circle (5pt);
+    \draw[->, very thick, black!90] (-1.0, 1.4) -- (-1.6, 0.8);
+    \node[font=\tiny, black!80] at (-0.6, 1.6) {Bola rodando cuesta abajo};
+\end{tikzpicture}
+\caption{Paisaje de energía potencial $V(x)$. El estado del sistema se comporta como una partícula sin inercia que rueda cuesta abajo hacia los mínimos locales de $V(x)$ (puntos fijos estables) y se aleja de los máximos locales (puntos fijos inestables).}
+\label{fig:paisaje_potencial}
+\end{figure}
+
+\paragraph{Identificación de estabilidad mediante el potencial:}
+\begin{itemize}
+    \item \textbf{Puntos fijos estables (atractores):} Corresponden a los \textbf{mínimos locales} de $V(x)$, donde $V'(x^*) = 0$ y $V''(x^*) > 0 \implies f'(x^*) = -V''(x^*) < 0$.
+    \item \textbf{Puntos fijos inestables (repulsores):} Corresponden a los \textbf{máximos locales} de $V(x)$, donde $V'(x^*) = 0$ y $V''(x^*) < 0 \implies f'(x^*) = -V''(x^*) > 0$.
+    \item \textbf{Nodos semi-estables:} Corresponden a \textbf{puntos de inflexión con tangente horizontal}, donde $V'(x^*) = 0$ y $V''(x^*) = 0$.
+\end{itemize}
+
+\begin{example}[El potencial de doble pozo para $\dot{x} = x - x^3$]
+    Integrando el campo $f(x) = x - x^3$:
+    \begin{equation}
+        V(x) = -\int (x - x^3) \, dx = -\frac{1}{2}x^2 + \frac{1}{4}x^4
+        \label{eq:potencial_doble_pozo}
+    \end{equation}
+    (donde fijamos la constante de integración $C=0$). Los puntos críticos satisfacen $V'(x) = -x + x^3 = 0 \implies x^* = 0, \pm 1$.
+    \begin{itemize}
+        \item En $x^* = 0$: $V''(0) = -1 < 0$ (máximo local $\implies$ origen inestable).
+        \item En $x^* = \pm 1$: $V''(\pm 1) = -1 + 3(1) = 2 > 0$ (dos mínimos locales simétricos de igual profundidad $V = -1/4 \implies$ equilibrios estables biestables).
+    \end{itemize}
+\end{example}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=Stealth, scale=0.85]
+    \draw[->, thick, black!60] (-3.0,0) -- (3.0,0) node[right, font=\small] {$x$};
+    \draw[->, thick, black!60] (0,-1.5) -- (0,2.5) node[above, font=\small] {$V(x)$};
+    
+    % Doble pozo V(x) = -0.5 x^2 + 0.25 x^4
+    \draw[very thick, black!85, domain=-2.2:2.2, samples=70] plot (\x, {-1.2*\x*\x + 0.6*\x*\x*\x*\x});
+    
+    % Mínimos y máximo
+    \draw[black, fill=white, thick] (0,0) circle (2.5pt) node[above=3pt, font=\footnotesize] {$x^*=0$};
+    \filldraw[black] (-1.0, -0.6) circle (2.5pt) node[below=3pt, font=\footnotesize] {$x^*=-1$};
+    \filldraw[black] (1.0, -0.6) circle (2.5pt) node[below=3pt, font=\footnotesize] {$x^*=+1$};
+    
+    \draw[dashed, black!50] (-1.0,0) -- (-1.0,-0.6);
+    \draw[dashed, black!50] (1.0,0) -- (1.0,-0.6);
+    
+    % Flechas hacia los pozos
+    \draw[->, thick, black!80] (-1.8, 0.8) -- (-1.3, -0.2);
+    \draw[->, thick, black!80] (-0.3, 0.0) -- (-0.7, -0.4);
+    \draw[->, thick, black!80] (0.3, 0.0) -- (0.7, -0.4);
+    \draw[->, thick, black!80] (1.8, 0.8) -- (1.3, -0.2);
+\end{tikzpicture}
+\caption{Potencial simétrico de doble pozo $V(x) = -\frac{1}{2}x^2 + \frac{1}{4}x^4$. La barrera central en $x^* = 0$ separa dos cuencas de atracción que convergen a los mínimos biestables $x^* = \pm 1$.}
+\label{fig:potencial_doble_pozo}
+\end{figure}
+
+Esta visión por potenciales será la herramienta clave cuando analicemos cómo se deforma la geometría del sistema al variar un parámetro en las bifurcaciones.
+

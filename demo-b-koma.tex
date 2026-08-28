@@ -1,0 +1,39 @@
+% ============================================================
+% Variante B — KOMA-Script (scrbook) + Palatino: libro clásico,
+% Mantenimiento activo (scrlatex.org), ideal para crecer por
+% capítulos durante años.
+% ============================================================
+\documentclass[11pt,a4paper,oneside]{scrbook}
+\usepackage{newpxtext,newpxmath}    % Palatino para texto y matemáticas
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-noquoting]{babel}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+\usepackage{minted}
+\usemintedstyle{grayscale}
+\usepackage[backend=biber, style=numeric, sorting=none]{biblatex}
+\addbibresource{refs.bib}
+\usepackage[hidelinks]{hyperref}
+\usepackage{cleveref}
+\usepackage[automark]{scrlayer-scrpage}
+\clearpairofpagestyles
+\ihead{\headmark}
+\ohead{\pagemark}
+
+\newtheorem{theorem}{Teorema}[chapter]
+\newtheorem{definition}{Definición}[chapter]
+
+\newcommand{\aside}[1]{\footnote{#1}}
+
+\title{Notas de Matemáticas Biológicas\\[6pt]
+       \large Variante B --- libro clásico (KOMA-Script)}
+\author{Ulises Rayón}
+\date{Agosto de 2026}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\input{body/body}
+\end{document}

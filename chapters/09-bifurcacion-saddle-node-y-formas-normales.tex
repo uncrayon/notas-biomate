@@ -1,0 +1,205 @@
+% ============================================================
+% FUENTES: draft p.22--24.
+% ============================================================
+\section{Bifurcación saddle-node y formas normales}
+
+En los capítulos previos analizamos sistemas dinámicos con parámetros constantes fijos. Sin embargo, en los problemas reales de la física y la biología, los parámetros del entorno (temperatura, concentración de nutrientes, tasa de bombeo óptico, voltajes aplicados) varían continuamente. El estudio de cómo cambia cualitativamente la estructura del espacio de fases al alterar estos parámetros constituye la \textbf{teoría de bifurcaciones}.
+
+\subsection{Idea de bifurcación; el ejemplo del pandeo}
+
+\begin{definition}[Bifurcación]
+    Una \textbf{bifurcación} es un cambio cualitativo o topológico en la estructura de las soluciones de un sistema dinámico (creación, destrucción o intercambio de estabilidad de puntos fijos y órbitas) que ocurre al cruzar un valor crítico de uno o más parámetros de control.
+\end{definition}
+
+\paragraph{Analogía del pandeo mecánico (\emph{buckling}).}
+Un ejemplo intuitivo es una columna o viga elástica vertical delgada sujeta por su base y cargada axialmente en su extremo superior por una fuerza vertical $F$ (véase la \cref{fig:pandeo_mecanico}).
+\begin{itemize}
+    \item Para cargas bajas ($F < F_c$), la posición vertical perfectamente recta es un estado de equilibrio estable: si se perturba lateralmente la columna, oscila y regresa al centro.
+    \item Al superar una carga crítica de Euler $F_c$, la posición recta pierde estabilidad; la columna pandea bruscamente (\emph{buckles}) hacia la izquierda o hacia la derecha, adoptando una nueva configuración curvada estable.
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=Stealth, scale=0.85]
+    % Viga recta (panel izquierdo)
+    \begin{scope}[shift={(-3.5, 0)}]
+        \draw[very thick] (-1.0, 0) -- (1.0, 0);
+        \foreach \x in {-0.8, -0.4, 0, 0.4, 0.8} {
+            \draw[thick] (\x, 0) -- (\x-0.2, -0.3);
+        }
+        \draw[ultra thick, black!85] (0, 0) -- (0, 3.2);
+        \draw[->, very thick, black!90] (0, 4.2) -- node[right, font=\tiny] {$F < F_c$} (0, 3.2);
+        \node[font=\footnotesize, align=center] at (0, -0.8) {Estado recto estable\\($F < F_c$)};
+    \end{scope}
+
+    % Viga pandeada (panel derecho)
+    \begin{scope}[shift={(3.5, 0)}]
+        \draw[very thick] (-1.0, 0) -- (1.0, 0);
+        \foreach \x in {-0.8, -0.4, 0, 0.4, 0.8} {
+            \draw[thick] (\x, 0) -- (\x-0.2, -0.3);
+        }
+        \draw[ultra thick, black!85] (0, 0) to[out=90, in=-80] (1.0, 1.8) to[out=100, in=-90] (0.2, 3.1);
+        \draw[->, very thick, black!90] (0.2, 4.2) -- node[right, font=\tiny] {$F > F_c$} (0.2, 3.1);
+        \node[font=\footnotesize, align=center] at (0, -0.8) {Pandeo lateral espontáneo\\($F > F_c$)};
+    \end{scope}
+\end{tikzpicture}
+\caption{Analogía física del pandeo mecánico de una viga elástica. Al cruzar el umbral de carga axial $F_c$, la configuración recta vertical pierde estabilidad y el sistema bifurca hacia estados flexionados estables.}
+\label{fig:pandeo_mecanico}
+\end{figure}
+
+\subsection{El prototipo $\dot{x} = r + x^{2}$ y la bifurcación blue-sky}
+
+La bifurcación más elemental en una dimensión es la \textbf{bifurcación saddle-node} (o nodo-ensilladura, bifurcación tangente, o de pliegue / \emph{fold}). Su forma normal canónica es:
+\begin{equation}
+    \dot{x} = r + x^2
+    \label{eq:saddle_node_normal}
+\end{equation}
+donde $r \in \mathbb{R}$ es el parámetro de bifurcación.
+
+\paragraph{Análisis de los regímenes dinámicos:}
+\begin{enumerate}
+    \item \textbf{Para $r < 0$:} Existen dos puntos fijos reales en $x^* = \pm\sqrt{-r}$. Evaluando la derivada $f'(x) = 2x$:
+    \begin{itemize}
+        \item En $x_1^* = -\sqrt{-r}$: $f'(x_1^*) = -2\sqrt{-r} < 0 \implies$ \textbf{Estable} (atractor).
+        \item En $x_2^* = +\sqrt{-r}$: $f'(x_2^*) = +2\sqrt{-r} > 0 \implies$ \textbf{Inestable} (repulsor).
+    \end{itemize}
+    \item \textbf{Para $r = 0$:} Los dos puntos fijos colisionan en el origen $x^* = 0$, formando un único \textbf{nodo semi-estable} no hiperbólico ($f'(0) = 0$).
+    \item \textbf{Para $r > 0$:} Como $r + x^2 > 0$ para todo $x$, no existen puntos fijos reales. El campo vectorial es estrictamente positivo y las trayectorias viajan libremente hacia la derecha ($\dot{x} > 0$).
+\end{enumerate}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=Stealth, scale=0.82]
+    % Panel 1: r < 0
+    \begin{scope}[shift={(-6.2, 3.2)}]
+        \draw[->, thick, black!60] (-2.2,0) -- (2.2,0) node[right, font=\tiny] {$x$};
+        \draw[->, thick, black!60] (0,-1.5) -- (0,1.8) node[above, font=\tiny] {$\dot{x}$};
+        \draw[thick, black!85, domain=-1.6:1.6] plot (\x, {\x*\x - 1.0});
+        \filldraw[black] (-1.0, 0) circle (2pt) node[above left, font=\tiny] {$-\sqrt{-r}$};
+        \draw[black, fill=white, thick] (1.0, 0) circle (2pt) node[above right, font=\tiny] {$+\sqrt{-r}$};
+        \draw[->, thick, black!90] (-1.8,0) -- (-1.3,0);
+        \draw[->, thick, black!90] (0,0) -- (-0.6,0);
+        \draw[->, thick, black!90] (1.3,0) -- (1.8,0);
+        \node[font=\footnotesize, align=center] at (0,-1.8) {\textbf{(a)} $r < 0$ (2 equilibrios)};
+    \end{scope}
+
+    % Panel 2: r = 0
+    \begin{scope}[shift={(0, 3.2)}]
+        \draw[->, thick, black!60] (-2.2,0) -- (2.2,0) node[right, font=\tiny] {$x$};
+        \draw[->, thick, black!60] (0,-1.5) -- (0,1.8) node[above, font=\tiny] {$\dot{x}$};
+        \draw[thick, black!85, domain=-1.4:1.4] plot (\x, {\x*\x});
+        \filldraw[black!60] (0, 0) circle (2pt) node[below=2pt, font=\tiny] {$x^*=0$};
+        \draw[->, thick, black!90] (-1.4,0) -- (-0.6,0);
+        \draw[->, thick, black!90] (0.5,0) -- (1.3,0);
+        \node[font=\footnotesize, align=center] at (0,-1.8) {\textbf{(b)} $r = 0$ (colisión)};
+    \end{scope}
+
+    % Panel 3: r > 0
+    \begin{scope}[shift={(6.2, 3.2)}]
+        \draw[->, thick, black!60] (-2.2,0) -- (2.2,0) node[right, font=\tiny] {$x$};
+        \draw[->, thick, black!60] (0,-1.5) -- (0,1.8) node[above, font=\tiny] {$\dot{x}$};
+        \draw[thick, black!85, domain=-1.2:1.2] plot (\x, {\x*\x + 0.6});
+        \draw[->, thick, black!90] (-1.2,0) -- (-0.4,0);
+        \draw[->, thick, black!90] (0.2,0) -- (1.0,0);
+        \node[font=\footnotesize, align=center] at (0,-1.8) {\textbf{(c)} $r > 0$ (sin equilibrios)};
+    \end{scope}
+
+    % Panel 4: Diagrama de bifurcación (r vs x*)
+    \begin{scope}[shift={(0, -2.8)}]
+        \draw[->, thick, black!60] (-3.5,0) -- (2.5,0) node[right, font=\small] {$r$};
+        \draw[->, thick, black!60] (0,-2.2) -- (0,2.2) node[above, font=\small] {$x^*$};
+        
+        % Parábola r = - (x*)^2
+        \draw[very thick, black!85, domain=-2.0:0, samples=50] plot ({-\x*\x}, \x); % rama estable inferior
+        \draw[very thick, dashed, black!75, domain=0:2.0, samples=50] plot ({-\x*\x}, \x); % rama inestable superior
+        
+        \filldraw[black] (0,0) circle (2.5pt) node[above right, font=\footnotesize] {$(r_c, x^*) = (0,0)$};
+        \node[below, font=\footnotesize] at (-1.8, -1.3) {Rama estable ($-\sqrt{-r}$)};
+        \node[above, font=\footnotesize] at (-1.8, 1.3) {Rama inestable ($+\sqrt{-r}$)};
+        \node[font=\bfseries\small] at (0, -2.6) {\textbf{(d)} Diagrama de bifurcación en el plano $(r, x^*)$};
+    \end{scope}
+\end{tikzpicture}
+\caption{Bifurcación saddle-node en $\dot{x} = r + x^2$. Arriba: evolución del campo vectorial para $r < 0$, $r = 0$ y $r > 0$. Abajo: diagrama de bifurcación donde una rama estable (línea sólida) y una inestable (línea a trazos) nacen/mueren en la parábola $r = -(x^*)^2$.}
+\label{fig:bifurcacion_saddle_node}
+\end{figure}
+
+\paragraph{La bifurcación ``blue-sky''.}
+Ralph Abraham y Christopher Shaw (1988) \cite{abraham1988} bautizaron poéticamente a este fenómeno como \emph{``blue-sky bifurcation''}: al variar el parámetro $r$, de la nada absoluta (\emph{``out of the clear blue sky''}) aparece espontáneamente un par de puntos fijos (uno estable y otro inestable), o bien colisionan y se aniquilan en el aire.
+
+\aside{Una forma equivalente de la saddle-node es $\dot{x} = r - x^2$, donde los equilibrios existen para $r > 0$ en $x^* = \pm\sqrt{r}$ y desaparecen para $r < 0$.}
+
+\subsection{Formas normales: Taylor local en $(x^{*}, r_{c})$}
+
+¿Por qué la familia cuadrática $\dot{x} = r \pm x^2$ es tan importante? Porque es la \textbf{forma normal} representativa de \emph{toda} bifurcación saddle-node genérica.
+
+\paragraph{Derivación rigurosa mediante serie de Taylor en dos variables.}
+Sea $\dot{x} = f(x, r)$ una familia continua uniparamétrica de sistemas dinámicos que experimenta una bifurcación saddle-node en el punto $(x^*, r_c)$. Expandamos $f(x, r)$ en serie de Taylor de dos variables alrededor de $(x^*, r_c)$:
+\begin{align}
+    f(x, r) &= f(x^*, r_c) + \partial_x f(x^*, r_c)(x - x^*) + \partial_r f(x^*, r_c)(r - r_c) \nonumber \\
+    &\quad + \frac{1}{2} \partial_{xx}^2 f(x^*, r_c)(x - x^*)^2 + \partial_{xr}^2 f(x^*, r_c)(x - x^*)(r - r_c) \nonumber \\
+    &\quad + \frac{1}{2} \partial_{rr}^2 f(x^*, r_c)(r - r_c)^2 + \mathcal{O}\left((x - x^*)^3, (r - r_c)^3\right)
+    \label{eq:taylor_2var}
+\end{align}
+
+Las condiciones definitorias de una bifurcación saddle-node en $(x^*, r_c)$ son:
+\begin{enumerate}
+    \item $f(x^*, r_c) = 0$ (existencia de punto fijo en el valor crítico).
+    \item $\partial_x f(x^*, r_c) = 0$ (el punto fijo es no hiperbólico; la tangente es horizontal).
+    \item $a \equiv \partial_r f(x^*, r_c) \neq 0$ (el parámetro $r$ desplaza la curva verticalmente a través del eje).
+    \item $b \equiv \frac{1}{2} \partial_{xx}^2 f(x^*, r_c) \neq 0$ (la gráfica tiene curvatura cuadrática no nula, comportándose localmente como un cuenco parabólico).
+\end{enumerate}
+
+Sustituyendo estas condiciones en \eqref{eq:taylor_2var} y reteniendo los términos dominantes de menor orden:
+\begin{equation}
+    \dot{x} \approx a(r - r_c) + b(x - x^*)^2
+    \label{eq:forma_normal_taylor}
+\end{equation}
+Definiendo las variables centradas y reescaladas $X = \sqrt{|b|}(x - x^*)$ y $R = a(r - r_c)$, la ecuación \eqref{eq:forma_normal_taylor} se reduce formalmente a $\dot{X} = R \pm X^2$.
+
+\subsection{Ejemplo: $\dot{x} = r - x - e^{-x}$, $r_{c} = 1$}
+
+Consideremos el sistema no lineal:
+\begin{equation}
+    \dot{x} = f(x, r) = r - x - e^{-x}
+    \label{eq:ejemplo_sn_exp}
+\end{equation}
+
+Para encontrar el valor crítico de bifurcación $r_c$ y el punto fijo $x^*$:
+\begin{align}
+    f(x^*, r_c) = 0 &\implies r_c - x^* - e^{-x^*} = 0 \implies r_c - x^* = e^{-x^*} \label{eq:sn_cond1}\\
+    \partial_x f(x^*, r_c) = 0 &\implies -1 + e^{-x^*} = 0 \implies e^{-x^*} = 1 \implies x^* = 0 \label{eq:sn_cond2}
+\end{align}
+Sustituyendo $x^* = 0$ en la condición \eqref{eq:sn_cond1}:
+\begin{equation}
+    r_c - 0 = e^0 = 1 \implies r_c = 1
+\end{equation}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=Stealth, scale=0.9]
+    \draw[->, thick, black!60] (-2.5,0) -- (3.5,0) node[right, font=\small] {$x$};
+    \draw[->, thick, black!60] (0,-0.5) -- (0,3.5) node[above, font=\small] {$y$};
+    
+    % Curva exponencial e^{-x}
+    \draw[very thick, black!85, domain=-1.1:3.0, samples=60] plot (\x, {exp(-\x)}) node[right, font=\footnotesize] {$y = e^{-x}$};
+    
+    % Recta r = 1 (tangente crítica)
+    \draw[very thick, black!60, domain=-1.5:2.5] plot (\x, {1.0 - \x}) node[above right, font=\tiny] {$y = 1 - x \ (r_c=1)$};
+    \filldraw[black] (0, 1.0) circle (2.5pt) node[above right=2pt, font=\footnotesize] {Tangencia en $(0,1)$};
+    
+    % Recta r = 1.6 (dos intersecciones)
+    \draw[thick, dashed, black!75, domain=-1.0:2.8] plot (\x, {1.6 - \x}) node[above right, font=\tiny] {$y = 1.6 - x \ (r > 1)$};
+    \filldraw[black] (-0.45, 1.57) circle (2pt);
+    \draw[black, fill=white, thick] (1.1, 0.33) circle (2pt);
+\end{tikzpicture}
+\caption{Determinación geométrica de la bifurcación saddle-node en $\dot{x} = r - x - e^{-x}$. Para $r = r_c = 1$, la recta $y = r-x$ es exactamente tangente a la exponencial $y = e^{-x}$ en $x^* = 0$.}
+\label{fig:ejemplo_transcendente_saddlenode}
+\end{figure}
+
+Expandiendo $e^{-x}$ en serie de Maclaurin: $e^{-x} = 1 - x + \frac{x^2}{2} - \frac{x^3}{6} + \cdots$:
+\begin{align}
+    \dot{x} &= r - x - \left(1 - x + \frac{x^2}{2} + \mathcal{O}(x^3)\right) \nonumber \\
+    &= (r - 1) - \frac{1}{2}x^2 + \mathcal{O}(x^3)
+\end{align}
+Identificando $R = r - 1$ y reescalando $X = x/\sqrt{2}$, recuperamos $\dot{X} \approx R - X^2$, demostrando que el sistema experimenta una bifurcación saddle-node estándar en $r_c = 1$.
+

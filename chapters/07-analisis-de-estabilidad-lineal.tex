@@ -1,0 +1,203 @@
+% ============================================================
+% FUENTES: draft p.17--20.
+% ============================================================
+\section{Análisis de estabilidad lineal}
+
+Aunque el trazado gráfico del campo vectorial permite clasificar cualitativamente los puntos fijos, en muchas situaciones (especialmente en dimensiones superiores o con parámetros libres) se requiere un método algebraico cuantitativo. Este método es el \textbf{análisis de estabilidad lineal}.
+
+\subsection{Derivación: linealización alrededor de $x^{*}$}
+
+Sea $\dot{x} = f(x)$ un flujo unidimensional y sea $x^*$ un punto fijo, de modo que $f(x^*) = 0$. Consideremos una perturbación infinitesimal $\eta(t)$ alrededor del equilibrio:
+\begin{equation}
+    x(t) = x^* + \eta(t), \quad |\eta(t)| \ll 1
+    \label{eq:perturbacion_def}
+\end{equation}
+
+Para determinar si la perturbación crece o decae con el tiempo, derivamos $\eta(t)$ respecto a $t$:
+\begin{equation}
+    \dot{\eta} = \frac{d}{dt}(x(t) - x^*) = \dot{x} = f(x(t)) = f(x^* + \eta)
+\end{equation}
+Expandiendo $f(x^* + \eta)$ en serie de Taylor alrededor de $x^*$:
+\begin{equation}
+    f(x^* + \eta) = f(x^*) + f'(x^*)\eta + \frac{f''(x^*)}{2!}\eta^2 + \mathcal{O}(\eta^3)
+\end{equation}
+Dado que $f(x^*) = 0$ por definición de punto fijo, obtenemos:
+\begin{equation}
+    \dot{\eta} = f'(x^*)\eta + \mathcal{O}(\eta^2)
+\end{equation}
+Si $f'(x^*) \neq 0$ y nos mantenemos suficientemente cerca de $x^*$ tal que $|\eta| \ll 1$, los términos de orden superior $\mathcal{O}(\eta^2)$ son completamente despreciables frente al término lineal. Obtenemos así la \textbf{ecuación linealizada}:
+\begin{equation}
+    \dot{\eta} \approx f'(x^*)\eta
+    \label{eq:linealizada_eta}
+\end{equation}
+cuya solución exacta es:
+\begin{equation}
+    \eta(t) = \eta(0) e^{f'(x^*) t}
+    \label{eq:sol_linealizada}
+\end{equation}
+
+\begin{theorem}[Criterio de estabilidad lineal en 1D]
+    Sea $x^*$ un punto fijo de $\dot{x} = f(x)$ con $f \in \mathcal{C}^1$:
+    \begin{itemize}
+        \item Si $f'(x^*) < 0$, las perturbaciones decaen exponencialmente a cero ($\eta(t) \to 0$); el punto fijo $x^*$ es \textbf{linealmente estable} (atractor asintótico).
+        \item Si $f'(x^*) > 0$, las perturbaciones crecen exponencialmente ($\eta(t) \to \pm\infty$); el punto fijo $x^*$ es \textbf{linealmente inestable} (repulsor).
+        \item Si $f'(x^*) = 0$, el término lineal se anula y la linealización es \textbf{inconclusa} (punto fijo degenerado o no hiperbólico). La estabilidad queda determinada por los términos no lineales de orden superior.
+    \end{itemize}
+\end{theorem}
+
+\subsection{Escala de tiempo característica $\tau = 1/|f'(x^{*})|$}
+
+El valor numérico de la derivada $f'(x^*)$ no solo determina el signo de la estabilidad, sino que cuantifica la tasa de respuesta temporal del sistema en las inmediaciones del equilibrio.
+
+\begin{definition}[Escala de tiempo característica]
+    Para un punto fijo hiperbólico ($f'(x^*) \neq 0$), definimos el \textbf{tiempo característico de relajación} $\tau$ como:
+    \begin{equation}
+        \tau = \frac{1}{|f'(x^*)|}
+        \label{eq:tiempo_caracteristico}
+    \end{equation}
+    $\tau$ representa el tiempo necesario para que una perturbación inicial $\eta(0)$ se reduzca (o se amplifique) en un factor de $1/e \approx 36.8\%$.
+\end{definition}
+
+Un valor grande de $|f'(x^*)|$ implica una respuesta dinámica rápida ($\tau$ muy pequeño), mientras que $|f'(x^*)| \approx 0$ denota una relajación sumamente lenta hacia el equilibrio.
+
+\subsection{Ejemplos: $\sin x$ y el modelo logístico}
+
+\begin{example}[Campo trigonométrico $\dot{x} = \sin x$]
+    Los puntos fijos satisfacen $\sin x_k^* = 0 \implies x_k^* = k\pi$, con $k \in \mathbb{Z}$. Evaluando la derivada $f'(x) = \cos x$:
+    \begin{equation}
+        f'(x_k^*) = \cos(k\pi) = (-1)^k = \begin{cases} 
+            +1 > 0 & \text{si } k \text{ es par } (0, \pm 2\pi, \dots) \implies \text{\textbf{Inestable}} \\
+            -1 < 0 & \text{si } k \text{ es impar } (\pm \pi, \pm 3\pi, \dots) \implies \text{\textbf{Estable}}
+        \end{cases}
+    \end{equation}
+    En ambos casos, la escala de tiempo característica es $\tau = 1/| \pm 1 | = 1$.
+\end{example}
+
+\begin{example}[Modelo logístico $\dot{N} = rN(1 - N/K)$]
+    Reescribiendo $f(N) = rN - \frac{rN^2}{K}$, la derivada respecto a $N$ es:
+    \begin{equation}
+        f'(N) = r - \frac{2rN}{K}
+    \end{equation}
+    Evaluando en los dos equilibrios $N_1^* = 0$ y $N_2^* = K$:
+    \begin{itemize}
+        \item En $N_1^* = 0$: $f'(0) = r > 0 \implies$ \textbf{Inestable}, con tiempo característico $\tau = 1/r$.
+        \item En $N_2^* = K$: $f'(K) = r - \frac{2rK}{K} = -r < 0 \implies$ \textbf{Estable}, con idéntico tiempo característico $\tau = 1/r$.
+    \end{itemize}
+\end{example}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=Stealth, scale=0.85]
+    % Panel izquierdo: sin(x)
+    \begin{scope}[shift={(-4.5, 0)}]
+        \draw[->, thick, black!60] (-0.5,0) -- (4.2,0) node[right, font=\tiny] {$x$};
+        \draw[->, thick, black!60] (0,-1.5) -- (0,1.8) node[above, font=\tiny] {$f(x)$};
+        \draw[very thick, black!85, domain=0:3.8, samples=50] plot (\x, {1.2*sin(\x r)});
+        
+        \draw[black, fill=white, thick] (0,0) circle (2pt) node[below left=2pt, font=\tiny] {$0$ (inestable)};
+        \filldraw[black] (3.1416,0) circle (2pt) node[below=2pt, font=\tiny] {$\pi$ (estable)};
+        
+        % Tangentes
+        \draw[dashed, black!60] (-0.6,-0.6) -- (0.6,0.6) node[above right, font=\tiny] {$f'(0)=+1$};
+        \draw[dashed, black!60] (2.5,0.6) -- (3.7,-0.6) node[below right, font=\tiny] {$f'(\pi)=-1$};
+        \node[font=\footnotesize, align=center] at (1.8, -1.2) {\textbf{(a)} $\dot{x} = \sin x$};
+    \end{scope}
+
+    % Panel derecho: Logístico
+    \begin{scope}[shift={(4.0, 0)}]
+        \draw[->, thick, black!60] (-0.5,0) -- (4.2,0) node[right, font=\tiny] {$N$};
+        \draw[->, thick, black!60] (0,-1.5) -- (0,1.8) node[above, font=\tiny] {$f(N)$};
+        \draw[very thick, black!85, domain=0:3.6, samples=50] plot (\x, {-1.5*\x*(\x - 3.0)/2.25});
+        
+        \draw[black, fill=white, thick] (0,0) circle (2pt) node[below left=2pt, font=\tiny] {$N^*=0$};
+        \filldraw[black] (3.0,0) circle (2pt) node[below=2pt, font=\tiny] {$N^*=K$};
+        
+        % Tangentes
+        \draw[dashed, black!60] (-0.5,-0.6) -- (0.8,0.96) node[above left, font=\tiny] {$f'(0)=r$};
+        \draw[dashed, black!60] (2.2,0.96) -- (3.5,-0.6) node[below right, font=\tiny] {$f'(K)=-r$};
+        \node[font=\footnotesize, align=center] at (1.8, -1.2) {\textbf{(b)} $\dot{N} = rN(1 - N/K)$};
+    \end{scope}
+\end{tikzpicture}
+\caption{Linealización geométrica en $\dot{x} = \sin x$ y en el modelo logístico. Las líneas discontinuas representan las tangentes locales cuyas pendientes $f'(x^*)$ determinan la estabilidad.}
+\label{fig:estabilidad_lineal_ejemplos}
+\end{figure}
+
+\subsection{Puntos fijos degenerados y no existencia de oscilaciones en 1D}
+
+\paragraph{Puntos fijos de orden superior ($f'(x^*) = 0$).}
+Cuando $f'(x^*) = 0$, la aproximación lineal desaparece y el destino de las trayectorias depende de la primera derivada no nula en la serie de Taylor:
+\begin{enumerate}
+    \item $\dot{x} = -x^3$: Aquí $f'(0) = 0$, pero $f(x) > 0$ para $x < 0$ y $f(x) < 0$ para $x > 0$. El origen es \textbf{asintóticamente estable}, aunque la convergencia no es exponencial sino algebraica y lenta: integrando $\int -x^{-3}dx = \int dt \implies x(t) = \frac{x_0}{\sqrt{1 + 2x_0^2 t}} \sim t^{-1/2}$.
+    \item $\dot{x} = x^3$: $f'(0) = 0$, pero $f(x)$ expulsa las trayectorias. El origen es \textbf{inestable} (con escape a infinito en tiempo finito).
+    \item $\dot{x} = x^2$: $f'(0) = 0$, pero $f(x) \ge 0$ para todo $x$. El origen es un \textbf{nodo semi-estable} (atrae desde la izquierda, repele hacia la derecha).
+\end{enumerate}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=Stealth, scale=0.8]
+    % Panel a: -x^3
+    \begin{scope}[shift={(-5.5, 0)}]
+        \draw[->, thick, black!60] (-1.8,0) -- (1.8,0) node[right, font=\tiny] {$x$};
+        \draw[->, thick, black!60] (0,-1.5) -- (0,1.5) node[above, font=\tiny] {$\dot{x}$};
+        \draw[very thick, black!85, domain=-1.2:1.2, samples=50] plot (\x, {-0.9*\x*\x*\x});
+        \filldraw[black] (0,0) circle (2pt);
+        \draw[->, thick, black!90] (-1.2,0) -- (-0.4,0);
+        \draw[->, thick, black!90] (1.2,0) -- (0.4,0);
+        \node[font=\footnotesize, align=center] at (0,-1.8) {\textbf{(a)} $\dot{x} = -x^3$\\Estable};
+    \end{scope}
+
+    % Panel b: x^3
+    \begin{scope}[shift={(0, 0)}]
+        \draw[->, thick, black!60] (-1.8,0) -- (1.8,0) node[right, font=\tiny] {$x$};
+        \draw[->, thick, black!60] (0,-1.5) -- (0,1.5) node[above, font=\tiny] {$\dot{x}$};
+        \draw[very thick, black!85, domain=-1.2:1.2, samples=50] plot (\x, {0.9*\x*\x*\x});
+        \draw[black, fill=white, thick] (0,0) circle (2pt);
+        \draw[->, thick, black!90] (-0.4,0) -- (-1.2,0);
+        \draw[->, thick, black!90] (0.4,0) -- (1.2,0);
+        \node[font=\footnotesize, align=center] at (0,-1.8) {\textbf{(b)} $\dot{x} = x^3$\\Inestable};
+    \end{scope}
+
+    % Panel c: x^2
+    \begin{scope}[shift={(5.5, 0)}]
+        \draw[->, thick, black!60] (-1.8,0) -- (1.8,0) node[right, font=\tiny] {$x$};
+        \draw[->, thick, black!60] (0,-1.5) -- (0,1.5) node[above, font=\tiny] {$\dot{x}$};
+        \draw[very thick, black!85, domain=-1.2:1.2, samples=50] plot (\x, {1.0*\x*\x});
+        \filldraw[black!60] (0,0) circle (2pt);
+        \draw[->, thick, black!90] (-1.2,0) -- (-0.4,0);
+        \draw[->, thick, black!90] (0.4,0) -- (1.2,0);
+        \node[font=\footnotesize, align=center] at (0,-1.8) {\textbf{(c)} $\dot{x} = x^2$\\Semi-estable};
+    \end{scope}
+\end{tikzpicture}
+\caption{Comportamiento de sistemas no hiperbólicos con $f'(0) = 0$. (a) $\dot{x} = -x^3$ es estable. (b) $\dot{x} = x^3$ es inestable. (c) $\dot{x} = x^2$ es un nodo semi-estable.}
+\label{fig:puntos_fijos_orden_superior}
+\end{figure}
+
+\paragraph{Imposibilidad topológica de oscilaciones en 1D.}
+Un resultado cualitativo de primer orden es el siguiente:
+\begin{theorem}[No existencia de oscilaciones en la recta real]
+    En un flujo autónomo unidimensional $\dot{x} = f(x)$ con $f \in \mathcal{C}^1(\mathbb{R})$, las soluciones $x(t)$ son funciones estrictamente monótonas en el tiempo (o estacionarias). Por tanto, \textbf{no pueden existir oscilaciones periódicas ni oscilaciones amortiguadas con sobreimpulso (\emph{overshoot})}.
+\end{theorem}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=Stealth, scale=0.85]
+    \draw[->, thick, black!60] (0,0) -- (6,0) node[right, font=\small] {$t$};
+    \draw[->, thick, black!60] (0,-1.8) -- (0,2.2) node[above, font=\small] {$x(t)$};
+    
+    % Onda oscilatoria amortiguada
+    \draw[very thick, black!40, domain=0:5.5, samples=100] plot (\x, {1.8*exp(-0.6*\x)*cos(4*\x r)});
+    
+    % Gran cruz roja/negra de prohibido
+    \draw[very thick, black!85] (1.5, -1.2) -- (4.5, 1.5);
+    \draw[very thick, black!85] (1.5, 1.5) -- (4.5, -1.2);
+    
+    \node[font=\bfseries\small, align=center] at (3.0, -2.2) {¡IMPOSIBLE EN FLUJOS 1D!\\El flujo sobre $\mathbb{R}$ no puede invertir su marcha};
+\end{tikzpicture}
+\caption{Esquema que ilustra la imposibilidad de oscilaciones en flujos continuos sobre $\mathbb{R}$. Para invertir el sentido de movimiento ($\dot{x}$ cambiando de signo), la trayectoria debería cruzar un punto con $\dot{x} = 0$, donde quedaría detenida para siempre por unicidad de soluciones.}
+\label{fig:imposibilidad_oscilaciones}
+\end{figure}
+
+La razón es geométrica: estamos confinados a una línea recta. Para que $x(t)$ oscile, la velocidad $\dot{x}$ tendría que cambiar de signo, pasando forzosamente por un punto donde $\dot{x} = 0$ (un punto fijo). Pero por el teorema de unicidad de Picard--Lindelöf, una trayectoria que llega a un punto fijo requiere tiempo infinito para alcanzarlo o queda atrapada en él; jamás puede cruzarlo ni invertir su sentido.
+
+\aside{¿Podría haber oscilaciones periódicas si el espacio de fases fuera una circunferencia $S^1$ en vez de la recta $\mathbb{R}$? ¡Sí! En el círculo, una partícula puede moverse monótonamente en una sola dirección ($\dot{\theta} = \omega > 0$) y completar ciclos indefinidamente sin retroceder jamás. Pero en la recta $\mathbb{R}$, las soluciones solo pueden converger monótonamente hacia un atractor o escapar hacia $\pm\infty$.}
+

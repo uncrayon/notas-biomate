@@ -1,0 +1,166 @@
+% ============================================================
+% FUENTES: draft p.9--11; inglés §2 intro (n=1, sistemas de primer orden,
+% restricción a sistemas autónomos f(x,t)->f(x)).
+% ============================================================
+\section{Flujos en una dimensión}
+
+En esta sección exploramos la clase más sencilla de sistemas dinámicos continuos: los flujos en una línea (espacio de fases unidimensional, $n=1$). Veremos cómo la representación geométrica supera las limitaciones del cálculo analítico tradicional.
+
+\subsection{El ejemplo lineal $\dot{x} = ax$}
+
+Consideremos el problema de valor inicial para el sistema lineal homogéneo de primer orden:
+\begin{equation}
+    \dot{x} = ax, \quad x(0) = x_0, \quad a \in \mathbb{R}
+    \label{eq:flujo_lineal}
+\end{equation}
+
+\paragraph{Solución analítica.}
+Separando variables de manera rigurosa:
+\begin{align}
+    \frac{dx}{dt} = ax &\implies \frac{1}{x} \frac{dx}{dt} = a \nonumber \\
+    &\implies \int \frac{1}{x} \frac{dx}{dt} \, dt = \int a \, dt \nonumber \\
+    &\implies \ln|x| = at + C \nonumber \\
+    &\implies x(t) = x_0 e^{at}
+\end{align}
+
+\paragraph{Interpretación geométrica en la línea de fase.}
+En lugar de integrar, graficamos el campo vectorial $f(x) = ax$ frente a $x$ (véase la \cref{fig:flujo_lineal_ax}).
+\begin{itemize}
+    \item Si $a > 0$: $f(x) > 0$ cuando $x > 0$, lo que significa que la velocidad es positiva ($\dot{x} > 0$) y el estado se desplaza hacia la derecha. Para $x < 0$, $f(x) < 0 \implies \dot{x} < 0$, desplazándose hacia la izquierda. El origen $x^* = 0$ es un punto de velocidad nula; cualquier pequeña perturbación aleja al sistema de $0$. Por ello, $x^* = 0$ es un \textbf{punto fijo inestable} o \textbf{repulsor}.
+    \item Si $a < 0$: el signo del campo se invierte; las trayectorias convergen exponencialmente hacia $x^* = 0$, convirtiéndolo en un \textbf{punto fijo estable} o \textbf{atractor}.
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=Stealth, scale=0.9]
+    \draw[->, thick, black!60] (-4,0) -- (4,0) node[right, font=\small] {$x$};
+    \draw[->, thick, black!60] (0,-2.5) -- (0,2.5) node[above, font=\small] {$\dot{x} = f(x)$};
+    
+    % Recta f(x) = a x con a > 0
+    \draw[very thick, black!80] (-3.2,-2.0) -- (3.2,2.0) node[right, font=\small] {$f(x) = ax \ (a>0)$};
+    
+    % Flechas sobre el eje x
+    \draw[->, very thick, black!90] (0.5, 0) -- (1.5, 0);
+    \draw[->, very thick, black!90] (2.0, 0) -- (3.0, 0);
+    \draw[->, very thick, black!90] (-0.5, 0) -- (-1.5, 0);
+    \draw[->, very thick, black!90] (-2.0, 0) -- (-3.0, 0);
+    
+    % Punto fijo inestable en el origen
+    \draw[black, fill=white, thick] (0,0) circle (2.5pt) node[below right=2pt, font=\footnotesize] {$x^*=0$ (inestable)};
+    
+    \node[font=\footnotesize, black!70, align=center] at (2.2, -1.2) {Velocidad positiva ($\dot{x} > 0$)\\\emph{flujo hacia la derecha}};
+    \node[font=\footnotesize, black!70, align=center] at (-2.2, 1.2) {Velocidad negativa ($\dot{x} < 0$)\\\emph{flujo hacia la izquierda}};
+\end{tikzpicture}
+\caption{Línea de fase y campo vectorial para el sistema lineal $\dot{x} = ax$ con $a > 0$. El origen $x^* = 0$ es un punto de equilibrio inestable del cual divergen todas las trayectorias.}
+\label{fig:flujo_lineal_ax}
+\end{figure}
+
+\subsection{El ejemplo no lineal $\dot{x} = \sin x$}
+
+Consideremos ahora un sistema no lineal fundamental:
+\begin{equation}
+    \dot{x} = \sin x, \quad x(0) = x_0
+    \label{eq:flujo_sinx}
+\end{equation}
+
+\paragraph{Integración analítica.}
+Separando variables e integrando mediante la sustitución trigonométrica estándar:
+\begin{align}
+    \int \frac{1}{\sin x} \, dx = \int dt &\implies \int \csc x \, dx = t + C \nonumber \\
+    &\implies -\ln|\csc x + \cot x| = t + C
+\end{align}
+Imponiendo la condición inicial en $t=0$, $x(0) = x_0$:
+\begin{equation}
+    t = \ln \left| \frac{\csc x_0 + \cot x_0}{\csc x(t) + \cot x(t)} \right|
+    \label{eq:sol_implicita_sinx}
+\end{equation}
+La ecuación \eqref{eq:sol_implicita_sinx} es exacta, pero extraordinariamente opaca: despejar explícitamente $x(t)$ requiere manipulaciones algebraicas engorrosas y no ofrece intuición directa sobre la física global del sistema.
+
+\paragraph{Análisis cualitativo y línea de fase.}
+Grafiquemos $f(x) = \sin x$ (véase la \cref{fig:flujo_sin_x}). Los puntos de equilibrio $\dot{x} = 0$ ocurren en los múltiplos enteros de $\pi$:
+\begin{equation}
+    x_k^* = k\pi, \quad k \in \mathbb{Z}
+\end{equation}
+
+\begin{itemize}
+    \item En el intervalo $(0, \pi)$, $\sin x > 0 \implies \dot{x} > 0$: el flujo se mueve hacia la derecha.
+    \item En el intervalo $(\pi, 2\pi)$, $\sin x < 0 \implies \dot{x} < 0$: el flujo se mueve hacia la izquierda.
+    \item En consecuencia, $x^* = 0, \pm 2\pi, \dots$ son \textbf{repulsores inestables}, mientras que $x^* = \pm \pi, \pm 3\pi, \dots$ son \textbf{atractores estables}.
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=Stealth, scale=0.95]
+    \draw[->, thick, black!60] (-5.5,0) -- (5.5,0) node[right, font=\small] {$x$};
+    \draw[->, thick, black!60] (0,-1.8) -- (0,1.8) node[above, font=\small] {$\dot{x} = \sin x$};
+    
+    % Curva sin(x)
+    \draw[very thick, black!85, domain=-5.2:5.2, samples=100] plot (\x, {1.2*sin(\x r)});
+    
+    % Puntos fijos
+    \draw[black, fill=white, thick] (-3.1416, 0) circle (2.5pt); % -pi estable
+    \filldraw[black] (-3.1416, 0) circle (2.5pt) node[below=3pt, font=\footnotesize] {$-\pi$};
+    
+    \draw[black, fill=white, thick] (0,0) circle (2.5pt) node[below=3pt, font=\footnotesize] {$0$};
+    
+    \filldraw[black] (3.1416, 0) circle (2.5pt) node[below=3pt, font=\footnotesize] {$\pi$};
+    
+    % Flechas de fase
+    \draw[->, very thick, black!90] (-2.2, 0) -- (-2.8, 0);
+    \draw[->, very thick, black!90] (-4.2, 0) -- (-3.5, 0);
+    \draw[->, very thick, black!90] (0.8, 0) -- (1.8, 0);
+    \draw[->, very thick, black!90] (2.2, 0) -- (2.8, 0);
+    \draw[->, very thick, black!90] (4.5, 0) -- (3.6, 0);
+    
+    \node[font=\footnotesize, black!70] at (1.5, 1.4) {$\dot{x} > 0$ (velocidad positiva)};
+    \node[font=\footnotesize, black!70] at (4.5, -1.2) {$\dot{x} < 0$ (velocidad negativa)};
+\end{tikzpicture}
+\caption{Campo vectorial y línea de fase para $\dot{x} = \sin x$. Los círculos negros sólidos representan puntos fijos estables (atractores en $\pm \pi$), y los círculos blancos abiertos representan equilibrios inestables (repulsores en $0, \pm 2\pi$).}
+\label{fig:flujo_sin_x}
+\end{figure}
+
+Si una partícula inicia en $x_0 = \pi/4$, como $\sin(\pi/4) > 0$, el flujo la empuja irrevocablemente hacia la derecha con velocidad máxima en $x = \pi/2$ (donde la derivada $\ddot{x} = \cos x \cdot \dot{x} = 0$, punto de inflexión), desacelerando suavemente hasta alcanzar asintóticamente $x^* = \pi$ cuando $t \to \infty$ (véase la \cref{fig:trayectoria_sin_x}).
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=Stealth, scale=0.9]
+    \draw[->, thick, black!60] (0,0) -- (6,0) node[right, font=\small] {$t$};
+    \draw[->, thick, black!60] (0,0) -- (0,3.8) node[above, font=\small] {$x(t)$};
+    
+    % Asíntota en pi
+    \draw[dashed, black!50, thick] (0, 3.1416) -- (5.5, 3.1416) node[right, font=\footnotesize] {$x = \pi$ (asíntota estable)};
+    
+    % Trayectoria sigmoide
+    \draw[very thick, black!85, domain=0:5.2, samples=60] 
+        plot (\x, {2*rad(atan(exp(\x - 1.2))) + 0.3});
+    
+    % Puntos clave
+    \filldraw[black] (0, 0.785) circle (2pt) node[left, font=\footnotesize] {$x_0 = \pi/4$};
+    \draw[dotted, thick, black!60] (1.2, 0) node[below, font=\footnotesize] {$t_{\text{inflexión}}$} -- (1.2, 1.57) -- (0, 1.57) node[left, font=\footnotesize] {$\pi/2$};
+    \filldraw[black] (1.2, 1.57) circle (2pt);
+    
+    \node[font=\footnotesize, black!75, align=left] at (4.0, 1.2) {Convergencia asintótica:\\$\lim_{t \to \infty} x(t) = \pi$};
+\end{tikzpicture}
+\caption{Evolución temporal de la solución $x(t)$ para $\dot{x} = \sin x$ con condición inicial $x(0) = \pi/4$. La trayectoria presenta una forma sigmoidal con punto de inflexión en $x = \pi/2$ y se nivela asintóticamente en el atractor $x^* = \pi$.}
+\label{fig:trayectoria_sin_x}
+\end{figure}
+
+\subsection{Definición formal: sistemas de primer orden, autónomos}
+
+Formalicemos el marco teórico de los flujos unidimensionales:
+
+\begin{definition}[Flujo autónomo unidimensional]
+    Un sistema dinámico unidimensional continuo y autónomo se rige por la ecuación diferencial:
+    \begin{equation}
+        \dot{x} = f(x), \quad x \in \mathbb{R}
+        \label{eq:flujo_1d_def}
+    \end{equation}
+    donde la función $f: \mathbb{R} \to \mathbb{R}$ es de clase $\mathcal{C}^1$ (continuamente diferenciable), garantizando por el teorema de Picard--Lindelöf la existencia y unicidad local de las trayectorias.
+\end{definition}
+
+\paragraph{Dos precisiones conceptuales fundamentales:}
+\begin{enumerate}
+    \item \textbf{El significado de ``sistema'':} Empleamos el término en el sentido moderno de la teoría de sistemas dinámicos (un estado determinista que evoluciona bajo una regla de velocidad en su espacio de estados), no en el sentido escolar de un conjunto acoplado de múltiples ecuaciones simultáneas. Una única ecuación diferencial $\dot{x} = f(x)$ es un sistema dinámico unidimensional.
+    \item \textbf{Restricción a ecuaciones autónomas:} A lo largo de esta parte del curso asumiremos siempre que $f$ no depende explícitamente del tiempo ($f(x)$, no $f(x, t)$). Una ecuación no autónoma $\dot{x} = f(x, t)$ requiere especificar dos cantidades $(x, t)$ para determinar la velocidad instantánea, por lo que matemáticamente equivale a un sistema bidimensional en el espacio aumentado $(x, t)$.
+\end{enumerate}
+

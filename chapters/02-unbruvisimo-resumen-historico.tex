@@ -1,0 +1,116 @@
+% ============================================================
+% FUENTES: draft p.3--7.
+% ============================================================
+\section{Un brevísimo resumen histórico de los sistemas dinámicos no lineales}
+
+La historia de los sistemas dinámicos es, en gran medida, la historia del enfrentamiento entre la búsqueda de fórmulas analíticas exactas y la inevitable complejidad del mundo natural.
+
+\subsection{Del problema de los dos cuerpos a Poincaré (1666--fines de 1800)}
+
+En 1666, un joven Isaac Newton sentó las bases del cálculo diferencial e integral y formuló las leyes del movimiento y de la gravitación universal. Con estas herramientas resolvió de manera exacta el \textbf{problema de los dos cuerpos}: dos masas puntuales que interactúan bajo la atracción gravitacional mutua describen órbitas cónicas (elipses, parábolas o hipérbolas), justificando matemáticamente las leyes empíricas de Kepler.
+
+El éxito fue tan rotundo que inauguró la era del mecanicismo determinista. Sin embargo, cuando Newton intentó extender el análisis al \textbf{problema de tres cuerpos} ($N=3$), en particular para calcular con precisión la órbita de la Luna bajo la influencia combinada de la Tierra y el Sol, la dificultad resultó infranqueable. En una célebre carta a Edmond Halley, Newton confesó con amargura:
+\begin{quote}
+    \emph{``Ningún problema me ha hecho doler tanto la cabeza como el problema del Sol-Tierra-Luna.''}
+\end{quote}
+
+Durante los siguientes dos siglos, los matemáticos más brillantes de Europa —entre ellos Leonhard Euler, Joseph-Louis Lagrange y Carl Friedrich Gauss— intentaron infructuosamente encontrar soluciones analíticas cerradas en términos de funciones elementales o series convergentes para el problema de $N$ cuerpos.
+
+A finales del siglo XIX, con motivo del concurso en honor al sexagésimo cumpleaños del rey Óscar II de Suecia (1889), el matemático francés Henri Poincaré abordó el problema restringido de tres cuerpos. Poincaré demostró rigurosamente que, en general, no existen integrales primeras algebraicas adicionales ni series uniformemente convergentes que resuelvan el problema.
+
+\paragraph{El nacimiento del espacio de fases y el caos.}
+En lugar de buscar fórmulas algebraicas exactas que no existen, Poincaré propuso un cambio de paradigma radical: el \textbf{análisis cualitativo y geométrico}. Introdujo la noción de \emph{espacio de fases} (o plano de fase en 2D), transformando el estudio de una ecuación diferencial en el estudio de las trayectorias de un flujo continuo y de sus intersecciones con superficies transversales (secciones de Poincaré).
+
+En su análisis de las órbitas homoclínicas y heteroclínicas, Poincaré descubrió la existencia de trayectorias con un entrelazamiento infinitamente complejo (el hoy llamado entramado homoclínico). Había descubierto el \textbf{caos determinista}:
+\begin{definition}[Caos determinista]
+    Comportamiento aperiódico a largo plazo que ocurre dentro de un sistema dinámico determinista no lineal, el cual exhibe una sensibilidad extrema a las condiciones iniciales (pequeñas variaciones iniciales divergen exponencialmente en el tiempo).
+\end{definition}
+
+\aside{Una anécdota imperdible: Henri Poincaré era pésimo dibujando; se cuenta que en los exámenes de admisión a la École Polytechnique obtuvo un rotundo cero en la prueba de dibujo mecánico. Paradójicamente, su intuición era profundamente geométrica y visual. Como en sus memorias publicadas casi no incluía figuras sino extensas descripciones geométricas abstractas, y como la atención de la física a principios del siglo XX se volcó hacia la mecánica cuántica y la teoría de la relatividad, sus revolucionarias ideas sobre dinámica permanecieron en relativa sombra durante varias décadas.}
+
+\subsection{Osciladores no lineales, ingeniería y el clima (1920s--1963)}
+
+Entre las décadas de 1920 y 1950, la dinámica no lineal resurgió impulsada por las necesidades tecnológicas de la física y la ingeniería aplicada:
+\begin{itemize}
+    \item El desarrollo de la radiocomunicación y los tubos de vacío (tríodos y diodos) condujo al estudio de osciladores auto-sostenidos no lineales, como el célebre modelo de Balthasar van der Pol (1926).
+    \item Los sistemas de radar durante la Segunda Guerra Mundial y el posterior diseño de láseres requirieron comprender la sincronización y los ciclos límite.
+    \item El control de frecuencia en telecomunicaciones dio origen a los lazos de enganche de fase (\emph{Phase Locked Loops}, PLL), cuyo funcionamiento depende críticamente del bloqueo de fase no lineal entre un oscilador local y una señal entrante (véase la \cref{fig:pll_block_diagram}).
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=Stealth, auto, node distance=2.2cm, >=Latex]
+    \tikzstyle{block} = [draw, rectangle, minimum height=1.1cm, minimum width=2.2cm, fill=black!5, font=\small]
+    \tikzstyle{input} = [coordinate]
+    \tikzstyle{output} = [coordinate]
+    
+    \node [input] (in) {};
+    \node [block, right of=in, node distance=2.0cm] (pd) {$\Phi$ \begin{tabular}{c}Detector\\de fase\end{tabular}};
+    \node [block, right of=pd, node distance=3.2cm] (lf) {\begin{tabular}{c}Filtro\\de lazo\end{tabular}};
+    \node [block, right of=lf, node distance=3.2cm] (vco) {\begin{tabular}{c}VCO\\Oscilador\end{tabular}};
+    \node [output, right of=vco, node distance=2.5cm] (out) {};
+    \node [coordinate, below of=lf, node distance=1.6cm] (fb) {};
+
+    \draw [->, thick] (in) -- node[above] {$v_i(t)$} (pd);
+    \draw [->, thick] (pd) -- node[above] {$e(t)$} (lf);
+    \draw [->, thick] (lf) -- node[above] {$v_c(t)$} (vco);
+    \draw [->, thick] (vco) -- node[above] (outlabel) {$v_o(t)$} (out);
+    \draw [->, thick] ($(vco.east)!0.5!(out)$) |- (fb) -| (pd.south);
+\end{tikzpicture}
+\caption{Diagrama de bloques de un lazo de enganche de fase (\emph{Phase Locked Loop}, PLL). La señal de entrada $v_i(t)$ se compara con la salida $v_o(t)$ generada por el oscilador controlado por voltaje (VCO); el error pasa por un filtro de lazo que corrige dinámicamente la frecuencia y la fase.}
+\label{fig:pll_block_diagram}
+\end{figure}
+
+Hacia 1950, la invención de las computadoras digitales posibilitó simular numéricamente sistemas de ecuaciones no integrables. En 1963, el matemático y meteorólogo Edward Lorenz, trabajando en el MIT en modelos de convección atmosférica basados en las ecuaciones de Navier--Stokes y Rayleigh--Bénard, redujo el sistema a tres ecuaciones diferenciales no lineales acopladas. Al simularlas, descubrió trayectorias que nunca se repetían pero que permanecían confinadas en un objeto geométrico fractal: el primer atractor extraño documentado.
+
+Lorenz publicó su trabajo seminal \emph{``Deterministic Nonperiodic Flow''} en 1963 en el \emph{Journal of the Atmospheric Sciences} \cite{lorenz1963}. Inicialmente, el artículo pasó inadvertido para la comunidad matemática porque estaba publicado en una revista especializada en meteorología, y los físicos lo consideraron en su momento un modelo de juguete demasiado simplificado.
+
+\subsection{Caos determinista, biología y universalidad (1963--1990s)}
+
+A partir de los años sesenta y setenta, la revolución de los sistemas dinámicos se extendió a múltiples disciplinas:
+\begin{itemize}
+    \item \textbf{Topología y matemáticas puras:} Stephen Smale introdujo la transformación de herradura (\emph{Smale horseshoe}), demostrando la estructura geométrica robusta del caos. En mecánica hamiltoniana, el teorema KAM (Kolmogorov--Arnold--Moser) explicó la persistencia y destrucción paulatina de toros invariantes en sistemas casi-integrables.
+    \item \textbf{Biología de poblaciones y mapas discretos:} En 1976, Robert M. May publicó en \emph{Nature} su célebre artículo \emph{``Simple Mathematical Models with Very Complicated Dynamics''} \cite{may1976}. May demostró que la ecuación logística discreta $x_{n+1} = r x_n(1 - x_n)$, a pesar de su sencillez, exhibe una cascada infinita de duplicación de periodo y caos. May hizo un enérgico llamado pedagógico a no restringir la enseñanza a modelos lineales: \emph{``si permitimos a los sistemas ser no lineales, es donde surge la verdadera riqueza dinámica''}.
+    \item \textbf{Geometría fractal:} Benoit Mandelbrot acuñó el término \emph{fractal} y reveló que las geometrías de la naturaleza (costas, nubes, bronquios, redes vasculares) son inherentemente no euclidianas y auto-similares.
+    \item \textbf{Osciladores biológicos:} Arthur T. Winfree investigó la sincronización biológica en ritmos circadianos, agregación de células cardíacas y ondas espaciotemporales \cite{winfree2001}.
+    \item \textbf{Turbulencia y dinámica de fluidos:} David Ruelle y Floris Takens (1971) propusieron que la turbulencia en fluidos no surge de una suma infinita de frecuencias independientes (como sugería Landau), sino del colapso del flujo hacia un atractor extraño de baja dimensión \cite{ruelle1971}.
+    \item \textbf{Universalidad cuantitativa:} Hacia 1978, el físico Mitchell Feigenbaum \cite{feigenbaum1978} descubrió que la tasa geométrica con la que se suceden las bifurcaciones de duplicación de periodo converge a una constante universal:
+    \begin{equation}
+        \delta = \lim_{k \to \infty} \frac{r_k - r_{k-1}}{r_{k+1} - r_k} \approx 4.6692016\dots
+    \end{equation}
+    aplicando técnicas de grupo de renormalización tomadas de las transiciones de fase de la física estadística.
+    \item \textbf{Difusión cultural y aplicaciones de ingeniería:} En 1987, James Gleick publicó el superventas \emph{Chaos: Making a New Science} \cite{gleick1987}, llevando estos conceptos al público general (popularizados luego en la cultura masiva con la novela y película \emph{Jurassic Park} en 1993 y la famosa metáfora del ``efecto mariposa''). En la década de 1990, el caos se aplicó al cifrado de comunicaciones seguras, sincronización de láseres y control de arritmias cardíacas.
+\end{itemize}
+
+\aside{Un ejemplo fascinante de la mecánica celeste moderna: en 1985, los científicos de la NASA emplearon la dinámica no lineal de $N$ cuerpos y trayectorias caóticas alrededor de los puntos de Lagrange para redirigir la sonda espacial ISEE-3 (renombrada ICE, \emph{International Comet Explorer}) y realizar el primer sobrevuelo exitoso de un cometa (Giacobini--Zinner) consumiendo un mínimo de combustible.}
+
+\subsection{Formulación matemática general}
+
+Formalmente, un sistema dinámico determinista continuo en tiempo se describe mediante un sistema de ecuaciones diferenciales ordinarias autónomas de primer orden:
+\begin{equation}
+    \dot{\vec{x}} \equiv \frac{d\vec{x}}{dt} = \vec{F}(\vec{x}), \quad \vec{x} \in \mathbb{R}^n, \quad \vec{F}: \mathbb{R}^n \to \mathbb{R}^n
+    \label{eq:sistema_general}
+\end{equation}
+donde el espacio euclidiano $\mathbb{R}^n$ (o una variedad diferenciable $M$) se denomina el \textbf{espacio de fases} (o espacio de estados), y $\vec{x}(t) = (x_1(t), x_2(t), \dots, x_n(t))^\top$ describe el estado instantáneo del sistema.
+
+En coordenadas escalares, el sistema \eqref{eq:sistema_general} toma la forma explícita:
+\begin{equation}
+\begin{aligned}
+    \dot{x}_1 &= f_1(x_1, x_2, \dots, x_n) \\
+    \dot{x}_2 &= f_2(x_1, x_2, \dots, x_n) \\
+    &\;\;\vdots \\
+    \dot{x}_n &= f_n(x_1, x_2, \dots, x_n)
+\end{aligned}
+\label{eq:sistema_escalar}
+\end{equation}
+
+\begin{definition}[Linealidad versus No linealidad]
+    Decimos que el sistema \eqref{eq:sistema_general} es \textbf{lineal} si el campo vectorial $\vec{F}(\vec{x})$ satisface el principio de superposición, es decir, $\vec{F}(\alpha\vec{x} + \beta\vec{y}) = \alpha\vec{F}(\vec{x}) + \beta\vec{F}(\vec{y})$, lo cual equivale a que todas las funciones $f_i$ dependan únicamente de combinaciones lineales homogéneas de primer orden:
+    \begin{equation}
+        \dot{\vec{x}} = A \vec{x}, \quad A \in \mathbb{R}^{n \times n}
+    \end{equation}
+    En caso contrario, si en las funciones $f_i$ aparecen potencias ($x_i^2, x_i^3$), productos cruzados entre variables ($x_i x_j$) o funciones trascendentes ($\sin x_i, e^{x_i}, \tanh x_i$), el sistema se clasifica como \textbf{no lineal}.
+\end{definition}
+
+En los sistemas no lineales, el principio de superposición se quiebra: el todo no es simplemente la suma de las partes. Por ello, el análisis requiere estudiar la geometría del campo vectorial en el espacio de fases, como veremos en el siguiente capítulo.
+

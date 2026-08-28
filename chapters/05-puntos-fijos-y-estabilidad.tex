@@ -1,0 +1,142 @@
+% ============================================================
+% FUENTES: draft p.12--13; inglés §2.2 "Fixed Points & Stability".
+% ============================================================
+\section{Puntos fijos y estabilidad}
+
+En los sistemas continuos, los estados donde el sistema cesa de cambiar son los elementos vertebradores de toda la dinámica.
+
+\subsection{Clasificación cualitativa en la línea de fase}
+
+Consideremos el flujo unidimensional general $\dot{x} = f(x)$.
+
+\begin{definition}[Punto fijo o estado de equilibrio]
+    Un punto $x^* \in \mathbb{R}$ es un \textbf{punto fijo} (o punto de equilibrio) del sistema $\dot{x} = f(x)$ si:
+    \begin{equation}
+        f(x^*) = 0
+    \end{equation}
+    Si la condición inicial coincide con el punto fijo, $x(0) = x^*$, la solución constante $x(t) \equiv x^*$ es válida para todo $t \ge 0$.
+\end{definition}
+
+El comportamiento en la vecindad de $x^*$ depende exclusivamente del signo de $f(x)$ a ambos lados:
+
+\begin{enumerate}
+    \item \textbf{Punto fijo estable (atractor / sumidero / \emph{sink}):} Si $f(x) > 0$ a la izquierda de $x^*$ y $f(x) < 0$ a la derecha, el flujo empuja a las partículas hacia $x^*$ desde ambas direcciones ($\to \bullet \leftarrow$). Geométricamente, la gráfica de $f(x)$ cruza el eje $x$ con pendiente negativa ($f'(x^*) < 0$).
+    \item \textbf{Punto fijo inestable (repulsor / fuente / \emph{source}):} Si $f(x) < 0$ a la izquierda y $f(x) > 0$ a la derecha, el flujo expulsa a las partículas lejos de $x^*$ ($\leftarrow \circ \to$). Geométricamente, $f(x)$ cruza el eje $x$ con pendiente positiva ($f'(x^*) > 0$).
+    \item \textbf{Punto fijo semi-estable (nodo semi-estable / cuello de botella):} Ocurre cuando la gráfica de $f(x)$ toca tangencialmente el eje $x$ sin cruzarlo (por ejemplo, $f(x) = (x-x^*)^2$ o $-(x-x^*)^2$). El flujo atrae por un flanco pero repele por el opuesto ($\to \bullet \to$ o $\leftarrow \bullet \leftarrow$).
+\end{enumerate}
+
+La \cref{fig:clasificacion_puntos_fijos} resume los cuatro casos prototípicos en la línea de fase.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=Stealth, scale=0.82]
+    % Panel 1: Parábola arriba
+    \begin{scope}[shift={(-6.5, 3.2)}]
+        \draw[->, thick, black!50] (-2.2,0) -- (2.2,0) node[right, font=\tiny] {$x$};
+        \draw[->, thick, black!50] (0,-1.2) -- (0,1.5) node[above, font=\tiny] {$f(x)$};
+        \draw[thick, black!85, domain=-1.8:1.8] plot (\x, {\x*\x - 0.8});
+        \filldraw[black] (-0.894, 0) circle (2pt) node[above left, font=\tiny] {$a$};
+        \draw[black, fill=white, thick] (0.894, 0) circle (2pt) node[above right, font=\tiny] {$b$};
+        \draw[->, thick, black!90] (-1.8,0) -- (-1.2,0);
+        \draw[->, thick, black!90] (0,0) -- (-0.5,0);
+        \draw[->, thick, black!90] (1.2,0) -- (1.7,0);
+        \node[font=\footnotesize, align=center] at (0,-1.6) {\textbf{(a)} $a$ estable, $b$ inestable};
+    \end{scope}
+
+    % Panel 2: Tangencia (semi-estable)
+    \begin{scope}[shift={(1.5, 3.2)}]
+        \draw[->, thick, black!50] (-3.0,0) -- (3.0,0) node[right, font=\tiny] {$x$};
+        \draw[->, thick, black!50] (0,-1.2) -- (0,1.5) node[above, font=\tiny] {$f(x)$};
+        \draw[thick, black!85, domain=-2.3:2.3, samples=60] plot (\x, {-0.3*(\x+1.6)*(\x)*(\x)*(\x-1.6)});
+        \filldraw[black] (-1.6, 0) circle (2pt) node[below, font=\tiny] {$a$};
+        \filldraw[black!60] (0, 0) circle (2pt) node[below right, font=\tiny] {$b$};
+        \draw[black, fill=white, thick] (1.6, 0) circle (2pt) node[below, font=\tiny] {$c$};
+        \draw[->, thick, black!90] (-2.2,0) -- (-1.8,0);
+        \draw[->, thick, black!90] (-0.8,0) -- (-1.2,0);
+        \draw[->, thick, black!90] (0.5,0) -- (1.0,0);
+        \draw[->, thick, black!90] (2.2,0) -- (2.6,0);
+        \node[font=\footnotesize, align=center] at (0,-1.6) {\textbf{(b)} $a$ estable, $b$ semi-estable, $c$ inestable};
+    \end{scope}
+
+    % Panel 3: Lineal decreciente
+    \begin{scope}[shift={(-6.5, -2.5)}]
+        \draw[->, thick, black!50] (-2.2,0) -- (2.2,0) node[right, font=\tiny] {$x$};
+        \draw[->, thick, black!50] (0,-1.2) -- (0,1.5) node[above, font=\tiny] {$f(x)$};
+        \draw[thick, black!85] (-1.5,1.2) -- (1.5,-1.2);
+        \filldraw[black] (0, 0) circle (2pt) node[above right, font=\tiny] {$a$};
+        \draw[->, thick, black!90] (-1.5,0) -- (-0.6,0);
+        \draw[->, thick, black!90] (1.5,0) -- (0.6,0);
+        \node[font=\footnotesize, align=center] at (0,-1.6) {\textbf{(c)} Lineal estable ($f'<0$)};
+    \end{scope}
+
+    % Panel 4: Lineal creciente
+    \begin{scope}[shift={(1.5, -2.5)}]
+        \draw[->, thick, black!50] (-2.2,0) -- (2.2,0) node[right, font=\tiny] {$x$};
+        \draw[->, thick, black!50] (0,-1.2) -- (0,1.5) node[above, font=\tiny] {$f(x)$};
+        \draw[thick, black!85] (-1.5,-1.2) -- (1.5,1.2);
+        \draw[black, fill=white, thick] (0, 0) circle (2pt) node[below right, font=\tiny] {$a$};
+        \draw[->, thick, black!90] (-0.6,0) -- (-1.5,0);
+        \draw[->, thick, black!90] (0.6,0) -- (1.5,0);
+        \node[font=\footnotesize, align=center] at (0,-1.6) {\textbf{(d)} Lineal inestable ($f'>0$)};
+    \end{scope}
+\end{tikzpicture}
+\caption{Clasificación geométrica de puntos fijos en la línea de fase según el cruce de $f(x)$ con el eje horizontal: atractores estables ($\bullet$), repulsores inestables ($\circ$) y nodos semi-estables.}
+\label{fig:clasificacion_puntos_fijos}
+\end{figure}
+
+\subsection{Definiciones formales (Lyapunov, asintótica)}
+
+Para dar rigor matemático a los conceptos intuitivos de atracción y repulsión, recurrimos a las definiciones formales introducidas por Aleksandr Lyapunov:
+
+\begin{definition}[Estabilidad en el sentido de Lyapunov]
+    Un punto de equilibrio $x^*$ es \textbf{estable en el sentido de Lyapunov} si para cada $\varepsilon > 0$, existe un $\delta = \delta(\varepsilon) > 0$ tal que si:
+    \begin{equation}
+        \|x(0) - x^*\| < \delta \implies \|x(t) - x^*\| < \varepsilon, \quad \forall t \ge 0
+    \end{equation}
+    En palabras cotidianas: si una solución comienza ``suficientemente cerca'' de $x^*$ (dentro de la bola $\delta$), permanecerá acotada y arbitrariamente cerca (dentro de la bola $\varepsilon$) por todo el tiempo futuro.
+\end{definition}
+
+\begin{definition}[Estabilidad Asintótica]
+    Un punto de equilibrio $x^*$ es \textbf{asintóticamente estable} si cumple simultáneamente dos condiciones:
+    \begin{enumerate}
+        \item Es estable en el sentido de Lyapunov.
+        \item Es un atractor local: existe un radio $\delta_0 > 0$ tal que si $\|x(0) - x^*\| < \delta_0$, entonces:
+        \begin{equation}
+            \lim_{t \to \infty} \|x(t) - x^*\| = 0
+        \end{equation}
+    \end{enumerate}
+    Es decir, las trayectorias no solo permanecen atrapadas en la vecindad de $x^*$, sino que convergen asintóticamente a él cuando el tiempo tiende a infinito.
+\end{definition}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=Stealth, scale=0.95]
+    % Eje t
+    \draw[->, thick, black!60] (0,0) -- (7.5,0) node[right, font=\small] {$t$};
+    \draw[->, thick, black!60] (0,-2.5) -- (0,2.5) node[above, font=\small] {$x(t)$};
+    
+    % Punto fijo en 0
+    \draw[thick, black!90] (0,0) -- (7.0,0) node[right, font=\footnotesize] {$x^*$};
+    
+    % Banda épsilon
+    \draw[dashed, black!40, thick] (0,1.8) -- (7.0,1.8) node[right, font=\tiny] {$x^* + \varepsilon$};
+    \draw[dashed, black!40, thick] (0,-1.8) -- (7.0,-1.8) node[right, font=\tiny] {$x^* - \varepsilon$};
+    
+    % Intervalo delta en t=0
+    \draw[very thick, black!80] (0,-0.9) -- (0,0.9);
+    \draw[black!80, fill=black!80] (0,0.9) circle (1.5pt) node[left, font=\tiny] {$x^* + \delta$};
+    \draw[black!80, fill=black!80] (0,-0.9) circle (1.5pt) node[left, font=\tiny] {$x^* - \delta$};
+    
+    % Trayectorias convergentes
+    \draw[thick, black!85, domain=0:6.5, samples=50] plot (\x, {0.8*exp(-0.7*\x)});
+    \draw[thick, black!85, domain=0:6.5, samples=50] plot (\x, {-0.6*exp(-0.9*\x)});
+    \filldraw[black] (0, 0.8) circle (2pt) node[above right, font=\tiny] {$x_0$};
+    
+    \node[font=\footnotesize, black!75, align=left] at (4.5, 1.2) {Estabilidad Asintótica:\\$\|x(t)-x^*\| < \varepsilon \ \forall t \ge 0$\\$\lim_{t\to\infty} x(t) = x^*$};
+\end{tikzpicture}
+\caption{Esquema conceptual de la estabilidad de Lyapunov y la estabilidad asintótica: la condición inicial dentro del intervalo $\delta$ garantiza permanencia dentro de $\varepsilon$ y decaimiento monótono hacia $x^*$.}
+\label{fig:lyapunov_estabilidad}
+\end{figure}
+
+\aside{Una pregunta que abordaremos en el análisis lineal: ¿a qué velocidad converge el sistema hacia el punto fijo? Como veremos, la velocidad de convergencia está gobernada por la escala de tiempo característica impuesta por $f'(x^*)$.}
+

@@ -1,0 +1,183 @@
+% ============================================================
+% FUENTES: draft p.27--29 (Haken 1983).
+% ============================================================
+\section{El umbral del láser (modelo de Haken)}
+
+Una de las aplicaciones físicas más elegantes de la bifurcación transcrítica es la explicación del funcionamiento del láser (\emph{Light Amplification by Stimulated Emission of Radiation}) formulada por Hermann Haken en el marco de la sinergética \cite{haken1983}.
+
+\subsection{Ganancia, pérdida de cavidad y agotamiento de átomos excitados}
+
+Un dispositivo láser básico consta de un medio activo (por ejemplo, un cristal de Nd:YAG o un tubo de gas) confinado dentro de una cavidad resonante entre dos espejos paralelos: un espejo totalmente reflectante en un extremo y un espejo parcialmente transmisor en el otro, a través del cual emerge el haz de luz (véase la \cref{fig:esquema_laser}). Una fuente de bombeo externa (una lámpara de destello o una descarga eléctrica alimentada por un banco de capacitores) excita los átomos del medio activo llevándolos a estados de mayor energía.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=Stealth, scale=0.85]
+    % Espejo izquierdo (100% reflectante)
+    \draw[very thick, fill=black!25] (-4.2, -1.2) rectangle (-3.9, 1.2);
+    \node[above, font=\tiny, align=center] at (-4.05, 1.2) {Espejo 100\%\\reflectante};
+    
+    % Espejo derecho (parcialmente transmisor)
+    \draw[very thick, fill=black!10] (3.9, -1.2) rectangle (4.2, 1.2);
+    \node[above, font=\tiny, align=center] at (4.05, 1.2) {Espejo 95\%\\transmisor};
+    
+    % Medio activo (Cristal Nd:YAG)
+    \draw[thick, fill=black!6] (-3.2, -0.9) rectangle (3.2, 0.9);
+    \node[font=\footnotesize\bfseries] at (0, 0) {Medio Activo (Cristal Nd:YAG)};
+    
+    % Lámpara de bombeo óptico
+    \draw[thick, fill=black!15] (-3.2, 1.5) rectangle (3.2, 2.0);
+    \node[font=\footnotesize] at (0, 1.75) {Lámpara de bombeo óptico (\emph{Flashlamp})};
+    \foreach \x in {-2.5, -1.5, -0.5, 0.5, 1.5, 2.5} {
+        \draw[->, thick, black!70] (\x, 1.5) -- (\x, 0.9);
+    }
+    
+    % Circuito de bombeo
+    \draw[thick] (-3.2, 1.75) -- (-4.5, 1.75) -- (-4.5, 2.7) -- (-0.3, 2.7);
+    \draw[very thick] (-0.3, 2.4) -- (-0.3, 3.0) node[above=2pt, font=\tiny] {$C$};
+    \draw[very thick] (0.3, 2.4) -- (0.3, 3.0);
+    \draw[thick] (0.3, 2.7) -- (4.5, 2.7) -- (4.5, 1.75) -- (3.2, 1.75);
+    \node[above=8pt, font=\tiny] at (0, 3.0) {Descarga de pulso de bombeo};
+
+    
+    % Haz de salida
+    \draw[->, ultra thick, black!90] (4.2, 0) -- (6.2, 0) node[right, font=\small\bfseries] {Haz Láser};
+    \draw[thick, dashed, black!50] (4.2, 0.4) -- (6.0, 0.4);
+    \draw[thick, dashed, black!50] (4.2, -0.4) -- (6.0, -0.4);
+\end{tikzpicture}
+\caption{Esquema físico de una cavidad láser de estado sólido. Un cristal activo entre dos espejos es excitado por una lámpara de destello; superado el umbral crítico de bombeo, la emisión estimulada genera un haz coherente macroscópico.}
+\label{fig:esquema_laser}
+\end{figure}
+
+\paragraph{Emisión espontánea vs. estimulada y autoorganización.}
+Cuando un átomo excitado decae a su estado fundamental, emite un fotón. Si el bombeo es débil, los átomos emiten de manera independiente y desordenada en direcciones y fases aleatorias (emisión espontánea, equivalente a una lámpara ordinaria). No obstante, cuando la densidad de fotones y de átomos excitados es suficientemente alta, un fotón que pasa cerca de un átomo excitado estimula la emisión de un segundo fotón idéntico en energía, dirección y fase (emisión estimulada de Einstein). Este proceso cooperativo conduce a la \textbf{sincronización y autoorganización} de los dipolos atómicos, emergiendo un campo electromagnético coherente macroscópico.
+
+\subsection{La ecuación de cerrado $\dot{n} = (GN_{0} - k)n - \alpha G n^{2}$}
+
+Siguiendo el modelo simplificado de Haken \cite{haken1983}, describimos el estado del sistema mediante dos variables macroscópicas:
+\begin{itemize}
+    \item $n(t) \ge 0$: número de fotones en el modo láser de la cavidad.
+    \item $N(t) \ge 0$: número de átomos excitados en el medio activo.
+\end{itemize}
+
+El balance de fotones se rige por:
+\begin{equation}
+    \dot{n} = \text{ganancia} - \text{pérdidas} = G n N - k n
+    \label{eq:balance_fotones}
+\end{equation}
+donde:
+\begin{itemize}
+    \item $G > 0$ es el \textbf{coeficiente de ganancia} por emisión estimulada (la probabilidad por unidad de tiempo de que un fotón interactúe con un átomo excitado).
+    \item $k > 0$ es la \textbf{tasa de pérdidas} de la cavidad (escape a través del espejo semi-reflector y disipación térmica). La vida media de un fotón en la cavidad es $\tau = 1/k$.
+\end{itemize}
+
+\paragraph{Agotamiento atómico (\emph{gain saturation}).}
+Tras emitir un fotón, el átomo decae a su nivel fundamental. En un pulso de bombeo, el número inicial de átomos excitados es $N_0$. A medida que la población de fotones $n(t)$ crece, los átomos excitados se agotan a una tasa proporcional a la intensidad del campo:
+\begin{equation}
+    N(t) = N_0 - \alpha n(t), \quad \alpha > 0
+    \label{eq:saturacion_atomos}
+\end{equation}
+donde $\alpha$ cuantifica el factor de agotamiento de la inversión de población.
+
+Sustituyendo \eqref{eq:saturacion_atomos} en la ecuación \eqref{eq:balance_fotones}:
+\begin{align}
+    \dot{n} &= G n (N_0 - \alpha n) - k n \nonumber \\
+    &= (G N_0 - k)n - \alpha G n^2
+    \label{eq:laser_transcritica_ode}
+\end{align}
+¡Esta ecuación tiene exactamente la estructura de una \textbf{bifurcación transcrítica} $\dot{n} = r n - c n^2$ con parámetro efectivo $r = G N_0 - k$ y $c = \alpha G > 0$!
+
+\subsection{Umbral $N_{0,c} = k/G$: régimen lámpara vs. régimen láser}
+
+Los puntos fijos del sistema satisfacen:
+\begin{equation}
+    n \left[(G N_0 - k) - \alpha G n\right] = 0
+\end{equation}
+cuyas soluciones son:
+\begin{equation}
+    n_1^* = 0, \quad n_2^* = \frac{G N_0 - k}{\alpha G}
+\end{equation}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=Stealth, scale=0.82]
+    % Panel 1: N_0 < k/G
+    \begin{scope}[shift={(-6.2, 0)}]
+        \draw[->, thick, black!60] (-0.3,0) -- (3.2,0) node[right, font=\tiny] {$n$};
+        \draw[->, thick, black!60] (0,-1.5) -- (0,1.8) node[above, font=\tiny] {$\dot{n}$};
+        \draw[thick, black!85, domain=0:2.5, samples=50] plot (\x, {-0.8*\x - 0.5*\x*\x});
+        \filldraw[black] (0,0) circle (2pt) node[above right=1pt, font=\tiny] {$n^*=0$ (estable)};
+        \draw[->, thick, black!90] (2.2,0) -- (1.2,0);
+        \draw[->, thick, black!90] (1.0,0) -- (0.3,0);
+        \node[font=\footnotesize, align=center] at (1.5, -1.8) {\textbf{(a)} $N_0 < k/G$\\\emph{Régimen lámpara}};
+    \end{scope}
+
+    % Panel 2: N_0 = k/G
+    \begin{scope}[shift={(0, 0)}]
+        \draw[->, thick, black!60] (-0.3,0) -- (3.2,0) node[right, font=\tiny] {$n$};
+        \draw[->, thick, black!60] (0,-1.5) -- (0,1.8) node[above, font=\tiny] {$\dot{n}$};
+        \draw[thick, black!85, domain=0:2.2, samples=50] plot (\x, {-0.7*\x*\x});
+        \filldraw[black!60] (0,0) circle (2pt) node[above right=1pt, font=\tiny] {$n^*=0$};
+        \draw[->, thick, black!90] (1.8,0) -- (0.8,0);
+        \node[font=\footnotesize, align=center] at (1.5, -1.8) {\textbf{(b)} $N_0 = k/G$\\\emph{Umbral crítico}};
+    \end{scope}
+
+    % Panel 3: N_0 > k/G
+    \begin{scope}[shift={(6.2, 0)}]
+        \draw[->, thick, black!60] (-0.3,0) -- (3.2,0) node[right, font=\tiny] {$n$};
+        \draw[->, thick, black!60] (0,-1.5) -- (0,1.8) node[above, font=\tiny] {$\dot{n}$};
+        \draw[thick, black!85, domain=0:2.4, samples=50] plot (\x, {1.2*\x - 0.7*\x*\x});
+        \draw[black, fill=white, thick] (0,0) circle (2pt) node[below left=1pt, font=\tiny] {$0$};
+        \filldraw[black] (1.71,0) circle (2pt) node[above=2pt, font=\tiny] {$n_2^*$ (estable)};
+        \draw[->, thick, black!90] (0.3,0) -- (1.0,0);
+        \draw[->, thick, black!90] (2.4,0) -- (1.9,0);
+        \node[font=\footnotesize, align=center] at (1.5, -1.8) {\textbf{(c)} $N_0 > k/G$\\\emph{Régimen láser}};
+    \end{scope}
+\end{tikzpicture}
+\caption{Línea de fase del modelo de Haken para tres intensidades de bombeo atómico $N_0$. (a) Bajo el umbral, los fotones decaen a cero. (b) En el umbral crítico. (c) Sobre el umbral, la radiación láser coherente se estabiliza en $n_2^* > 0$.}
+\label{fig:fases_laser}
+\end{figure}
+
+El umbral de encendido del láser (\emph{laser threshold}) ocurre en el valor crítico:
+\begin{equation}
+    G N_0 - k = 0 \iff \boxed{N_{0,c} = \frac{k}{G}}
+    \label{eq:umbral_laser_critico}
+\end{equation}
+
+\paragraph{Interpretación física de los regímenes:}
+\begin{enumerate}
+    \item \textbf{Régimen de lámpara ($N_0 < N_{0,c}$):} La ganancia óptica no compensa las pérdidas de la cavidad ($G N_0 < k$). El único equilibrio físicamente admisible ($n \ge 0$) es $n_1^* = 0$, que es asintóticamente estable. Cualquier destello inicial de fotones se extingue exponencialmente: el dispositivo emite luz incoherente débil.
+    \item \textbf{Régimen láser ($N_0 > N_{0,c}$):} La ganancia por bombeo supera las pérdidas ($G N_0 > k$). El estado apagado $n_1^* = 0$ se vuelve inestable y el sistema converge hacia el atractor positivo estable:
+    \begin{equation}
+        n_2^* = \frac{G N_0 - k}{\alpha G} = \frac{1}{\alpha}\left(N_0 - N_{0,c}\right)
+    \end{equation}
+    La intensidad del campo láser aumenta linealmente con el bombeo adicional por encima del umbral (véase la \cref{fig:diagrama_bifurcacion_laser}).
+\end{enumerate}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=Stealth, scale=0.9]
+    \draw[->, thick, black!60] (0,0) -- (6.0,0) node[right, font=\small] {$N_0$ (bombeo)};
+    \draw[->, thick, black!60] (0,0) -- (0,3.5) node[above, font=\small] {$n^*$ (fotones)};
+    
+    % Umbral crítico N_{0,c} = 2.5
+    \draw[dashed, black!50, thick] (2.5, 0) node[below, font=\footnotesize] {$N_{0,c} = k/G$} -- (2.5, 3.0);
+    
+    % Rama n* = 0
+    \draw[ultra thick, black!85] (0,0) -- (2.5,0);
+    \draw[thick, dashed, black!60] (2.5,0) -- (5.5,0);
+    
+    % Rama láser n* = (N_0 - N_c)/alpha
+    \draw[ultra thick, black!85] (2.5,0) -- (5.2, 2.7);
+    \draw[thick, dashed, black!60] (0.8, -1.7) -- (2.5,0);
+    
+    \filldraw[black] (2.5,0) circle (2.5pt) node[above left=3pt, font=\footnotesize] {Umbral láser};
+    
+    \node[font=\footnotesize, black!75, align=center] at (1.2, 1.2) {\textbf{Régimen Lámpara}\\$n^* = 0$ estable};
+    \node[font=\footnotesize, black!75, align=center] at (4.5, 1.2) {\textbf{Régimen Láser}\\$n^* > 0$ coherente};
+\end{tikzpicture}
+\caption{Diagrama de bifurcación transcrítica del número de fotones en estado estacionario $n^*$ en función del parámetro de bombeo $N_0$. El encendido del láser representa una transición de fase continua de no equilibrio.}
+\label{fig:diagrama_bifurcacion_laser}
+\end{figure}
+
+\aside{Existe una notable analogía matemática entre el umbral del láser y el número reproductivo básico $R_0$ en la epidemiología matemática (modelos SIR): $R_0 = \frac{G N_0}{k}$. Si $R_0 < 1$, la tasa de recuperación domina y la infección desaparece ($I^* = 0$, análogo a la lámpara); si $R_0 > 1$, la tasa de transmisión supera la recuperación y se establece un estado endémico persistente ($I^* > 0$, análogo al haz láser).}
+

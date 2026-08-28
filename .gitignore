@@ -1,0 +1,25 @@
+# LaTeX build artifacts
+*.aux
+*.bbl
+*.blg
+*.bcf
+*.run.xml
+*.toc
+*.out
+*.log
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*-SAVE-ERROR
+*.minted
+_minted/
+
+# Built PDFs at repo root (previous_docs/*.pdf are tracked sources)
+/*.pdf
+
+# Reference papers — never tracked, always available locally
+papers_local/
+
+# Python venvs / caches
+.venv*/
+__pycache__/

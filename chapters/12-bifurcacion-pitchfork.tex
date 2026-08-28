@@ -1,0 +1,214 @@
+% ============================================================
+% FUENTES: "Notas Biomate 1.pdf" (español) — NO está en el draft.
+% ============================================================
+\section{Bifurcación pitchfork}
+
+La \textbf{bifurcación pitchfork} (también llamada bifurcación de diapasón o tridente) es la tercera clase fundamental de bifurcación local en una dimensión. Surge de manera natural y genérica en sistemas físicos y biológicos que poseen una simetría espacial de reflexión respecto al origen.
+
+\subsection{Simetría y equivariancia}
+
+Consideremos un flujo unidimensional $\dot{x} = f(x, r)$. Decimos que el sistema es simétrico ante reflexiones espaciales $x \to -x$ si el campo vectorial es una función impar respecto a $x$:
+\begin{equation}
+    f(-x, r) = -f(x, r)
+    \label{eq:imparidad_campo}
+\end{equation}
+Bajo esta condición, el campo vectorial se denomina \textbf{equivariante}: si $x(t)$ es una solución de la ecuación diferencial, entonces la trayectoria reflejada $-x(t)$ también es forzosamente una solución válida.
+
+Una consecuencia geométrica directa de la equivariancia es que el origen $x^* = 0$ es siempre un punto de equilibrio para cualquier valor del parámetro ($f(0, r) = -f(0, r) \implies f(0, r) = 0$), y cualquier nuevo punto fijo no trivial debe nacer o destruirse obligatoriamente en parejas simétricas $\pm x^*$.
+
+Existen dos variedades fundamentales de esta bifurcación: la \emph{supercrítica} y la \emph{subcrítica}.
+
+\subsection{Pitchfork supercrítica $\dot{x} = rx - x^{3}$; slowing down crítico}
+
+La forma normal canónica de la bifurcación pitchfork supercrítica es:
+\begin{equation}
+    \dot{x} = rx - x^3 = x(r - x^2)
+    \label{eq:pitchfork_supercritica}
+\end{equation}
+donde el término cúbico no lineal $-x^3$ ejerce un efecto estabilizador y confinante a gran escala.
+
+\paragraph{Análisis de los regímenes dinámicos:}
+\begin{enumerate}
+    \item \textbf{Para $r < 0$:} El único punto fijo real es el origen $x^* = 0$. Como $f'(0) = r < 0$, el origen es un \textbf{atractor globalmente estable}; las trayectorias decaen exponencialmente hacia cero como $x(t) \sim e^{rt}$.
+    \item \textbf{Para $r = 0$:} El origen $x^* = 0$ sigue siendo el único punto de equilibrio y es asintóticamente estable, pero el término lineal se anula ($f'(0) = 0$). La dinámica se rige por $\dot{x} = -x^3$, cuya solución exacta es:
+    \begin{equation}
+        \int \frac{dx}{x^3} = -\int dt \implies x(t) = \frac{x_0}{\sqrt{1 + 2x_0^2 t}}
+    \end{equation}
+    Para tiempos largos, $x(t) \sim t^{-1/2}$. La convergencia ya no es exponencial rápida sino algebraica y sumamente lenta. Este fenómeno universal se denomina \textbf{ralentización crítica o desaceleración crítica (\emph{critical slowing down})}. Cerca de la bifurcación, la escala de tiempo característica $\tau = 1/|f'(0)|$ diverge a infinito ($\tau \to \infty$), por lo que el sistema pierde capacidad de recuperarse rápidamente ante perturbaciones externas.
+    \item \textbf{Para $r > 0$:} El origen $x_0^* = 0$ pierde estabilidad ($f'(0) = r > 0$, repulsor), y emergen simétricamente dos nuevos puntos fijos estables:
+    \begin{equation}
+        x_\pm^* = \pm\sqrt{r}
+    \end{equation}
+    Evaluando la estabilidad: $f'(\pm\sqrt{r}) = r - 3(\pm\sqrt{r})^2 = -2r < 0 \implies$ \textbf{Estables}.
+\end{enumerate}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=Stealth, scale=0.82]
+    % Panel a: r < 0
+    \begin{scope}[shift={(-6.2, 3.2)}]
+        \draw[->, thick, black!60] (-2.2,0) -- (2.2,0) node[right, font=\tiny] {$x$};
+        \draw[->, thick, black!60] (0,-1.5) -- (0,1.8) node[above, font=\tiny] {$\dot{x}$};
+        \draw[thick, black!85, domain=-1.4:1.4, samples=50] plot (\x, {-0.8*\x - \x*\x*\x});
+        \filldraw[black] (0,0) circle (2pt) node[above right=1pt, font=\tiny] {$0$ (estable)};
+        \draw[->, thick, black!90] (-1.3,0) -- (-0.5,0);
+        \draw[->, thick, black!90] (1.3,0) -- (0.5,0);
+        \node[font=\footnotesize, align=center] at (0,-1.8) {\textbf{(a)} $r < 0$ (pozo único)};
+    \end{scope}
+
+    % Panel b: r = 0
+    \begin{scope}[shift={(0, 3.2)}]
+        \draw[->, thick, black!60] (-2.2,0) -- (2.2,0) node[right, font=\tiny] {$x$};
+        \draw[->, thick, black!60] (0,-1.5) -- (0,1.8) node[above, font=\tiny] {$\dot{x}$};
+        \draw[thick, black!85, domain=-1.3:1.3, samples=50] plot (\x, {-\x*\x*\x});
+        \filldraw[black] (0,0) circle (2pt) node[above right=1pt, font=\tiny] {$0$ (\emph{slowing down})};
+        \draw[->, thick, black!90] (-1.2,0) -- (-0.4,0);
+        \draw[->, thick, black!90] (1.2,0) -- (0.4,0);
+        \node[font=\footnotesize, align=center] at (0,-1.8) {\textbf{(b)} $r = 0$ (decae $\sim t^{-1/2}$)};
+    \end{scope}
+
+    % Panel c: r > 0
+    \begin{scope}[shift={(6.2, 3.2)}]
+        \draw[->, thick, black!60] (-2.2,0) -- (2.2,0) node[right, font=\tiny] {$x$};
+        \draw[->, thick, black!60] (0,-1.5) -- (0,1.8) node[above, font=\tiny] {$\dot{x}$};
+        \draw[thick, black!85, domain=-1.4:1.4, samples=50] plot (\x, {1.2*\x - \x*\x*\x});
+        \filldraw[black] (-1.095, 0) circle (2pt) node[below=2pt, font=\tiny] {$-\sqrt{r}$};
+        \draw[black, fill=white, thick] (0, 0) circle (2pt) node[above right=1pt, font=\tiny] {$0$};
+        \filldraw[black] (1.095, 0) circle (2pt) node[above=2pt, font=\tiny] {$+\sqrt{r}$};
+        \draw[->, thick, black!90] (-1.8,0) -- (-1.3,0);
+        \draw[->, thick, black!90] (-0.3,0) -- (-0.8,0);
+        \draw[->, thick, black!90] (0.3,0) -- (0.8,0);
+        \draw[->, thick, black!90] (1.8,0) -- (1.3,0);
+        \node[font=\footnotesize, align=center] at (0,-1.8) {\textbf{(c)} $r > 0$ (biestabilidad)};
+    \end{scope}
+
+    % Panel d: Diagrama de bifurcación
+    \begin{scope}[shift={(0, -2.8)}]
+        \draw[->, thick, black!60] (-3.0,0) -- (3.0,0) node[right, font=\small] {$r$};
+        \draw[->, thick, black!60] (0,-2.2) -- (0,2.2) node[above, font=\small] {$x^*$};
+        
+        % Rama trivial
+        \draw[very thick, black!85] (-2.5,0) -- (0,0);
+        \draw[very thick, dashed, black!75] (0,0) -- (2.5,0);
+        
+        % Parábolas simétricas x* = \pm \sqrt{r} => r = (x*)^2
+        \draw[very thick, black!85, domain=0:1.8, samples=50] plot ({\x*\x*0.7}, \x);
+        \draw[very thick, black!85, domain=0:1.8, samples=50] plot ({\x*\x*0.7}, {-\x});
+        
+        \filldraw[black] (0,0) circle (2.5pt) node[below right=2pt, font=\footnotesize] {Pitchfork $(0,0)$};
+        \node[above, font=\footnotesize] at (1.8, 1.4) {$x^* = +\sqrt{r}$ (estable)};
+        \node[below, font=\footnotesize] at (1.8, -1.4) {$x^* = -\sqrt{r}$ (estable)};
+        \node[font=\bfseries\small] at (0, -2.6) {\textbf{(d)} Diagrama de bifurcación pitchfork supercrítica};
+    \end{scope}
+\end{tikzpicture}
+\caption{Bifurcación pitchfork supercrítica en $\dot{x} = rx - x^3$. Para $r > 0$, el origen pierde estabilidad y nacen dos ramas simétricas estables $x^* = \pm\sqrt{r}$ que se abren como un diapasón.}
+\label{fig:pitchfork_supercritica_fases}
+\end{figure}
+
+\subsection{Potencial de la pitchfork}
+
+Integrando la ecuación $\dot{x} = -V'(x) = rx - x^3$, obtenemos la función potencial:
+\begin{equation}
+    V(x) = -\frac{r}{2}x^2 + \frac{1}{4}x^4
+    \label{eq:potencial_pitchfork_paneles}
+\end{equation}
+En la \cref{fig:potenciales_pitchfork_paneles} observamos la deformación geométrica del potencial al incrementar $r$:
+\begin{itemize}
+    \item Para $r = -1 < 0$: $V(x) = \frac{1}{2}x^2 + \frac{1}{4}x^4$. El potencial tiene un único pozo cuadrático profundo en $x^* = 0$.
+    \item Para $r = 0$: $V(x) = \frac{1}{4}x^4$. El fondo del pozo se aplana por completo ($V''(0) = 0$), explicando la extrema lentitud de relajación del sistema (\emph{critical slowing down}).
+    \item Para $r = 2 > 0$: $V(x) = -x^2 + \frac{1}{4}x^4$. El fondo central se levanta transformándose en una barrera inestable (máximo local), mientras se crean dos pozos simétricos de mínima energía en $x^* = \pm\sqrt{2}$. La partícula rueda hacia uno de los dos pozos, rompiendo espontáneamente la simetría (\emph{spontaneous symmetry breaking}).
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=Stealth, scale=0.82]
+    % Panel 1: r = -1
+    \begin{scope}[shift={(-6.2, 0)}]
+        \draw[->, thick, black!60] (-2.2,0) -- (2.2,0) node[right, font=\tiny] {$x$};
+        \draw[->, thick, black!60] (0,-0.8) -- (0,2.5) node[above, font=\tiny] {$V(x)$};
+        \draw[very thick, black!85, domain=-1.6:1.6, samples=50] plot (\x, {0.6*\x*\x + 0.3*\x*\x*\x*\x});
+        \filldraw[black] (0,0) circle (2pt);
+        \node[font=\footnotesize, align=center] at (0,-1.2) {\textbf{(a)} $r = -1$\\Pozo simple};
+    \end{scope}
+
+    % Panel 2: r = 0
+    \begin{scope}[shift={(0, 0)}]
+        \draw[->, thick, black!60] (-2.2,0) -- (2.2,0) node[right, font=\tiny] {$x$};
+        \draw[->, thick, black!60] (0,-0.8) -- (0,2.5) node[above, font=\tiny] {$V(x)$};
+        \draw[very thick, black!85, domain=-1.6:1.6, samples=50] plot (\x, {0.4*\x*\x*\x*\x});
+        \filldraw[black] (0,0) circle (2pt);
+        \node[font=\footnotesize, align=center] at (0,-1.2) {\textbf{(b)} $r = 0$\\Fondo plano};
+    \end{scope}
+
+    % Panel 3: r = 2
+    \begin{scope}[shift={(6.2, 0)}]
+        \draw[->, thick, black!60] (-2.2,0) -- (2.2,0) node[right, font=\tiny] {$x$};
+        \draw[->, thick, black!60] (0,-1.5) -- (0,2.0) node[above, font=\tiny] {$V(x)$};
+        \draw[very thick, black!85, domain=-1.9:1.9, samples=60] plot (\x, {-1.0*\x*\x + 0.4*\x*\x*\x*\x});
+        \draw[black, fill=white, thick] (0,0) circle (2pt);
+        \filldraw[black] (-1.118, -0.625) circle (2pt);
+        \filldraw[black] (1.118, -0.625) circle (2pt);
+        \node[font=\footnotesize, align=center] at (0,-1.8) {\textbf{(c)} $r = 2$\\Doble pozo simétrico};
+    \end{scope}
+\end{tikzpicture}
+\caption{Evolución del paisaje de potencial $V(x) = -\frac{r}{2}x^2 + \frac{1}{4}x^4$ en la bifurcación pitchfork supercrítica para $r=-1$, $r=0$ y $r=2$.}
+\label{fig:potenciales_pitchfork_paneles}
+\end{figure}
+
+\subsection{Pitchfork subcrítica $\dot{x} = rx + x^{3}$ e histéresis}
+
+En la \textbf{bifurcación pitchfork subcrítica}, el término cúbico no lineal tiene signo positivo ($+x^3$), actuando como una fuerza desestabilizadora que expulsa a las trayectorias hacia el infinito:
+\begin{equation}
+    \dot{x} = rx + x^3 = x(r + x^2)
+    \label{eq:pitchfork_subcritica}
+\end{equation}
+
+\paragraph{Análisis dinámico y divergencia en tiempo finito:}
+\begin{itemize}
+    \item \textbf{Para $r < 0$:} Existen tres equilibrios. El origen $x^* = 0$ es localmente estable ($f'(0) = r < 0$), pero está flanqueado por dos puntos de equilibrio simétricos \textbf{inestables} en:
+    \begin{equation}
+        x_\pm^* = \pm\sqrt{-r}
+    \end{equation}
+    Estos dos puntos inestables fijan la frontera de la cuenca de atracción del origen. Si una perturbación saca al sistema fuera del intervalo $(-\sqrt{-r}, +\sqrt{-r})$, el término $+x^3$ domina y provoca un crecimiento explosivo que alcanza infinito en tiempo finito (\emph{finite-time blow-up}):
+    \begin{equation}
+        \dot{x} \approx x^3 \implies \int_{x_0}^\infty \frac{dx}{x^3} = \int_0^{t_\infty} dt \implies t_\infty = \frac{1}{2x_0^2} < \infty
+    \end{equation}
+    \item \textbf{Para $r \ge 0$:} El origen se vuelve inestable ($f'(0) \ge 0$) y no existe ningún equilibrio cercano: cualquier condición inicial $x_0 \neq 0$ diverge catastróficamente.
+\end{itemize}
+
+\paragraph{Estabilización física de orden superior e histéresis.}
+En cualquier sistema físico o biológico real, las trayectorias no escapan a infinito sino que quedan confinadas por términos no lineales de orden superior estabilizadores, tales como un término quíntico $-x^5$:
+\begin{equation}
+    \dot{x} = rx + x^3 - x^5
+    \label{eq:pitchfork_subcritica_estabilizada}
+\end{equation}
+La \cref{fig:pitchfork_subcritica_histeresis} ilustra el diagrama de bifurcación resultante: al aumentar $r$ lentamente desde valores negativos, el sistema permanece en el estado $x^* = 0$ hasta cruzar $r = 0$, momento en el cual salta bruscamente (\emph{hard jump}) a la rama de gran amplitud $x^* \approx +1$. Al reducir $r$ nuevamente, el sistema no regresa a cero en $r=0$, sino que permanece en la rama excitada hasta alcanzar un punto de pliegue saddle-node $r_s < 0$, donde colapsa de vuelta al reposo. Este fenómeno de dependencia de la historia previa se denomina \textbf{histéresis}.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=Stealth, scale=0.85]
+    \draw[->, thick, black!60] (-3.2,0) -- (3.2,0) node[right, font=\small] {$r$};
+    \draw[->, thick, black!60] (0,-2.2) -- (0,2.2) node[above, font=\small] {$x^*$};
+    
+    % Rama trivial
+    \draw[very thick, black!85] (-2.8,0) -- (0,0);
+    \draw[very thick, dashed, black!75] (0,0) -- (2.8,0);
+    
+    % Ramas subcríticas inestables que retroceden (dashed)
+    \draw[thick, dashed, black!75, domain=0:1.0, samples=40] plot ({-\x*\x*0.9}, \x);
+    \draw[thick, dashed, black!75, domain=0:1.0, samples=40] plot ({-\x*\x*0.9}, {-\x});
+    
+    % Pliegue y ramas exteriores estables (saturadas por -x^5)
+    \draw[very thick, black!85, domain=1.0:1.6, samples=40] plot ({-0.9 + (\x-1.0)*(\x-1.0)*3.5}, \x);
+    \draw[very thick, black!85, domain=1.0:1.6, samples=40] plot ({-0.9 + (\x-1.0)*(\x-1.0)*3.5}, {-\x});
+    
+    % Flechas de salto catastrófico e histéresis
+    \draw[->, double, thick, black!90] (0.05, 0.1) -- (0.05, 1.15) node[right=2pt, font=\tiny] {Salto en $r=0$};
+    \draw[->, double, thick, black!90] (-0.85, 0.95) -- (-0.85, 0.1) node[left=2pt, font=\tiny] {Colapso en $r_s$};
+    
+    \node[font=\footnotesize] at (0, -2.5) {Ciclo de histéresis y biestabilidad};
+\end{tikzpicture}
+\caption{Bifurcación pitchfork subcrítica estabilizada por términos de orden superior $\dot{x} = rx + x^3 - x^5$. Muestra biestabilidad entre el estado de reposo y los estados de gran amplitud, junto con saltos catastróficos y un ciclo de histéresis.}
+\label{fig:pitchfork_subcritica_histeresis}
+\end{figure}
+

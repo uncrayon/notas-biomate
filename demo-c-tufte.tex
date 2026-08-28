@@ -1,0 +1,32 @@
+% ============================================================
+% Variante C — Tufte (tufte-book): márgenes anchos con notas al
+% margen; para observaciones pedagógicas junto al texto.
+% ============================================================
+\documentclass[a4paper]{tufte-book}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-noquoting]{babel}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+\usepackage{minted}
+\usemintedstyle{grayscale}
+\usepackage[backend=biber, style=numeric, sorting=none]{biblatex}
+\addbibresource{refs.bib}
+\usepackage[hidelinks]{hyperref}
+\usepackage{cleveref}
+
+\newtheorem{theorem}{Teorema}[chapter]
+\newtheorem{definition}{Definición}[chapter]
+
+\newcommand{\aside}[1]{\sidenote{#1}}
+
+\title{Notas de Matemáticas Biológicas\\[6pt]
+       \large Variante C --- márgenes Tufte}
+\author{Ulises Rayón}
+\date{Agosto de 2026}
+
+\begin{document}
+\maketitle
+\input{body/body}
+\end{document}

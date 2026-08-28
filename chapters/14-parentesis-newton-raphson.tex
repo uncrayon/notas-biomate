@@ -1,0 +1,89 @@
+% ============================================================
+% FUENTES: "Notas Biomate 1.pdf" (español) — NO está en el draft.
+% ============================================================
+\section{Paréntesis numérico: el método de Newton--Raphson}
+
+En el capítulo anterior utilizamos series de Taylor para aproximar las ramas de equilibrio de la neurona recurrente en las inmediaciones del punto crítico ($\beta \approx 1$). Sin embargo, cuando el parámetro de ganancia se aleja del umbral (por ejemplo, $\beta = 2$ o $\beta = 5$), las aproximaciones polinomiales locales pierden precisión cuantitativa.
+
+\subsection{La ecuación implícita $x^{*} = \beta\tanh x^{*}$}
+
+Para determinar con exactitud arbitraria la ubicación de los atractores biestables para cualquier valor de $\beta > 1$, debemos resolver la ecuación de punto fijo:
+\begin{equation}
+    x^* = \beta \tanh(x^*) \iff g(x^*) \equiv \beta \tanh(x^*) - x^* = 0
+    \label{eq:raiz_implicita_nr}
+\end{equation}
+La ecuación \eqref{eq:raiz_implicita_nr} es una \textbf{ecuación trascendente e implícita}: no existe ningún procedimiento algebraico finito que permita despejar $x^*(\beta)$ en términos de funciones elementales cerradas.
+
+Ante la imposibilidad de un despeje analítico exacto, recurrimos al cálculo numérico. El método iterativo más eficiente y extendido para hallar raíces reales de ecuaciones no lineales es el \textbf{método de Newton--Raphson}.
+
+\subsection{Algoritmo de Newton--Raphson y criterio de parada}
+
+Sea $g(x)$ una función continuamente diferenciable en un intervalo que contiene una raíz $x^*$ tal que $g(x^*) = 0$. Supongamos que disponemos de una estimación inicial (o ``adivinanza'') $x_0 \approx x^*$.
+
+\paragraph{Derivación geométrica por rectas tangentes.}
+Aproximamos la curva $y = g(x)$ por su recta tangente en el punto $(x_n, g(x_n))$:
+\begin{equation}
+    y - g(x_n) = g'(x_n)(x - x_n)
+\end{equation}
+Definimos la siguiente aproximación $x_{n+1}$ como la intersección de dicha recta tangente con el eje horizontal ($y = 0$):
+\begin{equation}
+    0 - g(x_n) = g'(x_n)(x_{n+1} - x_n) \implies \boxed{x_{n+1} = x_n - \frac{g(x_n)}{g'(x_n)}}
+    \label{eq:formula_newton_raphson}
+\end{equation}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=Stealth, scale=0.9]
+    \draw[->, thick, black!60] (-0.5,0) -- (5.0,0) node[right, font=\small] {$x$};
+    \draw[->, thick, black!60] (0,-1.5) -- (0,3.0) node[above, font=\small] {$g(x)$};
+    
+    % Curva g(x)
+    \draw[very thick, black!85, domain=0.5:4.5, samples=50] plot (\x, {1.8*tanh(0.9*\x) - 0.5*\x - 0.2});
+    
+    % Raíz verdadera x*
+    \filldraw[black] (2.78, 0) circle (2.5pt) node[below left=2pt, font=\footnotesize] {Raíz $x^*$};
+    
+    % Estimación inicial x_0
+    \draw[dashed, black!50] (4.2, 0) node[below, font=\footnotesize] {$x_0$} -- (4.2, 1.25);
+    \filldraw[black] (4.2, 1.25) circle (2pt);
+    
+    % Tangente en x_0
+    \draw[thick, black!70] (4.6, 1.55) -- (2.3, -0.18);
+    \filldraw[black] (2.55, 0) circle (2pt) node[below=3pt, font=\footnotesize] {$x_1$};
+    
+    % Tangente en x_1
+    \draw[dashed, black!50] (2.55, 0) -- (2.55, -0.15);
+    \filldraw[black] (2.55, -0.15) circle (1.5pt);
+    
+    \node[font=\footnotesize, align=center] at (1.2, 2.2) {Convergencia cuadrática\\$x_{n+1} = x_n - \frac{g(x_n)}{g'(x_n)}$};
+\end{tikzpicture}
+\caption{Interpretación geométrica del método de Newton--Raphson. Cada iteración proyecta la recta tangente local hacia el eje de abscisas, acelerando cuadráticamente la convergencia hacia la raíz verdadera $x^*$.}
+\label{fig:newton_raphson_geometrico}
+\end{figure}
+
+\paragraph{Aplicación al sistema neuronal:}
+Para nuestra función $g(x) = \beta \tanh x - x$, calculamos su primera derivada analítica:
+\begin{equation}
+    g'(x) = \beta \operatorname{sech}^2 x - 1
+\end{equation}
+Sustituyendo en la regla de actualización \eqref{eq:formula_newton_raphson}:
+\begin{equation}
+    x_{n+1} = x_n - \frac{\beta \tanh x_n - x_n}{\beta \operatorname{sech}^2 x_n - 1}
+    \label{eq:iteracion_neurona_nr}
+\end{equation}
+
+\paragraph{Criterio de convergencia y tolerancia.}
+Dado que una computadora opera con aritmética de precisión finita, el proceso iterativo debe detenerse cuando la diferencia entre dos estimaciones sucesivas cae por debajo de una tolerancia predefinida $\varepsilon$ (típicamente $\varepsilon = 10^{-8}$):
+\begin{equation}
+    |x_{n+1} - x_n| < \varepsilon \quad \text{o bien} \quad |g(x_{n+1})| < \varepsilon
+\end{equation}
+
+\paragraph{Sensibilidad a la semilla inicial $x_0$:}
+\begin{itemize}
+    \item Si elegimos $x_0 > 0$, el método converge rápidamente al atractor activo positivo $+x^*$.
+    \item Si elegimos $x_0 < 0$, el algoritmo converge al atractor activo negativo simétrico $-x^*$.
+    \item Si elegimos $x_0 = 0$, dado que $g(0) = 0$, el método se detiene en una sola iteración en el punto fijo inestable del reposo.
+    \item Si la semilla inicial satisface $g'(x_0) = 0$ (es decir, $\operatorname{sech}^2 x_0 = 1/\beta$), la pendiente se anula y el método falla al producirse una división entre cero.
+\end{itemize}
+
+Con este paréntesis numérico concluimos el estudio sistemático de los flujos y bifurcaciones en espacios de fases unidimensionales.

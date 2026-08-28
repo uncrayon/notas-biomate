@@ -1,0 +1,1153 @@
+thas the
+
+Strogate thinks
+
+systems
+
+Number of variables
+
+Day
+
+-
+
+hinew Ose
+
+Circuit -
+
+Name
+
+Radiative decoy
+
+!
+
+:
+
+Oscillations
+
+Exponential growth
+RC
+
+,
+
+n= 2
+
+M= 1
+
+Growth
+
+general follows
+
+in
+
+,
+
+& Spring
+
+RLC Circuit
+
+2-body Problem
+
+-
+
+&
+
+Fixed points
+
+·
+
+·
+
+Pendulum
+
+Bifurcations
+
+-
+
+·
+
+Merdump Systems,
+Relaxational
+
+*
+
+·
+
+Dynam
+
+Limitcycles
+
+Biological oscillators
+
+.
+
+(nurosm-heart cells
+
+Logistic eg for
+
+Predator-Prey modelly
+
+.
+
+Non-linear dectronics
+
+S
+
+popu
+
+do
+
+system
+
+:
+
+n
+
+=
+
+at
+
+systems
+
+To
+
+alear ;
+be
+1
+
+there
+
+the
+
+1
+
+.
+2
+
+.
+
+he asks to start with
+then
+
+we
+
+first order
+
+"system" is
+one
+
+system
+
+Pol
+
+(von der
+
+at first
+
+,
+
+oscillators
+
+Anhormonic
+
+in
+
+get
+
+the
+
+systems
+
+used in the
+
+classical
+
+equ
+
+.
+
+,
+
+Josephson)
+
+the most
+
+simple
+
+We
+f(x)
+dimensional
+one
+
+X
+
+=
+
+.
+
+or
+
+sense
+
+flows
+
+of dynamical system
+
+mechanics , here
+
+single
+
+one
+
+possible
+
+call this
+
+equ
+
+kind
+
+.
+
+of
+
+instead
+
+could be
+
+a
+
+.
+
+symplicitly three all this chapter unless explicit other very
+will always think in
+autoromus systems
+I
+f(x f fixit) ·
+
+For
+
+we
+
+,
+
+.
+
+.
+
+e
+
+.
+
+:
+
+2
+
+One
+
+.
+
+Geometric
+
+A
+
+1
+
+of the most
+personal hero
+
+my
+
+equation
+
+help
+
+to
+
+us
+
+Poincare)
+
+understand
+
+is
+
+field
+
+vector
+
+a
+
+as
+
+powerful ideas
+:
+
+of thinking
+
+way
+
+dynamical systems
+
+in
+
+the
+
+.
+
+one
+
+This
+
+closed
+
+the need
+
+of
+
+Let's
+
+consider the
+
+foland
+owing systemsolved
+
+equation
+
+at thinking the
+differential
+idea is that powerful because
+.
+behavior
+of the
+
+systems
+long-term
+solution
+solution/analytical
+
+the
+
+without
+
+Such
+
+a
+
+.
+
+x
+
+:
+
+Id
+
+=>
+
+= (x)
+
+=
+
+...
+
+means
+
+(2)
+
+at
+
+= = It
+
+It
+
+=>
+
+nin(x)
+
+=
+
+by
+
+be
+
+integration
+= sinx
+
+(introduced by
+
+=
+
+t + de
+
+1f
+
+.
+
+siux
+
+=
+
+d
+
+the
+
+in
+,
+
+F(x)
+
+=
+
+) stuxdx
+
+then
+
+we
+
+home
+
+(((X)
+
+Jiax Je)dx
+
+if
+
+=
+
+we
+
+C
+multiply by
+
+the
+atxn
+x ax =
+·
+
+=
+
+x-exotX
+J-
+
+f In
+-
+
+Now ,
+
+=
+
+we
+
+-In (n)
+
+could
+
+if
+
+ax
+
+we
+
+make
+
+then au
+
++
+
+i
+
+use
+
+=
+
+-
+
+this
+
+In
+
+=
+
+u =
+
+cofia
+
+(-cX-cotxcsX) dy
+
+(cotx
+result
+
++
+
+(s(* ))
+
+in
+
+the last
+
++
+
+clos
+
+equ.
+
+have :
+
+We
+
+/
+-
+
+t + to
+
+=
+
+In (cot(x) + cs(x))
+
+,
+
+=
+
+t + te
+
+for Ex
+
+result
+
+the
+
+using
+
+H unde a
+by
+multiplying
+
+,
+
+both
++ + de
+
+cof(x) + cs((x)
+
+20tx + X
+
+:
+
+cannot
+
+for
+
+.
+2
+
+of
+Well ...
+
+Now
+
+field
+
+,
+
+Xo
+
+:
+
+Yyy
+
+net
+
+the
+
+is
+
+last
+
+the
+
+what
+
+as
+
+x(t)
+
+It's not
+
+0
+
+in
+
+to
+
+equation
+
+non-usable
+
+is
+
+x
+
+=
+
+siny
+,
+
+me
+
+happens
+
+>do ?
+
+when
+
+Xo
+
+,
+
+what is the
+
+behavior
+
+?
+
+transparent
+
+let's think
+a
+
+>
+-
+
+solution
+
+:
+
+arbitrary condition
+
+any
+
+and
+
+,
+
+et
+
+Xo
+
+onswer
+
+if
+
+1
+
+=
+
+=
+
+big deal is that
+easily to
+
+the
+
+Well
+
+i
+
+=
+
+the
+
+,
+
+for
+
+not
+
+saying
+
+,
+
+not
+
+differential equation
+
+.
+useful
+as
+
+a
+
+vector
+
+geometric entity :
+X
+
+&
+
+notice that
+
+Let's
+
+if
+
+Now
+On
+
+for
+
+,
+
+What
+
+example
+
+other
+
+the
+
+But
+
+what
+
+be
+
+a
+
+but
+but
+
+if
+
+xX
+
+xso
+the
+wit
+then
+x'(0
+It
+
+Xo>
+
+neX)
+
+Xo=MN (for
+
+steady-state/stationary
+
+-
+
+well
+
+,
+
+Xo
+
+on
+
+1
+
+X
+
+=
+
+and then
+
+0
+
+XHI
+
+O
+
+i
+
+·
+
+.
+
+fixed
+
+↓
+
+fixedpoint
+
+O
+
+!
+
+~
+
+-
+
+-
+
+~
+
+·
+
+*
+
+*0
+
+↑
+
+I
+
+·
+
+i
+
+the
+
+see
+
+·
+
+·
+
+·
+
+fixed
+
+x40
+
+point
+
+1
+
+superpower the
+
+us
+
+,
+
+then
+
+xH >
+
+if
+
+xot
+
+then
+
+XI)---iT
+
+if
+
+Xo
+
+,
+
+So
+
+now
+
+,
+
+If
+
+=
+
+(-it b)
+,
+
+Mi
+
+power
+
+we
+
+xo
+
+=
+
+one
+
+of
+
+,
+
+xot 10 i)
+
+know .
+
+*O
+
+,
+
+a
+picture gift
+future for example :
+
+if
+
+this
+
+↑
+
+i
+
+hixed point
+
+last
+
+will
+
+X
+
+fixed point
+
+This
+
+.
+
+.
+
+if
+
+i
+
+between
+
+valution
+
+then
+.
+this ? Well , if XO
+will
+XCHI
+for No
+grow
+hand
+contract
+far to then
+xIt) will
+if x'so
+,
+
+other
+
+the
+
+the
+
+is
+
+Xo50
+
+,
+
+xoo
+
+hand ,
+
+means
+
+On
+
+f(x)
+
+we
+
+T
+
+/
+
+-
+
+(n + 2)
+
+then
+
+absolute
+
+&
+
+is
+
+can
+
+then
+
+answer
+
+it
+
+XC+ ) =
+
+100%
+
+the
+
+XHI - it
+
+as
+
+6
+
+as
+
+t>
+
+10
+
+At
+
+:
+
+d> x
+-
+
+as
+
+0
+
+-
+
+certainty
+
+questions
+
+>
+-
+
+.
+
+If
+
+we
+
+know ,
+
+If next
+
+.
+2
+
+/T
+
+* H* (t)
+
+>
+
+other
+
+M + 1)
+
+,
+
+If
+m
+
+it)
+is
+
+and
+
+odd
+
+never
+
+then
+
+> 0
+-
+
+,
+
+an
+
+,
+
+(M-1it
+
+>
+x (t -
+
+mi
+
+Everything
+. 2
+2
+,
+
+-0.
+
+as
+
+houd
+
+XA) >
+-
+
+So
+
+as
+
+mi
+
+-
+
+(Mit
+
+xf
+
+then
+ifmezvhol
+then
+even
+his
+Xoe (l-cit
+ni)
+
+On the
+
+if
+
+if
+
+then
+
+for
+
+as
+as
+
+without
+Fixed
+make
+
++ +0
+
+using
+
+Points
+my
+
+- 0
+
+life
+
+,
+
+if
+
+n
+
+is
+
+odd
+
+then
+
+.
+
+the
+
+exact(implicit)
+
+& Stability
+
+solution
+
+

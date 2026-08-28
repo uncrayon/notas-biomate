@@ -1,0 +1,66 @@
+% ============================================================
+% Notas de Biomate — LAYOUT MAESTO
+% Índice basado en notes_drafts_biomate_1.pdf (29 págs., transcrito
+% en /tmp/biomath_ocr/draft_layout_transcription.md).
+% Contenido disperso en "Notas Biomate 1.pdf" (español) y
+% "Notes_ Non Linear Dynamics.pdf" (inglés) mapeado por capítulo
+% en los comentarios de cada archivo de chapters/.
+% Estilo: Variante A (Tong minimal), heredada de demo-a-tong.tex.
+% ============================================================
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-noquoting]{babel}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\graphicspath{{figures/}}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,decorations.markings,calc,shapes}
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+
+\usepackage{minted}
+\usemintedstyle{grayscale}
+\usepackage[backend=biber, style=numeric, sorting=none]{biblatex}
+\addbibresource{refs.bib}
+\usepackage[hidelinks]{hyperref}
+\usepackage{cleveref}
+
+\newtheorem{theorem}{Teorema}[section]
+\newtheorem{definition}{Definición}[section]
+\newtheorem{example}{Ejemplo}[section]
+\newcommand{\aside}[1]{\footnote{#1}}
+
+\title{Notas de Matemáticas Biológicas\\[4pt]
+       \large Sistemas Dinámicos No Lineales}
+\author{Ulises Rayón}
+\date{}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+% ---- Parte I — Preliminares (draft págs. 1--7) ----
+\input{chapters/01-evaluacion-y-temario}
+\input{chapters/02-unbruvisimo-resumen-historico}
+
+% ---- Parte II — Flujos en una dimensión (draft págs. 7--21) ----
+\input{chapters/03-espacio-de-fases-pensamiento-geometrico}
+\input{chapters/04-flujos-unidimensionales}
+\input{chapters/05-puntos-fijos-y-estabilidad}
+\input{chapters/06-ejemplos-y-aplicaciones-1d}
+\input{chapters/07-analisis-de-estabilidad-lineal}
+\input{chapters/08-potenciales-y-analogia-mecanica}
+
+% ---- Parte III — Bifurcaciones (draft págs. 22--29 + Notas Biomate 1) ----
+\input{chapters/09-bifurcacion-saddle-node-y-formas-normales}
+\input{chapters/10-bifurcacion-transcritica}
+\input{chapters/11-umbral-del-laser-modelo-de-haken}
+\input{chapters/12-bifurcacion-pitchfork}
+\input{chapters/13-aplicacion-redes-neuronales}
+\input{chapters/14-parentesis-newton-raphson}
+
+% ---- Demostración de estilo (mantiene el contenido existente) ----
+% \input{body/body}   % Lotka--Volterra: mover a Parte IV (sistemas 2D) cuando redacte esa parte
+
+\printbibliography[heading=bibintoc, title={Referencias}]
+\end{document}

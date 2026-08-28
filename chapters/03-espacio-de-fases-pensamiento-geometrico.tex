@@ -1,0 +1,121 @@
+% ============================================================
+% FUENTES: draft p.7--8; "Notes_ Non Linear Dynamics.pdf" (inglés),
+% sección "2.1 A Geometric way of thinking" (campo vectorial, x'=sin x).
+% ============================================================
+\section{Espacio de fases y pensamiento geométrico}
+
+La premisa central de la dinámica no lineal es sustituir la búsqueda obsesiva de fórmulas analíticas por una visión geométrica global. Como enfatizaba Henri Poincaré, el objetivo no es integrar mecánicamente una ecuación diferencial para obtener una función complicada e inescrutable, sino entender el comportamiento cualitativo de todas las soluciones posibles a partir de la geometría del campo vectorial.
+
+\subsection{El péndulo: oscilador lineal vs. péndulo no lineal}
+
+Para ilustrar este cambio de perspectiva, comparemos el oscilador armónico lineal clásico con el péndulo simple no lineal.
+
+\paragraph{El oscilador armónico lineal.}
+Una masa $m$ sujeta a un resorte lineal con constante de restitución $k$ (sin fricción) satisface:
+\begin{equation}
+    m \ddot{x} + k x = 0 \implies \ddot{x} + \omega^2 x = 0, \quad \omega = \sqrt{k/m}
+\end{equation}
+Al definir la velocidad $v = \dot{x}$, este sistema de segundo orden se desacopla en el sistema lineal en el plano $(x, v)$:
+\begin{align}
+    \dot{x} &= v \label{eq:armonico_x}\\
+    \dot{v} &= -\omega^2 x \label{eq:armonico_v}
+\end{align}
+Las trayectorias en el plano $(x, v)$ son elipses concéntricas cerradas centradas en el origen, correspondientes a la conservación de la energía mecánica $E = \frac{1}{2}mv^2 + \frac{1}{2}kx^2 = \text{cte}$.
+
+\paragraph{El péndulo no lineal.}
+Si consideramos un péndulo rígido de longitud $L$ y masa $m$ bajo la gravedad $g$, el balance de momento angular sin la aproximación de oscilaciones pequeñas ($\sin x \approx x$) conduce a la ecuación no lineal:
+\begin{equation}
+    \ddot{x} + \frac{g}{L} \sin x = 0
+\end{equation}
+donde $x(t)$ representa el ángulo de desviación respecto a la vertical inferior. Escogiendo unidades tales que $g/L = 1$ y definiendo la velocidad angular $v = \dot{x}$, obtenemos el sistema bidimensional autónomo no lineal:
+\begin{align}
+    \dot{x} &= v \label{eq:pendulo_x}\\
+    \dot{v} &= -\sin x \label{eq:pendulo_v}
+\end{align}
+
+\subsection{Pensar la ecuación diferencial como campo vectorial (Poincaré)}
+
+La ecuación \eqref{eq:pendulo_x}--\eqref{eq:pendulo_v} asigna a cada punto del plano de estado $(x, v)$ un vector de velocidad de fase $(\dot{x}, \dot{v}) = (v, -\sin x)$. Una solución $(x(t), v(t))$ no es más que una curva parametrizada por el tiempo $t$ que fluye siguiendo tangencialmente las flechas del campo vectorial en cada instante.
+
+\begin{definition}[Retrato de fases (\emph{Phase Portrait})]
+    Es la representación geométrica global de las trayectorias de un sistema dinámico en su espacio de estados, mostrando todos los comportamientos cualitativos posibles (puntos de equilibrio, órbitas periódicas, separatrices y cuencas de atracción) sin necesidad de resolver analíticamente las ecuaciones.
+\end{definition}
+
+\aside{Intentar resolver analíticamente ecuaciones como $\dot{x} = \sin x$ mediante separación de variables conduce a expresiones implícitas engorrosas:
+\[
+    \int \csc x \, dx = \int dt \implies -\ln|\csc x + \cot x| = t + C
+\]
+Esta fórmula es prácticamente inútil para responder preguntas dinámicas elementales (¿hacia dónde tiende el sistema cuando $t \to \infty$ si $x(0) = \pi/4$?). En cambio, observar el signo de $\sin x$ en el eje $x$ responde la pregunta en un segundo.}
+
+\subsection{Libraciones, rotaciones y la separatrix}
+
+Al trazar el retrato de fases del péndulo no lineal en el plano $(x, v)$ (véase la \cref{fig:retratos_fase_poincare}), descubrimos una estructura cualitativa mucho más rica que la del oscilador armónico:
+
+\begin{enumerate}
+    \item \textbf{Libraciones (órbitas cerradas):} Alrededor del equilibrio estable inferior $(x, v) = (0, 0)$ y de sus réplicas periódicas $(2k\pi, 0)$, existen curvas cerradas anidadas. Corresponden a oscilaciones periódicas confinadas donde el péndulo oscila hacia adelante y hacia atrás sin llegar a la posición vertical superior.
+    \item \textbf{Puntos de ensilladura (\emph{saddles}):} En $(x, v) = (\pm \pi, 0)$, el péndulo se encuentra en equilibrio inestable invertido (la posición vertical superior).
+    \item \textbf{Separatriz (\emph{separatrix}):} Es la trayectoria límite (órbita homoclínica) de energía crítica $E_c$ que une los puntos de ensilladura inestables, dada analíticamente por la curva $v(x) = \pm 2\cos(x/2)$. La separatriz divide el espacio de fases en dos regímenes dinámicamente incompatibles.
+    \item \textbf{Rotaciones (curvas ondulantes abiertas):} Por encima y por debajo de la separatriz ($|v| > 2$ cuando $x=0$), la energía cinética es suficiente para superar la barrera de potencial gravitacional: el péndulo nunca se detiene y gira indefinidamente en sentido antihorario ($v > 0$) o horario ($v < 0$).
+\end{enumerate}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=Stealth, scale=0.85]
+    % --- Panel Izquierdo: Oscilador armónico ---
+    \begin{scope}[shift={(-4.5,0)}]
+        \draw[->, thick, black!60] (-3,0) -- (3,0) node[right, font=\small] {$x$};
+        \draw[->, thick, black!60] (0,-2.5) -- (0,2.5) node[above, font=\small] {$v$};
+        \node[above, font=\bfseries\small] at (0, 2.7) {Oscilador armónico (lineal)};
+        
+        \foreach \r in {0.7, 1.4, 2.1} {
+            \draw[thick, black!80] (0,0) ellipse ({\r*1.1} and {\r*0.85});
+            \draw[->, thick, black!80] ({\r*1.1*cos(45)}, {\r*0.85*sin(45)}) -- ++(0.01,-0.02);
+            \draw[->, thick, black!80] ({-\r*1.1*cos(45)}, {-\r*0.85*sin(45)}) -- ++(-0.01,0.02);
+        }
+        \filldraw[black] (0,0) circle (2pt) node[below right, font=\footnotesize] {Centro $(0,0)$};
+        \node[font=\footnotesize, align=center] at (0, -3.2) {Órbitas elípticas concéntricas\\(todas de igual periodo)};
+    \end{scope}
+
+    % --- Panel Derecho: Péndulo no lineal ---
+    \begin{scope}[shift={(4.5,0)}]
+        \draw[->, thick, black!60] (-3.8,0) -- (3.8,0) node[right, font=\small] {$x$};
+        \draw[->, thick, black!60] (0,-2.5) -- (0,2.5) node[above, font=\small] {$v$};
+        \node[above, font=\bfseries\small] at (0, 2.7) {Péndulo simple (no lineal)};
+        
+        % Centros y sillas
+        \filldraw[black] (0,0) circle (2pt);
+        \draw[black, fill=white, thick] (-3.1416, 0) circle (2pt) node[below, font=\footnotesize] {$-\pi$};
+        \draw[black, fill=white, thick] (3.1416, 0) circle (2pt) node[below, font=\footnotesize] {$\pi$};
+        \node[below, font=\footnotesize] at (0,0) {$0$};
+
+        % Libraciones (órbitas cerradas)
+        \draw[thick, black!80] (0,0) ellipse (1.0 and 0.6);
+        \draw[thick, black!80] (0,0) ellipse (2.0 and 1.2);
+        \draw[->, thick, black!80] (0, 1.2) -- ++(0.1,0);
+        \draw[->, thick, black!80] (0, -1.2) -- ++(-0.1,0);
+
+        % Separatriz
+        \draw[very thick, black!90, domain=-3.1415:3.1415, samples=60] 
+            plot (\x, {1.9*cos(\x/2 r)});
+        \draw[very thick, black!90, domain=-3.1415:3.1415, samples=60] 
+            plot (\x, {-1.9*cos(\x/2 r)});
+        
+        % Rotaciones superiores e inferiores
+        \draw[thick, dashed, black!70, domain=-3.6:3.6, samples=60] 
+            plot (\x, {2.2 + 0.2*cos(\x r)});
+        \draw[->, thick, black!70] (0, 2.4) -- ++(0.2, 0);
+        \draw[thick, dashed, black!70, domain=-3.6:3.6, samples=60] 
+            plot (\x, {-2.2 - 0.2*cos(\x r)});
+        \draw[->, thick, black!70] (0, -2.4) -- ++(-0.2, 0);
+
+        % Etiquetas descriptivas
+        \node[font=\tiny, fill=white, inner sep=1pt] at (0, 0.7) {Libraciones};
+        \node[font=\tiny, fill=white, inner sep=1pt] at (1.8, 1.6) {Separatriz};
+        \node[font=\tiny, fill=white, inner sep=1pt] at (0, 2.2) {Rotación ($v>0$)};
+        \node[font=\footnotesize, align=center] at (0, -3.2) {Libraciones, rotaciones\\y separatriz homoclínica};
+    \end{scope}
+\end{tikzpicture}
+\caption{Comparación geométrica en el espacio de fases $(x, v)$. Izquierda: oscilador armónico lineal con órbitas elípticas globales. Derecha: péndulo no lineal con libraciones cerradas alrededor de $(0,0)$, separatriz crítica que conecta los equilibrios inestables $(\pm\pi, 0)$ y rotaciones abiertas para energías superiores.}
+\label{fig:retratos_fase_poincare}
+\end{figure}
+

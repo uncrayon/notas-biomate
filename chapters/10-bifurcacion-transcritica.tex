@@ -1,0 +1,160 @@
+% ============================================================
+% FUENTES: draft p.25--26.
+% ============================================================
+\section{Bifurcación transcrítica}
+
+A diferencia de la bifurcación saddle-node, donde los puntos de equilibrio se crean o destruyen en pares, existen numerosos sistemas en la física, la química y la biología donde un punto de equilibrio específico persiste para todos los valores de los parámetros (por ejemplo, el estado de extinción $N=0$ en dinámica de poblaciones o el estado de reposo electromagnético en un láser). En tales casos, las ramas de equilibrio no desaparecen, sino que colisionan e intercambian su estabilidad. Este mecanismo se conoce como \textbf{bifurcación transcrítica}.
+
+\subsection{Forma normal $\dot{x} = rx - x^{2}$ e intercambio de estabilidad}
+
+La forma normal prototípica de la bifurcación transcrítica es:
+\begin{equation}
+    \dot{x} = rx - x^2 = x(r - x)
+    \label{eq:transcritica_forma_normal}
+\end{equation}
+donde $r \in \mathbb{R}$ es el parámetro de control.
+
+\paragraph{Puntos de equilibrio y estabilidad:}
+Los puntos fijos se obtienen de $x(r - x) = 0$, rindiendo siempre dos soluciones:
+\begin{equation}
+    x_1^* = 0, \quad x_2^* = r
+\end{equation}
+Calculando la derivada del campo vectorial $f'(x) = r - 2x$:
+\begin{itemize}
+    \item En la rama trivial $x_1^* = 0$: $f'(0) = r$.
+    \begin{itemize}
+        \item Si $r < 0$: $f'(0) < 0 \implies x_1^* = 0$ es \textbf{Estable}.
+        \item Si $r > 0$: $f'(0) > 0 \implies x_1^* = 0$ es \textbf{Inestable}.
+    \end{itemize}
+    \item En la rama móvil $x_2^* = r$: $f'(r) = r - 2r = -r$.
+    \begin{itemize}
+        \item Si $r < 0$: $f'(r) = -r > 0 \implies x_2^* = r$ es \textbf{Inestable}.
+        \item Si $r > 0$: $f'(r) = -r < 0 \implies x_2^* = r$ es \textbf{Estable}.
+    \end{itemize}
+    \item En el valor crítico $r = 0$: Las dos ramas se cruzan en el origen $x^* = 0$, que se convierte en un nodo semi-estable $\dot{x} = -x^2$.
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=Stealth, scale=0.82]
+    % Panel 1: r < 0
+    \begin{scope}[shift={(-6.2, 3.2)}]
+        \draw[->, thick, black!60] (-2.2,0) -- (2.2,0) node[right, font=\tiny] {$x$};
+        \draw[->, thick, black!60] (0,-1.5) -- (0,1.8) node[above, font=\tiny] {$\dot{x}$};
+        \draw[thick, black!85, domain=-1.6:0.8] plot (\x, {-1.0*\x - \x*\x});
+        \draw[black, fill=white, thick] (-1.0, 0) circle (2pt) node[below=2pt, font=\tiny] {$x^*=r$};
+        \filldraw[black] (0, 0) circle (2pt) node[above right=1pt, font=\tiny] {$x^*=0$};
+        \draw[->, thick, black!90] (-1.6,0) -- (-1.2,0);
+        \draw[->, thick, black!90] (-0.3,0) -- (-0.7,0);
+        \draw[->, thick, black!90] (0.8,0) -- (0.3,0);
+        \node[font=\footnotesize, align=center] at (0,-1.8) {\textbf{(a)} $r < 0$ ($x=0$ estable)};
+    \end{scope}
+
+    % Panel 2: r = 0
+    \begin{scope}[shift={(0, 3.2)}]
+        \draw[->, thick, black!60] (-2.2,0) -- (2.2,0) node[right, font=\tiny] {$x$};
+        \draw[->, thick, black!60] (0,-1.5) -- (0,1.8) node[above, font=\tiny] {$\dot{x}$};
+        \draw[thick, black!85, domain=-1.2:1.2] plot (\x, {-\x*\x});
+        \filldraw[black!60] (0, 0) circle (2pt) node[above=2pt, font=\tiny] {$x^*=0$};
+        \draw[->, thick, black!90] (-1.2,0) -- (-0.4,0);
+        \draw[->, thick, black!90] (1.2,0) -- (0.4,0);
+        \node[font=\footnotesize, align=center] at (0,-1.8) {\textbf{(b)} $r = 0$ (semi-estable)};
+    \end{scope}
+
+    % Panel 3: r > 0
+    \begin{scope}[shift={(6.2, 3.2)}]
+        \draw[->, thick, black!60] (-2.2,0) -- (2.2,0) node[right, font=\tiny] {$x$};
+        \draw[->, thick, black!60] (0,-1.5) -- (0,1.8) node[above, font=\tiny] {$\dot{x}$};
+        \draw[thick, black!85, domain=-0.8:1.6] plot (\x, {1.0*\x - \x*\x});
+        \draw[black, fill=white, thick] (0, 0) circle (2pt) node[below left=1pt, font=\tiny] {$x^*=0$};
+        \filldraw[black] (1.0, 0) circle (2pt) node[above=2pt, font=\tiny] {$x^*=r$};
+        \draw[->, thick, black!90] (-0.8,0) -- (-0.3,0);
+        \draw[->, thick, black!90] (0.3,0) -- (0.7,0);
+        \draw[->, thick, black!90] (1.6,0) -- (1.2,0);
+        \node[font=\footnotesize, align=center] at (0,-1.8) {\textbf{(c)} $r > 0$ ($x=r$ estable)};
+    \end{scope}
+
+    % Panel 4: Diagrama de bifurcación (r vs x*)
+    \begin{scope}[shift={(0, -2.8)}]
+        \draw[->, thick, black!60] (-3.0,0) -- (3.0,0) node[right, font=\small] {$r$};
+        \draw[->, thick, black!60] (0,-2.2) -- (0,2.2) node[above, font=\small] {$x^*$};
+        
+        % Rama trivial x* = 0
+        \draw[very thick, black!85] (-2.5,0) -- (0,0); % estable para r < 0
+        \draw[very thick, dashed, black!75] (0,0) -- (2.5,0); % inestable para r > 0
+        
+        % Rama móvil x* = r
+        \draw[very thick, dashed, black!75] (-2.0,-2.0) -- (0,0); % inestable para r < 0
+        \draw[very thick, black!85] (0,0) -- (2.0,2.0); % estable para r > 0
+        
+        \filldraw[black] (0,0) circle (2.5pt) node[below right=2pt, font=\footnotesize] {Bifurcación $(0,0)$};
+        \node[above, font=\footnotesize] at (-1.5, 0.1) {Estable ($x^*=0$)};
+        \node[below, font=\footnotesize] at (1.5, -0.1) {Inestable ($x^*=0$)};
+        \node[above, font=\footnotesize] at (1.2, 1.3) {Estable ($x^*=r$)};
+        \node[font=\bfseries\small] at (0, -2.6) {\textbf{(d)} Intercambio de estabilidad (\emph{exchange of stabilities})};
+    \end{scope}
+\end{tikzpicture}
+\caption{Bifurcación transcrítica en $\dot{x} = rx - x^2$. Las ramas de equilibrio $x^*=0$ y $x^*=r$ coexisten para todo $r$ e intercambian su estabilidad al colisionar en el punto crítico $r=0$.}
+\label{fig:bifurcacion_transcritica}
+\end{figure}
+
+\subsection{Ejemplo no polinomial y condición $ab = 1$}
+
+Consideremos el siguiente flujo unidimensional no polinomial:
+\begin{equation}
+    \dot{x} = x(1 - x^2) - a(1 - e^{-bx})
+    \label{eq:ejemplo_transcritica_nopol}
+\end{equation}
+con parámetros positivos $a > 0$ y $b > 0$.
+
+Notemos en primer lugar que $x^* = 0$ es un punto de equilibrio para cualquier par $(a, b)$, ya que $0(1 - 0) - a(1 - e^0) = 0$.
+
+\paragraph{Aproximación en serie de Taylor.}
+Para analizar la dinámica cerca del origen ($|x| \ll 1$), expandimos la exponencial $e^{-bx}$ en serie de Maclaurin:
+\begin{equation}
+    e^{-bx} = 1 - bx + \frac{1}{2}b^2 x^2 - \frac{1}{6}b^3 x^3 + \mathcal{O}(x^4)
+\end{equation}
+Sustituyendo en la ecuación diferencial \eqref{eq:ejemplo_transcritica_nopol}:
+\begin{align}
+    \dot{x} &= x - x^3 - a\left[1 - \left(1 - bx + \frac{1}{2}b^2 x^2 - \frac{1}{6}b^3 x^3 + \mathcal{O}(x^4)\right)\right] \nonumber \\
+    &= x - x^3 - a\left(bx - \frac{1}{2}b^2 x^2 + \mathcal{O}(x^3)\right) \nonumber \\
+    &= (1 - ab)x + \frac{1}{2}ab^2 x^2 + \mathcal{O}(x^3)
+    \label{eq:expansion_transcritica_ab}
+\end{align}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=Stealth, scale=0.9]
+    \draw[->, thick, black!60] (0,0) -- (4.5,0) node[right, font=\small] {$a$};
+    \draw[->, thick, black!60] (0,0) -- (0,3.8) node[above, font=\small] {$b$};
+    
+    % Hipérbola ab = 1 => b = 1/a
+    \draw[very thick, black!85, domain=0.3:4.0, samples=60] plot (\x, {1.0/\x}) node[above right, font=\footnotesize] {$ab = 1$ (curva de bifurcación)};
+    
+    \node[font=\footnotesize, black!75, align=center] at (2.8, 2.2) {Régimen $ab > 1$:\\Origen inestable ($f'(0) < 0$),\\nace rama no trivial estable $x^* > 0$};
+    \node[font=\footnotesize, black!75, align=center] at (1.0, 0.4) {Régimen $ab < 1$:\\Origen $x^*=0$ estable};
+    
+    \filldraw[black] (1.0, 1.0) circle (2pt) node[below left, font=\tiny] {$(1,1)$};
+\end{tikzpicture}
+\caption{Curva de bifurcación transcrítica en el espacio de parámetros $(a, b)$. La hipérbola $ab = 1$ separa las regiones de estabilidad del estado trivial.}
+\label{fig:curva_bifurcacion_ab}
+\end{figure}
+
+\paragraph{Condición de bifurcación y rama no nula.}
+Comparando con la forma normal $\dot{x} = R x + c x^2$, la bifurcación transcrítica ocurre cuando el coeficiente lineal se anula:
+\begin{equation}
+    1 - ab = 0 \iff \boxed{ab = 1}
+\end{equation}
+Esta relación define una hipérbola crítica en el primer cuadrante del plano de parámetros $(a, b)$ (véase la \cref{fig:curva_bifurcacion_ab}).
+
+Para encontrar la fórmula aproximada del punto fijo que bifurca desde $x=0$ en las inmediaciones de la curva ($ab \approx 1$):
+\begin{equation}
+    (1 - ab)x^* + \frac{ab^2}{2}(x^*)^2 \approx 0 \implies x^* \left[(1 - ab) + \frac{ab^2}{2}x^*\right] \approx 0
+\end{equation}
+Excluyendo la solución trivial $x^* = 0$, obtenemos la rama bifurcada:
+\begin{equation}
+    x^* \approx \frac{2(ab - 1)}{ab^2}
+    \label{eq:rama_bifurcada_ab}
+\end{equation}
+Esta expresión es válida localmente para $|x^*| \ll 1$ y $|ab - 1| \ll 1$.
+
