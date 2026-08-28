@@ -143,3 +143,17 @@ Calculemos la derivada temporal de $V(x(t))$ siguiendo la regla de la cadena:
 
 Esta visión por potenciales será la herramienta clave cuando analicemos cómo se deforma la geometría del sistema al variar un parámetro en las bifurcaciones.
 
+\subsection{Ejercicios}
+
+\paragraph{Ejercicio 1 (mecánico; construir el potencial).} Para $\dot{x} = x - x^2$, calcula $V(x)$ con \eqref{eq:def_potencial} (fija $C=0$), localiza sus puntos críticos y clasifícalos usando el signo de $V''(x^*)$.
+\aside{Pista: $V(x)=-\tfrac12 x^2+\tfrac13 x^3$; los críticos coinciden con los ceros de $f$, y $V''=-f'$.}
+% SOL: V=-x^2/2 + x^3/3. Criticos x=0,1. V''(0)=-1<0 max -> inestable; V''(1)=+1>0 min -> estable.
+
+\paragraph{Ejercicio 2 (análisis; $V$ como función de Lyapunov).} Usando el Teorema de disipación \eqref{eq:derivada_potencial}, argumenta que en el doble pozo \eqref{eq:potencial_doble_pozo} una trayectoria con $x(0)=0.5$ converge a $x^*=+1$ y no a $-1$. Calcula el descenso total de potencial $V(0.5)-V(1)$ que ``libera'' esa trayectoria.
+\aside{Pista: $\dot V<0$ salvo en equilibrios; con $x_0=0.5>0$ el estado está en la cuenca del mínimo derecho. $V(x)=-\tfrac12 x^2+\tfrac14 x^4$.}
+% SOL: x0=0.5 en cuenca de +1 (a la derecha de la barrera x=0) -> converge a +1. V(0.5)=-0.125+0.0156=-0.109; V(1)=-0.25; descenso = V(0.5)-V(1)=0.141.
+
+\paragraph{Ejercicio 3 (interpretación; interruptor celular).} Interpreta el doble pozo $\dot{x}=x-x^3$ como un interruptor genético biestable con dos estados de expresión $x^*=\pm 1$. ¿Qué representa la barrera en $x=0$ y su altura $V(0)-V(\pm1)=1/4$? Explica cómo el ruido molecular podría inducir una transición espontánea entre estados.
+\aside{Pista: la barrera es el umbral que separa las dos cuencas; una fluctuación mayor que la barrera empuja al sistema al otro pozo.}
+% SOL: x=0 es el umbral inestable; altura 1/4 = energia para conmutar. Ruido con energia > 1/4 puede saltar la barrera y voltear el interruptor (transicion estocastica entre estados).
+

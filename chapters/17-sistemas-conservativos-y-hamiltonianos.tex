@@ -3,6 +3,7 @@
 % Strogatz (2015), caps. 6 y 7; Murray (2002); Edelstein-Keshet (2007).
 % ============================================================
 \section{Sistemas conservativos y teorema de Poincaré--Bendixson}
+\label{sec:conservativos}
 
 En el estudio de los sistemas dinámicos en dos dimensiones, surge una distinción física y matemática de primer orden: la frontera entre los sistemas \textbf{conservativos} (comunes en la mecánica clásica sin fricción) y los sistemas \textbf{disipativos} (universales en la biología, la química y la neurociencia)~\cite{strogatz2015,murray2002}.
 
@@ -144,3 +145,17 @@ La demostración reside en la combinación de dos principios:
 \end{enumerate}
 
 Para que un flujo autónomo continuo produzca trayectorias caóticas con sensibilidad a condiciones iniciales (como el atractor de Lorenz o el atractor de Rössler), se requieren forzosamente \textbf{al menos tres dimensiones} ($n \ge 3$) en el espacio de fases\aside{Esta es la razón profunda por la que el sistema atmosférico de Lorenz simplificado requirió tres variables dinámicas acopladas $(X, Y, Z)$ para generar su célebre mariposa caótica.}.
+
+\subsection{Ejercicios}
+
+\paragraph{Ejercicio 1 (mecánico; integral primera y centro).} Para el oscilador conservativo $\dot{x}=y$, $\dot{y}=-x-x^3$, propón la energía $E(x,y)=\tfrac12 y^2 + \tfrac12 x^2 + \tfrac14 x^4$, verifica que $\dot E=0$ a lo largo de las trayectorias y usa el \cref{thm:centros_conservativos} para clasificar el origen.
+\aside{Pista: $\dot E=y\dot y + (x+x^3)\dot x$; sustituye. $E$ tiene un mínimo estricto en $(0,0)$.}
+% SOL: dE/dt = y(-x-x^3)+(x+x^3)y = 0. E min estricto en (0,0) -> centro no lineal (orbitas cerradas anidadas).
+
+\paragraph{Ejercicio 2 (análisis; Poincaré--Bendixson).} Para $\dot{r}=r(1-r^2)$, $\dot{\theta}=1$ (con $r\ge 0$), construye un anillo de atrapamiento $r\in[\tfrac12,\tfrac32]$, verifica que el campo apunta hacia adentro en ambas fronteras y que no hay puntos fijos dentro, y concluye con el \cref{thm:poincare_bendixson} la existencia de un ciclo límite. ¿Dónde está?
+\aside{Pista: en $r=\tfrac12$, $\dot r>0$ (entra); en $r=\tfrac32$, $\dot r<0$ (entra). El único cero de $\dot r$ con $r>0$ es $r=1$; como $\dot\theta=1\neq0$ no hay equilibrios en el anillo.}
+% SOL: r=1/2 -> rdot=0.5*0.75>0; r=3/2 -> rdot=1.5*(1-2.25)<0: flujo entra en ambas. Sin FP en el anillo (rdot=0 solo en r=1, pero thetadot=1). P-B => ciclo limite en r=1.
+
+\paragraph{Ejercicio 3 (interpretación; por qué $\geq 3$D para caos).} Explica en términos del Teorema de Poincaré--Bendixson por qué ningún modelo biológico de \emph{dos} variables continuas puede ser caótico, y qué implica esto al modelar fenómenos con aperiodicidad irregular (p.ej. epidemias con estacionalidad o dinámica cardíaca).
+\aside{Pista: en $\mathbb{R}^2$ las trayectorias no se cruzan y una curva de Jordan encierra; sólo caben equilibrios o ciclos. El caos necesita $n\ge 3$.}
+% SOL: En 2D toda trayectoria acotada tiende a equilibrio o ciclo (no caos). Para reproducir aperiodicidad hay que anadir una tercera variable (o un forzamiento temporal, que equivale a +1 dimension).

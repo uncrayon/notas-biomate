@@ -3,6 +3,7 @@
 % Strogatz (2015), caps. 5 y 6; Edelstein-Keshet (2007).
 % ============================================================
 \section{Planos de fases y nullclines}
+\label{sec:nullclines}
 
 En el capítulo anterior establecimos las herramientas algebraicas para caracterizar el comportamiento local de un sistema en la vecindad inmediata de sus puntos de equilibrio mediante la linealización jacobiana. Sin embargo, para comprender la dinámica global de un sistema bidimensional ---cómo se conectan las cuencas de atracción, hacia dónde escapan las trayectorias y cómo se organizan los flujos a gran escala--- necesitamos métodos geométricos no lineales.
 
@@ -220,3 +221,17 @@ Las curvas de nivel $E(\theta, v) = \text{const}$ en el plano $(\theta, v)$ corr
     \end{equation}
     Esta trayectoria parte en $t \to -\infty$ desde el equilibrio inestable invertido en $-\pi$ y llega asintóticamente en $t \to +\infty$ al equilibrio inestable en $+\pi$. Como $\theta$ es una variable angular en el círculo $\mathbb{S}^1$, los puntos $\theta = -\pi$ y $\theta = +\pi$ representan el mismo estado físico; por tanto, la separatriz es una \textbf{órbita homoclínica} que tarda un tiempo infinito en recorrerse\aside{Si concebimos el espacio de estados no sobre el plano $\mathbb{R}^2$ sino sobre la variedad cilíndrica natural $\mathbb{S}^1 \times \mathbb{R}$, las rotaciones son curvas cerradas no contraíbles que envuelven el cilindro, mientras que las libraciones son lazos cerrados topológicamente contraíbles a un punto.}.
 \end{enumerate}
+
+\subsection{Ejercicios}
+
+\paragraph{Ejercicio 1 (mecánico; nullclines y equilibrios).} Para el sistema de competencia $\dot{x}=x(3-x-y)$, $\dot{y}=y(2-x-y)$ (con $x,y\ge 0$), escribe las dos $x$-nullclines y las dos $y$-nullclines y halla todos los puntos fijos. Muestra que no existe equilibrio de coexistencia con $x,y>0$.
+\aside{Pista: $\dot x=0\Rightarrow x=0$ o $x+y=3$; $\dot y=0\Rightarrow y=0$ o $x+y=2$. Las rectas $x+y=3$ y $x+y=2$ no se cortan.}
+% SOL: FP: (0,0), (3,0), (0,2). No hay coexistencia (rectas paralelas).
+
+\paragraph{Ejercicio 2 (análisis; clasificación y exclusión).} Calcula la jacobiana en cada punto fijo del Ejercicio 1, clasifícalos, y concluye qué especie gana (exclusión competitiva).
+\aside{Pista: $J=\begin{pmatrix}3-2x-y & -x\\ -y & 2-x-2y\end{pmatrix}$; evalúa en $(0,0),(3,0),(0,2)$.}
+% SOL: (0,0): [[3,0],[0,2]] nodo inestable. (3,0): eigen -3,-1 nodo estable. (0,2): eigen 1,-2 silla. Gana x (excluye a y).
+
+\paragraph{Ejercicio 3 (interpretación; periodo cerca de la separatriz).} Explica por qué el periodo $T(E)$ de las libraciones del péndulo crece y \emph{diverge} cuando $E\to\omega_0^2$ (al acercarse a la separatriz), mientras que el oscilador armónico lineal tiene periodo constante $T_0=2\pi/\omega_0$. Da la interpretación física en términos de la silla invertida.
+\aside{Pista: cerca de la silla $(\pi,0)$ el flujo se frena ($\dot\theta,\dot v\to 0$); la trayectoria ``se demora'' arbitrariamente junto al equilibrio inestable.}
+% SOL: Al aproximarse a la separatriz, la orbita pasa cerca de la silla invertida donde la velocidad tiende a 0; se demora un tiempo cada vez mayor -> T->infinito. El armonico no tiene silla: isocronia, T0 constante.

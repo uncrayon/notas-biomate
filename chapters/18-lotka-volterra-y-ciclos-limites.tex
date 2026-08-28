@@ -279,4 +279,18 @@ Como anticipamos en la introducción histórica del curso (capítulo 2), los cic
     \item \textbf{Relojes circadianos y biológicos:} Arthur Winfree~\cite{winfree2001} demostró que la geometría de fases de los ciclos límite permite entender la sincronización y el desfase (\emph{jet lag}) de los ritmos biológicos circadianos bajo pulsos de luz externos.
 \end{itemize}
 
+\subsection{Ejercicios}
+
+\paragraph{Ejercicio 1 (mecánico; equilibrio y periodo).} Para Lotka--Volterra \eqref{eq:lv-x}--\eqref{eq:lv-y} con $\alpha=1.5$, $\beta=1$, $\gamma=0.5$, $\delta=1$, calcula el equilibrio de coexistencia $(x^*,y^*)$, la frecuencia $\omega_0=\sqrt{\alpha\gamma}$ de las oscilaciones pequeñas y su periodo $T=2\pi/\omega_0$.
+\aside{Pista: $(x^*,y^*)=(\gamma/\delta,\alpha/\beta)$; usa el \cref{thm:lv_estabilidad}.}
+% SOL: x*=0.5, y*=1.5. omega0=sqrt(0.75)=0.866. T=2pi/0.866≈7.26.
+
+\paragraph{Ejercicio 2 (análisis; el centro se destruye).} Añade capacidad de carga a las presas: $\dot{x}=\alpha x(1-x/K)-\beta xy$, $\dot{y}=-\gamma y+\delta xy$. Halla el equilibrio de coexistencia y demuestra que la traza de su jacobiana vale $-\alpha x^*/K<0$, de modo que el centro conservativo se convierte en un foco/nodo estable.
+\aside{Pista: en el equilibrio $x^*=\gamma/\delta$ y $\beta y^*=\alpha(1-x^*/K)$; entonces $\partial\dot x/\partial x=-\alpha x^*/K$ y $\partial\dot y/\partial y=0$.}
+% SOL: x*=gamma/delta, y*=(alpha/beta)(1-x*/K). Traza = f_x + g_y = -alpha x*/K + 0 <0 -> estable. El centro (tau=0) se rompe: estructuralmente inestable.
+
+\paragraph{Ejercicio 3 (interpretación; por qué el corazón no es un centro).} Explica, contrastando el centro de Lotka--Volterra con el ciclo límite de Van der Pol, por qué un marcapasos cardíaco debe ser un ciclo límite atractor y no un centro conservativo. Relaciona tu respuesta con los signos del amortiguamiento no lineal $-\mu(1-x^2)$ para $|x|<1$ y $|x|>1$.
+\aside{Pista: un centro no restaura amplitud tras una perturbación; un ciclo límite sí. Van der Pol inyecta energía en $|x|<1$ y la disipa en $|x|>1$.}
+% SOL: Un centro cambia de orbita ante cualquier perturbacion (amplitud no regulada) -> fragil. El corazon recupera su ritmo -> ciclo limite. Van der Pol: amortiguamiento negativo (inyecta) cerca del origen y positivo (disipa) lejos -> amplitud autorregulada robusta.
+
 % integrado de body/body.tex

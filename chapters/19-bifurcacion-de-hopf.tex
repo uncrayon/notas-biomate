@@ -3,6 +3,7 @@
 % Strogatz (2015), cap. 8; Murray (2002); Edelstein-Keshet (2007).
 % ============================================================
 \section{Bifurcación de Hopf}
+\label{sec:hopf}
 
 En los capítulos de la Parte III estudiamos las bifurcaciones en flujos unidimensionales (saddle-node, transcrítica y pitchfork). En todas ellas, la pérdida de estabilidad de un equilibrio ocurría necesariamente a través de un autovalor real que cruzaba por cero ($\lambda = 0$).
 
@@ -170,3 +171,17 @@ Para corrientes bajas ($I_{\text{ext}} < I_c$), la neurona permanece en un estad
 
 \paragraph{Oscilaciones glicolíticas y relojes genéticos.}
 En la bioquímica celular, las oscilaciones periódicas en la concentración de intermediarios metabólicos como el NADH en levaduras y las oscilaciones sintéticas en circuitos genéticos (como el \emph{Repressilator}) emergen cuando la tasa de sustrato o la inhibición por retroalimentación negativa supera el umbral crítico establecido por el teorema de Hopf\aside{Para detectar numéricamente bifurcaciones de Hopf en sistemas no lineales de alta dimensión, se emplean algoritmos de continuación numérica como AUTO o XPPAUT, que rastrean los ceros de $\operatorname{Re}(\lambda)$ a lo largo de ramas de equilibrios.}.
+
+\subsection{Ejercicios}
+
+\paragraph{Ejercicio 1 (mecánico; ciclo límite de la forma normal).} Para la forma normal supercrítica \eqref{eq:hopf_super_r}--\eqref{eq:hopf_super_theta} con $\mu=0.25$, $\omega=2$, $b=1$, halla el radio del ciclo límite $r^*$, la velocidad angular $\dot\theta$ sobre él y el periodo $T=2\pi/\dot\theta$.
+\aside{Pista: $r^*=\sqrt\mu$; sustituye en $\dot\theta=\omega+b r^2$.}
+% SOL: r*=0.5; thetadot=2+1*0.25=2.25; T=2pi/2.25≈2.79.
+
+\paragraph{Ejercicio 2 (análisis; localizar el Hopf).} Un sistema tiene, en su equilibrio, la jacobiana $J(\mu)=\begin{pmatrix}\mu & -1\\ 1 & \mu\end{pmatrix}$. Calcula $\tau$ y $\Delta$, halla el valor crítico $\mu_c$ donde ocurre la bifurcación de Hopf, la frecuencia $\omega_0$ y verifica la condición de transversalidad del \cref{thm:hopf_teorema}.
+\aside{Pista: los autovalores son $\mu\pm i$; $\alpha(\mu)=\mu$, $\omega(\mu)=1$.}
+% SOL: tau=2mu, Delta=mu^2+1>0. Autovalores mu±i. Hopf en mu_c=0 (alpha=0), omega0=1. dalpha/dmu=1≠0 -> transversalidad OK. mu<0 foco estable, mu>0 inestable.
+
+\paragraph{Ejercicio 3 (interpretación; soft vs hard onset).} Contrasta el encendido \emph{suave} (supercrítica) con el \emph{brusco} con histéresis (subcrítica) en términos de lo que un experimentalista observaría al aumentar y luego disminuir el parámetro $\mu$. Da un ejemplo biológico de cada uno y comenta por qué el retardo puede inducir un Hopf en sistemas de retroalimentación (cf. eritropoyesis, \cref{sec:eritro_2d}).
+\aside{Pista: supercrítica, amplitud $\sim\sqrt{\mu}$ desde cero; subcrítica, salto y ciclo de histéresis. Un retardo introduce fase que puede volver inestable la traza efectiva.}
+% SOL: Supercritica: la oscilacion crece continuamente desde amplitud 0 al cruzar mu_c, reversible (p.ej. reloj glicolitico). Subcritica: salto abrupto a gran amplitud y bucle de histeresis al bajar mu (p.ej. spiking Tipo II Hodgkin-Huxley). El retardo anade desfase que puede llevar Re(lambda) a cruzar 0 (Hopf con retardo), como en oscilaciones hematopoyeticas.

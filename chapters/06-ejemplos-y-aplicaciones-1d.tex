@@ -194,3 +194,17 @@ Es crucial comprender que el modelo logístico es una metáfora simplificada de 
     \item \textbf{Retardos temporales (\emph{time delays}):} El efecto del hacinamiento no es instantáneo. Una puesta masiva de huevos no satura inmediatamente los recursos el día de hoy, pero genera una catástrofe de hambruna semanas después cuando eclosionan larvas hambrientas.
 \end{enumerate}
 
+\subsection{Ejercicios}
+
+\paragraph{Ejercicio 1 (mecánico; circuito RC).} Para \eqref{eq:circuito_rc_ode}, confirma que $Q^*=CV_0$ y que la constante de tiempo es $\tau=RC$. Usando $Q(t)=CV_0(1-e^{-t/RC})$, calcula qué fracción de la carga final se alcanza en $t=RC$ y en $t=3RC$.
+\aside{Pista: la fracción es $1-e^{-t/RC}$; evalúa en $t/RC=1$ y $3$.}
+% SOL: Q*=CV0, tau=RC. En t=RC: 1-1/e ~ 63.2%. En t=3RC: 1-e^-3 ~ 95.0%.
+
+\paragraph{Ejercicio 2 (análisis; máximo crecimiento logístico).} Demuestra que la tasa de crecimiento $\dot{N}$ del modelo logístico \eqref{eq:logistico} es máxima en $N=K/2$ (el punto de inflexión de la curva sigmoide) y que ese máximo vale $\dot{N}_{\max}=rK/4$.
+\aside{Pista: maximiza $f(N)=rN(1-N/K)$ resolviendo $f'(N)=0$.}
+% SOL: f'(N)=r(1-2N/K)=0 -> N=K/2; f(K/2)=r(K/2)(1/2)=rK/4.
+
+\paragraph{Ejercicio 3 (interpretación; por qué falla el logístico).} Apoyándote en las limitaciones enumeradas y en el hecho de que un flujo 1D no puede oscilar, explica por qué el modelo logístico ajusta bien a bacterias en cultivo pero no a poblaciones de \emph{Tribolium} que oscilan. ¿Qué ingrediente mínimo (retardo o estructura de edad) hay que añadir y cómo eleva la dimensión efectiva del sistema?
+\aside{Pista: las oscilaciones exigen ``memoria''; un retardo $N(t-\tau)$ equivale a infinitas variables, y la estructura de edad divide $N$ en varias clases acopladas.}
+% SOL: 1D no oscila (monotono). Bacterias sin estructura ni retardo -> sigmoide logistica. Tribolium: retardo/estructura de edad convierte el problema en multidimensional (o con retardo), habilitando oscilaciones.
+

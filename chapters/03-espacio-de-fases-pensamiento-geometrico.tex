@@ -113,3 +113,17 @@ Al trazar el retrato de fases del péndulo no lineal en el plano $(x, v)$ (véas
 \label{fig:retratos_fase_poincare}
 \end{figure}
 
+\subsection{Ejercicios}
+
+\paragraph{Ejercicio 1 (mecánico; energía conservada).} Para el oscilador armónico \eqref{eq:armonico_x}--\eqref{eq:armonico_v}, verifica por derivación directa que $E(x,v)=\tfrac12 v^2 + \tfrac12\omega^2 x^2$ satisface $\dot{E}=0$ a lo largo de toda trayectoria. Concluye que las órbitas son las curvas de nivel $E=\text{cte}$, es decir, elipses.
+\aside{Pista: $\dot E = v\dot v + \omega^2 x\dot x$; sustituye $\dot x=v$, $\dot v=-\omega^2 x$.}
+% SOL: dE/dt = v(-w^2 x)+w^2 x(v)=0. Luego E constante -> elipses concentricas.
+
+\paragraph{Ejercicio 2 (análisis; equilibrios del péndulo).} Halla todos los puntos fijos del campo del péndulo \eqref{eq:pendulo_x}--\eqref{eq:pendulo_v}, es decir los $(x,v)$ con $(\dot x,\dot v)=(0,0)$. Clasifica cuáles corresponden al reposo inferior estable (centro) y cuáles al reposo invertido inestable (silla), apoyándote en la \cref{fig:retratos_fase_poincare}.
+\aside{Pista: $\dot x=0\Rightarrow v=0$; $\dot v=0\Rightarrow\sin x=0\Rightarrow x=k\pi$. Los pares $k$ son centros; los impares, sillas.}
+% SOL: FP en (k*pi,0). x=2k*pi (par): centro estable (abajo). x=(2k+1)*pi (impar): silla inestable (invertido).
+
+\paragraph{Ejercicio 3 (interpretación; velocidad de escape).} Con $g/L=1$, la separatriz es $v(x)=\pm 2\cos(x/2)$. Calcula la velocidad angular mínima $v_c$ que debe imprimirse al péndulo en $x=0$ para pasar de librar a rotar (cruzar la separatriz), e interpreta físicamente por qué ese valor corresponde a alcanzar exactamente la posición invertida con velocidad nula.
+\aside{Pista: evalúa la separatriz en $x=0$. Cruzarla exige $|v(0)|\ge 2$.}
+% SOL: v_c = 2 (rad/s adim). Es la energia justa para llegar a x=pi con v=0; por encima, rotacion perpetua.
+

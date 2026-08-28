@@ -2,6 +2,7 @@
 % FUENTES: draft p.12--13; inglés §2.2 "Fixed Points & Stability".
 % ============================================================
 \section{Puntos fijos y estabilidad}
+\label{sec:puntos_fijos}
 
 En los sistemas continuos, los estados donde el sistema cesa de cambiar son los elementos vertebradores de toda la dinámica.
 
@@ -137,4 +138,18 @@ Para dar rigor matemático a los conceptos intuitivos de atracción y repulsión
 \caption{Esquema conceptual de la estabilidad de Lyapunov y la estabilidad asintótica: la condición inicial dentro del intervalo $\delta$ garantiza permanencia dentro de $\varepsilon$ y decaimiento monótono hacia $x^*$.}
 \label{fig:lyapunov_estabilidad}
 \end{figure}
+
+\subsection{Ejercicios}
+
+\paragraph{Ejercicio 1 (mecánico; clasificación).} Para $\dot{x} = x(1-x)(x-2)$, halla los tres puntos fijos y, mediante el signo de $f(x)$ en cada intervalo, clasifícalos como estables o inestables usando el criterio geométrico de cruce.
+\aside{Pista: evalúa el signo de $f$ en muestras como $x=-1,\ 0.5,\ 1.5,\ 3$.}
+% SOL: FP en 0,1,2. Signos: (-inf,0)+, (0,1)-, (1,2)+, (2,inf)-. Luego 0 estable, 1 inestable, 2 estable.
+
+\paragraph{Ejercicio 2 (análisis; Lyapunov vs asintótica).} Demuestra que el nodo semi-estable de $\dot{x}=x^2$ en $x^*=0$ \emph{no} es estable en el sentido de Lyapunov, pese a que atrae a las trayectorias que parten a su izquierda. Exhibe, para $\varepsilon>0$ dado, una condición inicial arbitrariamente cercana a $0$ cuya trayectoria abandona la bola $\varepsilon$.
+\aside{Pista: cualquier $x(0)=\delta>0$, por pequeño que sea, crece ($\dot x=x^2>0$) y escapa; basta un $x(0)>0$ para violar la definición.}
+% SOL: Para todo delta>0, x(0)=delta/2>0 tiene xdot>0 y crece sin cota (escapa en tiempo finito), saliendo de la bola epsilon. Luego no es Lyapunov-estable.
+
+\paragraph{Ejercicio 3 (interpretación; efecto Allee).} Interpreta el modelo del Ejercicio 1 como una población $x\ge 0$ con \emph{efecto Allee}: asigna significado biológico a cada equilibrio ($0$, $1$, $2$) y predice el destino de una población que arranca en $x(0)=0.7$ frente a otra en $x(0)=1.3$.
+\aside{Pista: $x=1$ es un umbral inestable; por debajo la población decae a la extinción, por encima crece hacia la capacidad de carga.}
+% SOL: 0 = extincion (estable), 1 = umbral Allee (inestable), 2 = capacidad de carga (estable). x0=0.7<1 -> extincion; x0=1.3>1 -> tiende a 2.
 

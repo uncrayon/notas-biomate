@@ -179,3 +179,17 @@ El umbral de encendido del láser (\emph{laser threshold}) ocurre en el valor cr
 \label{fig:diagrama_bifurcacion_laser}
 \end{figure}
 
+\subsection{Ejercicios}
+
+\paragraph{Ejercicio 1 (mecánico; umbral y estado láser).} Toma $G=2$, $k=1$, $\alpha=0.25$. (i) Calcula el umbral $N_{0,c}=k/G$. (ii) Para un bombeo $N_0=3$, halla el equilibrio láser $n_2^*$ y clasifica los dos equilibrios evaluando $f'(n^*)$.
+\aside{Pista: $r=GN_0-k$; $n_2^*=r/(\alpha G)$; $f'(0)=r$, $f'(n_2^*)=-r$.}
+% SOL: N0c=0.5. r=6-1=5. n2*=5/(0.25*2)=10. f'(0)=5>0 inestable; f'(10)=-5<0 estable.
+
+\paragraph{Ejercicio 2 (análisis; enlentecimiento crítico).} Demuestra que en el régimen láser $f'(n_2^*)=-(GN_0-k)$ y, por tanto, el tiempo de relajación es $\tau=1/(GN_0-k)$. ¿Qué le ocurre a $\tau$ cuando el bombeo se aproxima al umbral $N_0\to N_{0,c}^+$? Nombra el fenómeno.
+\aside{Pista: deriva $f(n)=(GN_0-k)n-\alpha G n^2$ y evalúa en $n_2^*$. Recuerda $\tau=1/|f'|$ del \cref{sec:estabilidad_lineal}.}
+% SOL: f'(n)=(GN0-k)-2 alpha G n; en n2*=(GN0-k)/(alpha G) da f'=-(GN0-k). tau=1/(GN0-k) -> infinito cuando N0->N0c: enlentecimiento critico (critical slowing down).
+
+\paragraph{Ejercicio 3 (interpretación; analogía epidemiológica).} Usando la analogía $R_0=GN_0/k$ de la nota al pie, interpreta el umbral láser como el umbral epidémico de un modelo SIR. Si una campaña de vacunación reduce el ``bombeo'' efectivo $N_0$ por debajo de $N_{0,c}$, ¿qué le ocurre al estado endémico $I^*>0$ y por qué?
+\aside{Pista: $R_0<1\Leftrightarrow GN_0<k\Leftrightarrow$ régimen lámpara; el estado positivo pierde existencia física.}
+% SOL: Bajar N0 bajo el umbral hace R0<1: el estado endemico I*>0 desaparece (queda solo I*=0 estable), la infeccion se extingue. Es la transcritica al reves (apagado del 'laser epidemico').
+
