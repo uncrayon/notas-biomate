@@ -334,5 +334,6 @@ traj = np.array(traj)
 print(f"C_eq={Ceq:.3f}  min={traj.min():.3f}  "
       f"max={traj.max():.3f}  overshoot={traj.max()>Ceq*1.001}")
 \end{minted}
+\coderef{eritropoyesis.py}{https://github.com/uncrayon/notas-biomate/blob/main/code/ch20-eritropoyesis/eritropoyesis.py}
 \aside{Pista: si \texttt{max} supera a \texttt{C\_eq} tras el mínimo, hubo sobreimpulso (foco); si $C(t)$ sube monótonamente hacia \texttt{C\_eq}, fue un nodo. Prueba a variar \texttt{gE} para cruzar la frontera $(\operatorname{tr}J)^2=4\det J$ del Ejercicio 4.}
 % SOL: Con estos valores tr=-(gC+gE*Hs)=-0.75, det>0; discriminante decide. Al bajar gE el sistema pasa de nodo a foco y aparece overshoot en C(t).

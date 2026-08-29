@@ -150,6 +150,7 @@ for t in np.arange(0, T, dt):
     u = u + dt * lv(u, t)
 print(f"estado final: x = {u[0]:.3f}, y = {u[1]:.3f}")
 \end{minted}
+\coderef{lotka\_volterra.py}{https://github.com/uncrayon/notas-biomate/blob/main/code/ch18-lotka-volterra/lotka_volterra.py}
 
 \paragraph{Simulación basada en agentes en NetLogo.}
 La misma dinámica poblacional puede explorarse a nivel individual en un modelo basado en agentes~\cite{netlogo}, donde cada presa y depredador es una tortuga discreta con reglas de búsqueda, alimentación y reproducción:
@@ -183,6 +184,7 @@ to go
   tick
 end
 \end{minted}
+\coderef{lotka\_volterra\_netlogo.nlogo}{https://github.com/uncrayon/notas-biomate/blob/main/code/ch18-lotka-volterra/lotka_volterra_netlogo.nlogo}
 
 \paragraph{Conexión con tiempo discreto: mapa logístico y caos.}
 Si en lugar de tiempo continuo se modela la población con generaciones discretas no superpuestas $N_{t+1} = r N_t (1 - N_t/K)$~\cite{may1976}, aparece el célebre mapa logístico cuadrático. Como demostró Robert May en 1976, al incrementar la tasa de crecimiento intrínseca el sistema pasa por una cascada infinita de duplicación de periodos y desemboca en caos determinista, ilustrando la riqueza que adquieren las no linealidades en dominios iterados.

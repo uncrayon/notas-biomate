@@ -23,6 +23,9 @@
 \usepackage[backend=biber, style=numeric, sorting=none]{biblatex}
 \addbibresource{refs.bib}
 \usepackage[hidelinks]{hyperref}
+\newcommand{\coderef}[2]{%
+  \par\vspace{2pt}\small\noindent
+  \href{#2}{\textsf{\textcolor{blue!70!black}{\S\ Codigo: #1 \(\rightharpoonup\)}}}\par}
 \usepackage[hang,flushmargin]{footmisc}
 \usepackage{cleveref}
 
